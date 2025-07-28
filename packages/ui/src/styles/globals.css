@@ -56,6 +56,10 @@
   --spacing: 0.25rem;
 }
 
+#__next {
+  height: 100%;
+}
+
 .dark {
   --background: oklch(0.2689 0.0190 154.4394);
   --foreground: oklch(0.9681 0.0034 67.7829);
