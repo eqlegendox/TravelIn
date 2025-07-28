@@ -7,15 +7,15 @@ import { error } from "console";
 
 async function searchUserId(formData) {
     const searchData = {
-        userId : formData.get("user_id"),
+        userId : Number(formData.get("user_id")),
     }
 
-    const result = userIdSchema.safeParse(searchData);
+    const result = userIdSchema.safeParse(searchData.userId);
 
-    // if (!result.success) {
-    //     console.log("result", result.success)
-    //     return
-    // }
+    if (!result.success) {
+        console.error("Validation failed", result.error);
+        return
+    }
 
 
     console.log("result: ", result.success)
