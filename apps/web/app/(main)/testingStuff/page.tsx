@@ -24,10 +24,10 @@ const Page = () => {
         const result = await postData(newMessage);
         if (result) {
             setData(prev => [...(prev || []), result]);
+            setUserMessage("");
         }
     };
 
-    console.log(data);
     return(
         <div>
             <Link href="/search">Search Page</Link>
@@ -45,6 +45,7 @@ const Page = () => {
                 type="text"
                 id="user_message"
                 name="user_message"
+                value={userMessage}
                 onChange={(e) => setUserMessage(e.target.value)}
                 placeholder="Type a message.."
                 className="flex-grow w-full text-sm p-2 border rounded-md focus:ring-2 focus:ring-ring focus:outline-none"
