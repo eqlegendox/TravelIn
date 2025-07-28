@@ -4,23 +4,30 @@ import { Button } from "@workspace/ui/components/button"
 import { MoveRight } from "lucide-react"
 
 export default function ChatPane() {
-    let temp = ['aha', 'ehe', 'wahwa', 'wihiw', 'hello', 'heyo', 'halo', 'hola', 'bola', 'kola', 'kelo', 'moga', 'mogi','aha', 'ehe', 'wahwa', 'wihiw', 'hello', 'heyo', 'halo', 'hola', 'bola', 'kola', 'kelo', 'moga', 'mogi','aha', 'ehe', 'wahwa', 'wihiw', 'hello', 'heyo', 'halo', 'hola', 'bola', 'kola', 'kelo', 'moga', 'mogi',]
+    let temp = [
+        'hey', 
+        'hello, momaosdm sadjasdnasdcsdas asdmfasdmf adfamsdfmasdf asdfmasdfmadfja adasd', 
+        'hola', 
+        'mokkasd jjasd asdc asdcasdcmadca sdcmasdcaskdcalsdc sdckmasld', 
+        'Moma es ta un amsdma asmdfmk sdkfa jsdaj sja dfajfasdn asdjf: supercalifragilisticexpialidocious', 
+        'hello, momaosdm sadjasdnasdcsdas asdmfasdmf adfamsdfmasdf asdfmasdfmadfja adasd', 
+    ]
 
     return (
         <>
-        <div className="flex flex-col h-full p-1">
+        <div className="flex flex-col h-full p-1 bg-background rounded-lgcd">
             {/* Chat */}
-            <div className="flex-grow p-2 w-full overflow-y-auto bg-secondary self-center rounded-md max-h-80%">
-                <div className="flex flex-col gap-1 w-full text-sm overflow-wrap">
-                    {/* current issues is how to wrap text */}
+            <div className="flex-grow p-2 w-full h-min-vh overflow-y-auto bg-secondary rounded-md ">
+                {/* Current issue full page couldn't be filled and overflow isn't handled */}
+                <div className="flex flex-col gap-2 text-sm">
                     { temp.map((t, i) => {
                         if (i % 2 === 0) {
                             return (
-                                <div className="px-2 bg-background rounded-sm w-fit place-self-end">{t}</div>
+                                <div className="px-2 py-1 bg-background rounded-sm max-w-72/100 break-words place-self-end">{t}</div>
                             )
                         }
                         return (
-                            <div className="px-2 bg-primary text-background rounded-sm w-fit place-self-start">{t}</div>
+                            <div className="px-2 py-1 bg-primary text-background rounded-sm max-w-72/100 break-words place-self-start">{t}</div>
                         )
                     }
                 
@@ -30,11 +37,11 @@ export default function ChatPane() {
 
             {/* Input Scetion */}
             <div className="p-1 flex border-t shrink-0 bg-background">
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 w-full">
                     <input
                         type="text" 
                         placeholder="Type a message.."
-                        className="flex-grow text-sm p-2 size-full border rounded-md focus:ring-2 focus:ring-ring focus:outline-none"
+                        className="flex-grow w-full text-sm p-2 border rounded-md focus:ring-2 focus:ring-ring focus:outline-none"
                         />
                     <Button><MoveRight className="w-2 h-2 font-bold"/></Button>
                 </div>
