@@ -1,6 +1,4 @@
 "use client";
-import { useFormState } from "react-dom";
-import { useActionState } from "react";
 import { searchUserId } from "@/app/(main)/search/actions/searchUserId";
 import { useState } from "react";
 import { SearchSubmitButton } from "./SearchSubmitButton";

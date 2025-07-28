@@ -1,5 +1,5 @@
 "use client"
-
+import { ChatForm } from "@/components/ChatForm"
 import { Button } from "@workspace/ui/components/button"
 import { MoveRight } from "lucide-react"
 
@@ -35,14 +35,7 @@ export default function ChatPane() {
 
             {/* Input Scetion */}
             <div className="p-1 flex border-t shrink-0 bg-background">
-                <div className="flex items-center gap-1 w-full">
-                    <input
-                        type="text" 
-                        placeholder="Type a message.."
-                        className="flex-grow w-full text-sm p-2 border rounded-md focus:ring-2 focus:ring-ring focus:outline-none"
-                        />
-                    <Button><MoveRight className="w-2 h-2 font-bold"/></Button>
-                </div>
+                <ChatForm />
             </div>
         </div>
         </>

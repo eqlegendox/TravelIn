@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { X, Lollipop } from "lucide-react"
-import ChatPane from "./chatPane"
+import ChatPane from "./chatPane2"
 import { motion, AnimatePresence } from "framer-motion"
 
 export default function ToggleChat() {
