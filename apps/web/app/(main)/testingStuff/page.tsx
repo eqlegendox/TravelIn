@@ -2,7 +2,7 @@
 import { Button } from '@workspace/ui/components/button';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { fetchData, postData } from './serverSide';
+import { fetchData, postData } from '../(chatComponent)/routing/serverSide';
 
 
 const Page = () => {

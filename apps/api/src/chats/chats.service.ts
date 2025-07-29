@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { stringify } from 'querystring';
+import { isString } from 'util';
 
 @Injectable()
 export class ChatsService {
@@ -13,7 +14,7 @@ export class ChatsService {
                 },
                 {
                     "idMessage": 2,
-                    "userMessage": 'Hello John, how can I help you today?'
+                    "aiMessage": 'Hello John, how can I help you today?'
                 },
                 {
                     "idMessage": 3,
@@ -21,19 +22,35 @@ export class ChatsService {
                 },
                 {
                     "idMessage": 4,
-                    "userMessage": 'Sure, here is ...'
+                    "aiMessage": 'Sure, here is ...'
                 }
+            ]
+        },
+        {
+            "idChat": 2, // might need to add id user as an attribute
+            "messages": [
+                {
+                    "idMessage": 1,
+                    "userMessage": 'Hello, saya Dianaaaa'
+                },
+                {
+                    "idMessage": 2,
+                    "aiMessage": 'Hello Dian, how can I help you today?'
+                },
             ]
         }
     ]
 
+    
     findAll() {
         return this.chats
     }
 
     findOne(idChat: number) {
         const chat = this.chats.find(chat => chat.idChat === idChat)
-
+        if (!chat) {
+            return {"error": "Conversation not found"}
+        }
         return chat
     }
 
@@ -47,13 +64,18 @@ export class ChatsService {
         return newChat
     }
 
-    createMessage(idChat: number, message: string) {
+    createMessage(idChat: number, message: {userMessage: string}) {
         const chat = this.chats.find(chat => chat.idChat === idChat)
         const messages = chat?.messages
+
+        if (typeof message.userMessage !== "string") {
+            return {"error":"Invalid input", "type": typeof message.userMessage}
+        }
+
         if (messages) {
             const newMessage = {
                 idMessage: messages?.length + 1,
-                userMessage: message
+                userMessage: message.userMessage
             }
             chat?.messages.push(newMessage)
             return newMessage
