@@ -1,5 +1,5 @@
 async function fetchData() {
-    const response = await fetch("http://localhost:8000/chats/1", {
+    const response = await fetch("http://localhost:8000/chats/2", {
         method:"GET",
     });
     console.log("Fetching data...")
@@ -12,7 +12,7 @@ async function fetchData() {
 }
 
 async function postData(newMessage) {
-    const response = await fetch("http://localhost:8000/chats/1", {
+    const response = await fetch("http://localhost:8000/chats/2", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
