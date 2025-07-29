@@ -9,13 +9,14 @@ async function fetchHotels() {
 
 const page = async({ params }) => {
     const dataa = await fetchHotels();
+    const id = await params.dynaId
     console.log(dataa);
     return(
         <div>
             <Link href="/search">Search Page</Link>
             <h1>Hotels: </h1>
                 {dataa.map(data => {
-                    if (data.userId == params.dynaId){
+                    if (data.userId == id){
                         return <div>{<div>{data.id}: {data.title}</div>}</div>
                     }
                 })}

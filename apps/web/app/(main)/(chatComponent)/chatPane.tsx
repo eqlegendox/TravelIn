@@ -5,12 +5,10 @@ import { MoveRight } from "lucide-react"
 
 export default function ChatPane() {
     let temp = [
-        'hey', 
-        'hello, momaosdm sadjasdnasdcsdas asdmfasdmf adfamsdfmasdf asdfmasdfmadfja adasd', 
-        'hola', 
-        'mokkasd jjasd asdc asdcasdcmadca sdcmasdcaskdcalsdc sdckmasld', 
-        'Moma es ta un amsdma asmdfmk sdkfa jsdaj sja dfajfasdn asdjf: supercalifragilisticexpialidocious', 
-        'hello, momaosdm sadjasdnasdcsdas asdmfasdmf adfamsdfmasdf asdfmasdfmadfja adasd', 
+        'Hello, saya John', 
+        'Hello, how can i help you today?', 
+        'I would like to plan a trip...', 
+        'Sure, here is ...', 
     ]
 
     return (

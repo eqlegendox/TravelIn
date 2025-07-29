@@ -1,6 +1,4 @@
 import { Button } from "@workspace/ui/components/button"
-import { z } from "zod";
-import { userIdSchema } from "./SearchSchema";
 import { SearchForm } from "@/components/SearchForm";
 
 export default function Page() {
