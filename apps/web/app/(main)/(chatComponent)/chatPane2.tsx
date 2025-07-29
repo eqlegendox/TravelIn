@@ -37,7 +37,7 @@ export default function ChatPane() {
             {/* Chat */}
             <div className="flex-grow p-2 w-full overflow-y-auto bg-secondary rounded-md ">
                 {/* Current issue text size isn't working properly */}
-                <div className="flex flex-col gap-2 lg:text-lg md:text-md sm:text-sm">
+                <div className="flex flex-col gap-2 text-sm md:text-md lg:text-lg">
                     { Array.isArray(messages) ? messages.map((i, t) => {
                         if (i.userMessage) {
                             return (
