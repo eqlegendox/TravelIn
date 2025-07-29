@@ -1,5 +1,5 @@
 async function fetchData() {
-    const response = await fetch("http://localhost:3000/api/chatMessage", {
+    const response = await fetch("http://localhost:8000/chats", {
         method:"GET",
     });
     console.log("Fetching data...")
