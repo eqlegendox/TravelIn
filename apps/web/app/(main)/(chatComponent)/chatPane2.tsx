@@ -3,7 +3,7 @@
 import { Button } from "@workspace/ui/components/button"
 import { MoveRight } from "lucide-react"
 import { useState, useEffect } from 'react';
-import { fetchData, postData } from "../testingStuff/serverSide";
+import { fetchData, postData } from "./routing/serverSide";
 import { boolean } from "zod";
 
 export default function ChatPane() {
@@ -15,14 +15,14 @@ export default function ChatPane() {
     useEffect(() => {
         const loadMessages = async () => {
             const fetchResult = await fetchData();
-            setMessages(fetchResult)
+            setMessages(fetchResult.messages)
             console.log(fetchResult)
         }
         loadMessages()
     }, [tick]);
 
     const handlePost = async () => {
-        const temp = { "user_message" : userMessage};
+        const temp = { "userMessage" : userMessage};
         const postResult = await postData(temp);
         if (postResult) {
             setUserMessage("")
@@ -39,13 +39,13 @@ export default function ChatPane() {
                 {/* Current issue text size isn't working properly */}
                 <div className="flex flex-col gap-2 lg:text-lg md:text-md sm:text-sm">
                     { Array.isArray(messages) ? messages.map((i, t) => {
-                        if (i.user_message) {
+                        if (i.userMessage) {
                             return (
-                                <div className="px-2 py-1 bg-background rounded-sm max-w-72/100 break-words place-self-end">{i.user_message}</div>
+                                <div className="px-2 py-1 bg-background rounded-sm max-w-72/100 break-words place-self-end">{i.userMessage}</div>
                             )
                         }
                         return (
-                            <div className="px-2 py-1 bg-primary text-background rounded-sm max-w-72/100 break-words place-self-start">{i.ai_message}</div>
+                            <div className="px-2 py-1 bg-primary text-background rounded-sm max-w-72/100 break-words place-self-start">{i.aiMessage}</div>
                         )
                     }
                 ): "Loading..." }

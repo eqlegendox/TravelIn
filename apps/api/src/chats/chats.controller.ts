@@ -12,30 +12,33 @@ export class ChatsController {
     DELETE /chats/:id | delete specific chat
     */
 
-    
+    constructor(private readonly chatService: ChatsService) {}
 
     @Get()
     findAll() {
-        return [{}]
+        return this.chatService.findAll()
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string) {
-        return { id }
+    findOne(@Param('id') idChat: string) {
+        return this.chatService.findOne(Number(idChat))
     }
 
     @Post()
     createChat() {
-        return {}
+        return this.chatService.createChat()
     }
 
     @Post(':id')
-    createMessage(@Body() message: string) {
-        return { message }
+    createMessage(@Param('id') idChat: string, @Body() message: {userMessage: string}) {
+        if (!Number(idChat)) {
+            return "Error, chat is not available"
+        }
+        return this.chatService.createMessage(Number(idChat), message)
     }
 
     @Delete(':id')
-    deleteChat(@Param('id') id:string) {
-        return `${id} is deleted successfully`
+    deleteChat(@Param('id') idChat: string) {
+        return this.chatService.deleteChat(Number(idChat))
     }
 }
