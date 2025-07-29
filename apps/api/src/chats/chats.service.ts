@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import e from 'express';
 import { stringify } from 'querystring';
 import { isString } from 'util';
 
@@ -70,6 +71,9 @@ export class ChatsService {
 
         if (typeof message.userMessage !== "string") {
             return {"error":"Invalid input", "type": typeof message.userMessage}
+        }   
+        else if (message.userMessage === "") {
+            return {"error":"Input cannot be empty!"}
         }
 
         if (messages) {
@@ -77,7 +81,11 @@ export class ChatsService {
                 idMessage: messages?.length + 1,
                 userMessage: message.userMessage
             }
-            chat?.messages.push(newMessage)
+            const newAiMessage = { // Temporary respond system
+                idMessage: messages?.length + 1,
+                aiMessage: "Beep Boop Beep Boop"
+            }
+            chat?.messages.push(newMessage, newAiMessage)
             return newMessage
         }  else {
             return "Error: please contact the devs"
