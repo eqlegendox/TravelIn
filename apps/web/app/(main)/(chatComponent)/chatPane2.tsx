@@ -35,7 +35,7 @@ export default function ChatPane() {
         <div className="flex flex-col h-full p-1 bg-background rounded-lg">
             {/* Chat */}
             <div className="flex-grow p-2 w-full overflow-y-auto bg-secondary rounded-md ">
-                {/* Current issue overflow isn't handled */}
+                {/* Current issue text size isn't working properly */}
                 <div className="flex flex-col gap-2 lg:text-lg md:text-md sm:text-sm">
                     { Array.isArray(messages) ? messages.map((i, t) => {
                         if (i.user_message) {

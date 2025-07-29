@@ -25,10 +25,23 @@ export default function ToggleChat() {
     if (show) {
         if (xpand) {
             return (
-                <div className="flex">
-                    <Minimize className=" right-1 bg-background rounded-full p-1 m-1 w-5 h-5 hover:bg-red" onClick= {toggleXpand} />
-                    a
-                </div>
+                // Issue overflow is handled but static, any values below w40 couldn't be handled
+                <motion.div
+                    className="flex h-[100vh] max-w-[40vw]"
+                    key="megaPane"
+                    initial = {{ x:1000 }}
+                    animate = {{ x:0 }}
+                    exit = {{ x:1000 }}
+                    transition = {{ type: 'spring', stiffness: 100, damping: 16, duration: 0.1 }}
+                >
+                    <div className="bg-primary fixed right-2 top-2 flex self-end p-1 rounded-full">
+                        <Maximize className=" right-1 bg-background rounded-full p-1 m-1 w-5 h-5 hover:bg-red" onClick={toggleXpand} />
+                        <Minimize className=" right-1 bg-background rounded-full p-1 m-1 w-5 h-5 hover:bg-red" onClick= {toggleShow} />
+                    </div>
+                    <div className="flex-1 max-h-full min-h-full h-auto border-1 rounded-lg ">
+                        <ChatPane />
+                    </div>
+                </motion.div>
             )
         }
         

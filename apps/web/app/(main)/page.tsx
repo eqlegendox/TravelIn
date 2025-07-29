@@ -6,7 +6,7 @@ import TextPressure from "@workspace/ui/components/TextPressure"
 
 export default function Page() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-svh max-w-svw">
+    <div className="flex flex-col items-center justify-center flex-1 min-h-svh">
       {/* <CurvedLoop marqueeText="Be ✦ Creative ✦ With ✦ React ✦ Bits ✦" /> */}
 
       <div className="flex flex-col items-center justify-center gap-4">
