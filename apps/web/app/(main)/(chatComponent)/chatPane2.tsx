@@ -7,12 +7,6 @@ import { fetchData, postData } from "../testingStuff/serverSide";
 import { boolean } from "zod";
 
 export default function ChatPane() {
-    // let temp = [
-    //     'Hello, saya John', 
-    //     'Hello, how can i help you today?', 
-    //     'I would like to plan a trip...', 
-    //     'Sure, here is ...', 
-    // ]
 
     const [tick, setTick] = useState(0);
     const [messages, setMessages] = useState(null);
@@ -39,11 +33,11 @@ export default function ChatPane() {
 
     return (
         <>
-        <div className="flex flex-col h-full p-1 bg-background rounded-lgcd">
+        <div className="flex flex-col h-full p-1 bg-background rounded-lg">
             {/* Chat */}
-            <div className="flex-grow p-2 w-full h-min-vh overflow-y-auto bg-secondary rounded-md ">
-                {/* Current issue full page couldn't be filled and overflow isn't handled */}
-                <div className="flex flex-col gap-2 text-sm">
+            <div className="flex-grow p-2 w-full overflow-y-auto bg-secondary rounded-md ">
+                {/* Current issue text size isn't working properly */}
+                <div className="flex flex-col gap-2 lg:text-lg md:text-md sm:text-sm">
                     { Array.isArray(messages) ? messages.map((i, t) => {
                         if (i.user_message) {
                             return (
@@ -68,7 +62,7 @@ export default function ChatPane() {
                         value={userMessage}
                         onChange={(e) => setUserMessage(e.target.value)}
                         placeholder="Type a message.."
-                        className="flex-grow w-full text-sm p-2 border rounded-md focus:ring-2 focus:ring-ring focus:outline-none"
+                        className="flex-grow w-full lg:text-lg sm:text-sm p-2 border rounded-md focus:ring-2 focus:ring-ring focus:outline-none"
                         />
                     <Button onClick={handlePost}><MoveRight className="w-2 h-2 font-bold"/></Button>
                 </div>
