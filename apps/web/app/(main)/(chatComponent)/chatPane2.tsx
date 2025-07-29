@@ -22,6 +22,7 @@ export default function ChatPane() {
         const loadMessages = async () => {
             const fetchResult = await fetchData();
             setMessages(fetchResult)
+            console.log(fetchResult)
         }
         loadMessages()
     }, [tick]);
