@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, ValidationPipe } from '@nestjs/common';
 import { ChatsService } from './chats.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 
@@ -29,13 +29,23 @@ export class ChatsController {
     createChat() {
         return this.chatService.createChat()
     }
-
+    
     @Post(':id')
-    createMessage(@Param('id', ParseIntPipe) idChat: number, @Body() createMessageDto: CreateMessageDto) {
-        if (!Number(idChat)) {
+    createMessage(@Param('id', ParseIntPipe) idChat: number, @Body(ValidationPipe) createMessageDto: CreateMessageDto) {
+        if (!idChat) {
             return "Error, chat is not available"
         }
-        return this.chatService.createMessage(idChat, createMessageDto)
+        const res = this.chatService.createMessage(idChat, createMessageDto)
+        return res
+    }
+
+    @Post(':id/r')
+    createRespondessage(@Param('id', ParseIntPipe) idChat: number, @Body(ValidationPipe) createMessageDto: CreateMessageDto) {
+        if (!idChat) {
+            return "Error, chat is not available"
+        }
+        const res = this.chatService.createRespondMessage(idChat, createMessageDto)
+        return res
     }
 
     @Delete(':id')

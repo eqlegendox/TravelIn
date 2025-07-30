@@ -3,33 +3,52 @@
 import { Button } from "@workspace/ui/components/button"
 import { MoveRight } from "lucide-react"
 import { useState, useEffect } from 'react';
-import { fetchData, postData } from "./routing/serverSide";
-import { boolean } from "zod";
+import { fetchData, postData, fetchLlmResponse } from "./routing/serverSide";
+
 
 export default function ChatPane() {
-
-    const [tick, setTick] = useState(0);
     const [messages, setMessages] = useState(null);
     const [userMessage, setUserMessage] = useState("");
-
-    useEffect(() => {
-        const loadMessages = async () => {
-            const fetchResult = await fetchData();
-            setMessages(fetchResult.messages)
-            console.log(fetchResult)
-        }
-        loadMessages()
-    }, [tick]);
+    const [lastUserMessage, setLastUserMessage] = useState("")
+    const [tick, setTick] = useState(0)
 
     const handlePost = async () => {
         const temp = { "userMessage" : userMessage};
         const postResult = await postData(temp);
-        if (postResult) {
+        if (postResult.idMessage) {
+            const valid = true
+            console.log("Result: ", postResult)
+            setLastUserMessage(userMessage)
             setUserMessage("")
             setTick(tick + 1)
+            loadMessages()
         }
     }
+
+    const loadMessages = async () => {
+        const fetchResult = await fetchData();
+        setMessages(fetchResult.messages)
+        console.log(fetchResult)
+    }
+
+    const handleRespond = async () => {
+        // console.log("handleRespond")
+        const temp = { "userMessage" : lastUserMessage};
+        const postResult = await fetchLlmResponse(temp);
+        loadMessages()
+    }
+
+    useEffect(() => {
+        // console.log("yeah")
+        const t = async () => {
+            await handleRespond()
+        }
+        t()
+    }, [tick]);
     
+    useEffect(() => {
+        loadMessages()
+    }, []);
 
     return (
         <>

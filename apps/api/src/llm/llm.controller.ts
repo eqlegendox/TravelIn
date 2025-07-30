@@ -1,5 +1,6 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, ValidationPipe } from '@nestjs/common';
 import { LlmService } from './llm.service';
+import { LlmPrompt } from './dto/llm-prompt.dto';
 
 @Controller('llm')
 export class LlmController {
@@ -11,7 +12,8 @@ export class LlmController {
     }
 
     @Post()
-    sentLlm() {
-        return "I Have posted your request sire"
+    async getLlmResponse(@Body(ValidationPipe) llmPrompt: LlmPrompt) {
+        const response = await this.llmService.getLlmResponse(llmPrompt)
+        return response
     }
 }

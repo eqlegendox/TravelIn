@@ -3,6 +3,18 @@ import e from 'express';
 import { stringify } from 'querystring';
 import { isString } from 'util';
 
+async function fetchLlmResponse(message: any) {
+    const response = await fetch("http://localhost:8000/llm", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(message)
+    });
+
+    return response.text();
+}
+
 @Injectable()
 export class ChatsService {
     private chats = [
@@ -65,28 +77,38 @@ export class ChatsService {
         return newChat
     }
 
-    createMessage(idChat: number, message: {userMessage: string}) {
+    async createMessage(idChat: number, message: {userMessage: string}) {
         const chat = this.chats.find(chat => chat.idChat === idChat)
         const messages = chat?.messages
-
-        if (typeof message.userMessage !== "string") {
-            return {"error":"Invalid input", "type": typeof message.userMessage}
-        }   
-        else if (message.userMessage === "") {
-            return {"error":"Input cannot be empty!"}
-        }
-
+        
         if (messages) {
+            const highestId = messages[messages.length - 1].idMessage
             const newMessage = {
-                idMessage: messages?.length + 1,
+                idMessage: highestId + 1,
                 userMessage: message.userMessage
             }
-            const newAiMessage = { // Temporary respond system
-                idMessage: messages?.length + 1,
-                aiMessage: "Beep Boop Beep Boop"
-            }
-            chat?.messages.push(newMessage, newAiMessage)
+            
+            chat?.messages.push(newMessage)
             return newMessage
+        }  else {
+            return "Error: please contact the devs"
+        }
+    }
+
+    async createRespondMessage(idChat: number, message: {userMessage: string}) {
+        const chat = this.chats.find(chat => chat.idChat === idChat)
+        const messages = chat?.messages
+        
+        if (messages) {
+            const aiRespond =  await fetchLlmResponse(message)
+            const highestId = messages[messages.length - 1].idMessage
+
+            const newAiMessage = { // Temporary respond system
+                idMessage: highestId + 1,
+                aiMessage: `${aiRespond}`
+            }
+            chat?.messages.push(newAiMessage)
+            return newAiMessage
         }  else {
             return "Error: please contact the devs"
         }
