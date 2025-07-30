@@ -2,11 +2,11 @@
 
 import { Button } from "@workspace/ui/components/button"
 import { MoveRight } from "lucide-react"
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { fetchData, postData, fetchLlmResponse } from "./routing/serverSide";
 
 
-export default function ChatPane() {
+export default function ChatPane({bottomRef}) {
     const [messages, setMessages] = useState(null);
     const [userMessage, setUserMessage] = useState("");
     const [lastUserMessage, setLastUserMessage] = useState("")
@@ -68,6 +68,7 @@ export default function ChatPane() {
                         )
                     }
                 ): "Loading..." }
+                <div className="float clear" ref={bottomRef} />
                 </div>
             </div>
 
