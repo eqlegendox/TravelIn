@@ -27,7 +27,7 @@ async function mainLM(lm, prompt: string) {
         model: "gemini-2.5-flash",
         contents: prompt,
         config: {
-            systemInstruction: "You are a travelIn ai agent helper, you will answer as a representative of this travel-agent that is located in Bali",
+            systemInstruction: "You are a travelIn ai agent helper called Travy, you will answer as a representative of this travel-agent that is located in Bali",
             temperature: 0,
             thinkingConfig: {
                 thinkingBudget: 0,
