@@ -1,5 +1,5 @@
-import { Controller, Get, Post } from '@nestjs/common';
-import { LlmService } from './llm.service';
+import { Controller, Get, Post, Body } from '@nestjs/common';
+// import { LlmService } from './llm.service';
 
 @Controller('llm')
 export class LlmController {
@@ -7,11 +7,11 @@ export class LlmController {
     
     @Get()
     getLlm() {
-        return this.llmService.getLm();
+        return this.llmService.getLm("Hi Please Introduce Yourself!");
     }
 
     @Post()
-    sentLlm() {
-        return "I Have posted your request sire"
+    postLlm(@Body() message: {mess: string}) {
+        return this.llmService.getLm(message.mess)
     }
 }
