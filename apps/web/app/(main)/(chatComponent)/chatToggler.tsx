@@ -25,16 +25,10 @@ export default function ToggleChat() {
     
     const messagesEndRef = useRef<null| HTMLDivElement>(null)
     const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({behavior: "instant"})
+        messagesEndRef.current?.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
     }
     useEffect(() =>{
         scrollToBottom()
-        console.log("WAYAW")
-        console.log("WAYAW")
-        console.log("WAYAW")
-        console.log("WAYAW")
-        console.log("WAYAW")
-        console.log("WAYAW")
     }, [show, xpand]);
 
     if (show) {

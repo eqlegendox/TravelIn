@@ -6,9 +6,19 @@ import { useState, useEffect, useRef } from 'react';
 import { fetchData, postData, fetchLlmResponse } from "./routing/serverSide";
 import { boolean } from "zod";
 import { Loading } from "@/components/RespondLoading";
+import Loaiding from "@/components/Loaiding"
 
 
 export default function ChatPane({bottomRef}) {
+    bottomRef = useRef(null)
+    useEffect(() => {
+        bottomRef.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "end",
+            inline: "nearest",
+        })
+    })
+
     const [messages, setMessages] = useState(null);
     const [userMessage, setUserMessage] = useState("");
     const [lastUserMessage, setLastUserMessage] = useState("")
@@ -53,6 +63,7 @@ export default function ChatPane({bottomRef}) {
 
     return (
         <>
+        {/* <Loaiding /> */}
         <div className="flex flex-col h-full p-1 bg-background rounded-lg">
             {/* Chat */}
             <div className="flex-grow p-2 w-full overflow-y-auto bg-secondary rounded-md ">
@@ -70,7 +81,7 @@ export default function ChatPane({bottomRef}) {
                     }
                 ): "Loading..." }
                 <div>
-                    <h2>{isResponded? null : < Loading />}</h2> {/* rightside of the : is when ai is still responding maybe change to something better later */}
+                    <h2>{isResponded? null : < Loaiding />}</h2> {/* rightside of the : is when ai is still responding maybe change to something better later */}
                 </div>
                     <div className="float clear" ref={bottomRef} />
                 </div>
