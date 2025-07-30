@@ -23,4 +23,16 @@ async function postData(newMessage) {
     return response.json();
 }
 
-export {fetchData, postData}
+async function fetchLlmResponse(userMessage : { "userMessage" : string}) {
+    const response = await fetch("http://localhost:8000/chats/2/r", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userMessage)
+    });
+    
+    return response.json();
+}
+
+export {fetchData, postData, fetchLlmResponse}
