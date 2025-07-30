@@ -1,5 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post } from '@nestjs/common';
 import { ChatsService } from './chats.service';
+import { CreateMessageDto } from './dto/create-message.dto';
 
 @Controller('chats')
 export class ChatsController {
@@ -20,8 +21,8 @@ export class ChatsController {
     }
 
     @Get(':id')
-    findOne(@Param('id') idChat: string) {
-        return this.chatService.findOne(Number(idChat))
+    findOne(@Param('id', ParseIntPipe) idChat: number) {
+        return this.chatService.findOne(idChat)
     }
 
     @Post()
@@ -30,15 +31,15 @@ export class ChatsController {
     }
 
     @Post(':id')
-    createMessage(@Param('id') idChat: string, @Body() message: {userMessage: string}) {
+    createMessage(@Param('id', ParseIntPipe) idChat: number, @Body() createMessageDto: CreateMessageDto) {
         if (!Number(idChat)) {
             return "Error, chat is not available"
         }
-        return this.chatService.createMessage(Number(idChat), message)
+        return this.chatService.createMessage(idChat, createMessageDto)
     }
 
     @Delete(':id')
-    deleteChat(@Param('id') idChat: string) {
-        return this.chatService.deleteChat(Number(idChat))
+    deleteChat(@Param('id', ParseIntPipe) idChat: number) {
+        return this.chatService.deleteChat(idChat)
     }
 }
