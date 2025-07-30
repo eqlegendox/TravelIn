@@ -1,5 +1,6 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
-// import { LlmService } from './llm.service';
+import { Body, Controller, Delete, Get, Param, Post, ValidationPipe } from '@nestjs/common';
+import { LlmService } from './llm.service';
+import { LlmPrompt } from './dto/llm-prompt.dto';
 
 @Controller('llm')
 export class LlmController {
@@ -7,11 +8,12 @@ export class LlmController {
     
     @Get()
     getLlm() {
-        return this.llmService.getLm("Hi Please Introduce Yourself!");
+        return this.llmService.getLm();
     }
 
     @Post()
-    postLlm(@Body() message: {mess: string}) {
-        return this.llmService.getLm(message.mess)
+    async getLlmResponse(@Body(ValidationPipe) llmPrompt: LlmPrompt) {
+        const response = await this.llmService.getLlmResponse(llmPrompt)
+        return response
     }
 }
