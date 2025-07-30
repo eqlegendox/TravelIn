@@ -4,23 +4,24 @@ import { Button } from "@workspace/ui/components/button"
 import { MoveRight } from "lucide-react"
 import { useState, useEffect } from 'react';
 import { fetchData, postData, fetchLlmResponse } from "./routing/serverSide";
+import { boolean } from "zod";
+import { Loading } from "@/components/RespondLoading";
 
 
 export default function ChatPane() {
     const [messages, setMessages] = useState(null);
     const [userMessage, setUserMessage] = useState("");
     const [lastUserMessage, setLastUserMessage] = useState("")
-    const [tick, setTick] = useState(0)
+    const [isResponded, setIsResponded] = useState(true)
 
     const handlePost = async () => {
         const temp = { "userMessage" : userMessage};
         const postResult = await postData(temp);
-        if (postResult.idMessage) {
+        if (postResult.idMessage) { // True if exist returned message
             const valid = true
             console.log("Result: ", postResult)
             setLastUserMessage(userMessage)
             setUserMessage("")
-            setTick(tick + 1)
             loadMessages()
         }
     }
@@ -32,19 +33,19 @@ export default function ChatPane() {
     }
 
     const handleRespond = async () => {
-        // console.log("handleRespond")
         const temp = { "userMessage" : lastUserMessage};
+        setIsResponded(false)
         const postResult = await fetchLlmResponse(temp);
+        setIsResponded(true)
         loadMessages()
     }
 
     useEffect(() => {
-        // console.log("yeah")
         const t = async () => {
             await handleRespond()
         }
         t()
-    }, [tick]);
+    }, [lastUserMessage]);
     
     useEffect(() => {
         loadMessages()
@@ -68,6 +69,9 @@ export default function ChatPane() {
                         )
                     }
                 ): "Loading..." }
+                <div>
+                    <h2>{isResponded? null : < Loading />}</h2> {/* rightside of the : is when ai is still responding maybe change to something better later */}
+                </div>
                 </div>
             </div>
 
