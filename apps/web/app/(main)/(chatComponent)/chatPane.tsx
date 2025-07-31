@@ -13,10 +13,16 @@ export default function ChatPane({bottomRef}) {
     const [lastUserMessage, setLastUserMessage] = useState("")
     const [isResponded, setIsResponded] = useState(true)
     const [currentIdV4, setCurrentIdV4] = useState("")
-    
+    const [persistence, setPersistence] = useState(true)
+
     const handlePost = async () => {
         const temp = { "userMessage" : userMessage};
         const postResult = await postData(currentIdV4,temp);
+
+        if (!currentIdV4) {
+            console.log("Creating new chat1")
+            instantiateNewChat()
+        }
         if (postResult.idMessage) { // True if exist returned message
             console.log("Result: ", postResult)
             setLastUserMessage(userMessage)
@@ -60,8 +66,6 @@ export default function ChatPane({bottomRef}) {
     }, [lastUserMessage]);
     
     useEffect(() => {
-        console.log("Creating new chat1")
-        instantiateNewChat()
         loadMessages()
     }, []);
     
