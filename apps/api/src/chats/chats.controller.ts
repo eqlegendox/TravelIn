@@ -1,6 +1,7 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, ParseUUIDPipe, Post, ValidationPipe } from '@nestjs/common';
 import { ChatsService } from './chats.service';
 import { CreateMessageDto } from './dto/create-message.dto';
+import { CreateUuidDto } from './dto/create-uuid.dto';
 
 @Controller('chats')
 export class ChatsController {
@@ -21,17 +22,17 @@ export class ChatsController {
     }
 
     @Get(':id')
-    findOne(@Param('id', ParseIntPipe) idChat: number) {
+    findOne(@Param('id', ParseUUIDPipe) idChat: string) {
         return this.chatService.findOne(idChat)
     }
 
     @Post()
-    createChat() {
-        return this.chatService.createChat()
+    createChat(@Body(ValidationPipe) uuidv4: CreateUuidDto) {
+        return this.chatService.createChat(uuidv4)
     }
     
     @Post(':id')
-    createMessage(@Param('id', ParseIntPipe) idChat: number, @Body(ValidationPipe) createMessageDto: CreateMessageDto) {
+    createMessage(@Param('id', ParseUUIDPipe) idChat: string, @Body(ValidationPipe) createMessageDto: CreateMessageDto) {
         if (!idChat) {
             return "Error, chat is not available"
         }
@@ -40,7 +41,7 @@ export class ChatsController {
     }
 
     @Post(':id/r')
-    createRespondessage(@Param('id', ParseIntPipe) idChat: number, @Body(ValidationPipe) createMessageDto: CreateMessageDto) {
+    createRespondessage(@Param('id', ParseUUIDPipe) idChat: string, @Body(ValidationPipe) createMessageDto: CreateMessageDto) {
         if (!idChat) {
             return "Error, chat is not available"
         }
@@ -49,7 +50,7 @@ export class ChatsController {
     }
 
     @Delete(':id')
-    deleteChat(@Param('id', ParseIntPipe) idChat: number) {
+    deleteChat(@Param('id', ParseUUIDPipe) idChat: string) {
         return this.chatService.deleteChat(idChat)
     }
 }

@@ -3,11 +3,10 @@
 import { Button } from "@workspace/ui/components/button"
 import { MoveRight } from "lucide-react"
 import { useState, useEffect, useRef } from 'react';
-import { fetchData, postData, fetchLlmResponse } from "./routing/serverSide";
-import { boolean } from "zod";
+import { fetchData, postData, fetchLlmResponse, createNewChat } from "./routing/serverSide";
 import { Loading } from "@/components/RespondLoading";
 import Loaiding from "@/components/Loaiding"
-
+import { v4 as uuidv4} from "uuid";
 
 export default function ChatPane({bottomRef}) {
     bottomRef = useRef(null)
@@ -23,12 +22,18 @@ export default function ChatPane({bottomRef}) {
     const [userMessage, setUserMessage] = useState("");
     const [lastUserMessage, setLastUserMessage] = useState("")
     const [isResponded, setIsResponded] = useState(true)
+    const [currentIdV4, setCurrentIdV4] = useState("")
+    const [persistence, setPersistence] = useState(true)
 
     const handlePost = async () => {
         const temp = { "userMessage" : userMessage};
-        const postResult = await postData(temp);
+        const postResult = await postData(currentIdV4,temp);
+
+        if (!currentIdV4) {
+            console.log("Creating new chat1")
+            instantiateNewChat()
+        }
         if (postResult.idMessage) { // True if exist returned message
-            const valid = true
             console.log("Result: ", postResult)
             setLastUserMessage(userMessage)
             setUserMessage("")
@@ -37,22 +42,35 @@ export default function ChatPane({bottomRef}) {
     }
 
     const loadMessages = async () => {
-        const fetchResult = await fetchData();
+        const fetchResult = await fetchData(currentIdV4);
         setMessages(fetchResult.messages)
         console.log(fetchResult)
     }
 
     const handleRespond = async () => {
-        const temp = { "userMessage" : lastUserMessage};
-        setIsResponded(false)
-        const postResult = await fetchLlmResponse(temp);
-        setIsResponded(true)
-        loadMessages()
+        if (isResponded) {
+            const temp = { "userMessage" : lastUserMessage};
+            setIsResponded(false)
+            const postResult = await fetchLlmResponse(currentIdV4, temp);
+            setIsResponded(true)
+        }
+    }
+
+    const instantiateNewChat = async () => {
+        const tempUuid = uuidv4();
+        setCurrentIdV4(tempUuid)
+
+        if (tempUuid) {
+            console.log("Creating new chat2")
+            const tempNewChat = createNewChat(tempUuid)
+            console.log("Creating new chat3")
+        }
     }
 
     useEffect(() => {
         const t = async () => {
             await handleRespond()
+            loadMessages()
         }
         t()
     }, [lastUserMessage]);
@@ -60,7 +78,7 @@ export default function ChatPane({bottomRef}) {
     useEffect(() => {
         loadMessages()
     }, []);
-
+    
     return (
         <>
         {/* <Loaiding /> */}
@@ -75,11 +93,13 @@ export default function ChatPane({bottomRef}) {
                                 <div className="px-2 py-1 bg-background rounded-sm max-w-72/100 break-words place-self-end">{i.userMessage}</div>
                             )
                         }
-                        return (
-                            <div className="px-2 py-1 bg-primary text-background rounded-sm max-w-72/100 break-words place-self-start">{i.aiMessage}</div>
-                        )
+                        if (i.aiMessage) {
+                            return (
+                                <div className="px-2 py-1 bg-primary text-background rounded-sm max-w-72/100 break-words place-self-start">{i.aiMessage}</div>
+                            )
+                        }
                     }
-                ): "Loading..." }
+                ): "No conversation found, try asking something!" }
                 <div>
                     <h2>{isResponded? null : < Loaiding />}</h2> {/* rightside of the : is when ai is still responding maybe change to something better later */}
                 </div>

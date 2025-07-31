@@ -1,5 +1,5 @@
-async function fetchData() {
-    const response = await fetch("http://localhost:8000/chats/2", {
+async function fetchData(idChat: string) {
+    const response = await fetch(`http://localhost:8000/chats/${idChat}`, {
         method:"GET",
     });
     console.log("Fetching data...")
@@ -11,8 +11,8 @@ async function fetchData() {
     return response.json();
 }
 
-async function postData(newMessage) {
-    const response = await fetch("http://localhost:8000/chats/2", {
+async function postData(idChat: string, newMessage: { "userMessage" : string }) {
+    const response = await fetch(`http://localhost:8000/chats/${idChat}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -23,8 +23,8 @@ async function postData(newMessage) {
     return response.json();
 }
 
-async function fetchLlmResponse(userMessage : { "userMessage" : string}) {
-    const response = await fetch("http://localhost:8000/chats/2/r", {
+async function fetchLlmResponse(idChat: string, userMessage : { "userMessage" : string}) {
+    const response = await fetch(`http://localhost:8000/chats/${idChat}/r`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -35,4 +35,18 @@ async function fetchLlmResponse(userMessage : { "userMessage" : string}) {
     return response.json();
 }
 
-export {fetchData, postData, fetchLlmResponse}
+async function createNewChat(idChat : string) {
+    console.log(idChat, " aaa")
+    const tempIdChat = {"uuid" : idChat}
+    const response = await fetch('http://localhost:8000/chats/', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(tempIdChat)
+    })
+
+    return response.json()
+}
+
+export {fetchData, postData, fetchLlmResponse, createNewChat}
