@@ -19,7 +19,7 @@ async function fetchLlmResponse(message: any) {
 export class ChatsService {
     private chats = [
         {
-            "idChat": 1, // might need to add id user as an attribute
+            "idChat": "abc", // might need to add id user as an attribute
             "messages": [
                 {
                     "idMessage": 1,
@@ -40,7 +40,7 @@ export class ChatsService {
             ]
         },
         {
-            "idChat": 2, // might need to add id user as an attribute
+            "idChat": "cda", // might need to add id user as an attribute
             "messages": [
                 {
                     "idMessage": 1,
@@ -59,7 +59,7 @@ export class ChatsService {
         return this.chats
     }
 
-    findOne(idChat: number) {
+    findOne(idChat: string) {
         const chat = this.chats.find(chat => chat.idChat === idChat)
         if (!chat) {
             return {"error": "Conversation not found"}
@@ -67,9 +67,9 @@ export class ChatsService {
         return chat
     }
 
-    createChat() {
+    createChat(uuidv4: {uuid: string}) {
         const newChat = {
-            idChat: this.chats.length + 1,
+            idChat: uuidv4.uuid,
             messages: [{idMessage: 0, userMessage: ""}]
         }
 
@@ -77,10 +77,11 @@ export class ChatsService {
         return newChat
     }
 
-    async createMessage(idChat: number, message: {userMessage: string}) {
+    async createMessage(idChat: string, message: {userMessage: string}) {
         const chat = this.chats.find(chat => chat.idChat === idChat)
         const messages = chat?.messages
-        
+
+
         if (messages) {
             const highestId = messages[messages.length - 1].idMessage
             const newMessage = {
@@ -95,7 +96,7 @@ export class ChatsService {
         }
     }
 
-    async createRespondMessage(idChat: number, message: {userMessage: string}) {
+    async createRespondMessage(idChat: string, message: {userMessage: string}) {
         const chat = this.chats.find(chat => chat.idChat === idChat)
         const messages = chat?.messages
         
@@ -114,7 +115,7 @@ export class ChatsService {
         }
     }
 
-    deleteChat(idChat: number) {
+    deleteChat(idChat: string) {
         const removedChat = this.findOne(idChat)
 
         this.chats = this.chats.filter(chat => chat.idChat !== idChat)

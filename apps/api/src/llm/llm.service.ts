@@ -43,12 +43,14 @@ async function mainLM(lm, prompt: string) {
 export class LlmService {
     private model: any;
     private API_KEY: any;
-    
+    private aiAgent: any;
+
     constructor(
         private configService: ConfigService,
-    ){
+    ) {
         this.API_KEY = this.configService.get<string>("GEMINI_API_KEY")
         this.model = new GoogleGenAI({apiKey: this.API_KEY});
+        
     }
     
 
@@ -59,5 +61,10 @@ export class LlmService {
     getLlmResponse(prompt: {userMessage: string}): any {
         const response = mainLM(this.model, prompt.userMessage)
         return response;
+    }
+
+    getLangGraph(prompt: {userMessage: string}): any {
+        const response = this.aiAgent(prompt.userMessage)
+        return response
     }
 }

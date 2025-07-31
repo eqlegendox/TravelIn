@@ -16,4 +16,10 @@ export class LlmController {
         const response = await this.llmService.getLlmResponse(llmPrompt)
         return response
     }
+
+    @Post()
+    async getLangGraph(@Body(ValidationPipe) llmPrompt: LlmPrompt) {
+        const response = await this.llmService.getLangGraph(llmPrompt)
+        return response
+    }
 }
