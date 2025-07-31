@@ -1,5 +1,7 @@
+import { Chat } from '@google/genai';
 import { Injectable } from '@nestjs/common';
 import e from 'express';
+import { c } from 'framer-motion/dist/types.d-Bq-Qm38R';
 import { stringify } from 'querystring';
 import { isString } from 'util';
 
@@ -14,49 +16,34 @@ async function fetchLlmResponse(message: any) {
 
     return response.text();
 }
+type ChatMessage = {
+    idMessage: number,
+    userMessage: string | null,
+    aiMessage: string | null,
+}
+
+type ChatConversation = {
+    idChat: string,
+    messages: ChatMessage[]
+}
+type ChatLists = {
+        idChat: string,
+        messages: {
+            idMessage: number,
+            userMessage?: string | null,
+            aiMessage?: string | null,
+        }[]
+    }[]
 
 @Injectable()
 export class ChatsService {
-    private chats = [
-        {
-            "idChat": "abc", // might need to add id user as an attribute
-            "messages": [
-                {
-                    "idMessage": 1,
-                    "userMessage": 'Hello, saya John'
-                },
-                {
-                    "idMessage": 2,
-                    "aiMessage": 'Hello John, how can I help you today?'
-                },
-                {
-                    "idMessage": 3,
-                    "userMessage": 'I would like to plan a trip...'
-                },
-                {
-                    "idMessage": 4,
-                    "aiMessage": 'Sure, here is ...'
-                }
-            ]
-        },
-        {
-            "idChat": "cda", // might need to add id user as an attribute
-            "messages": [
-                {
-                    "idMessage": 1,
-                    "userMessage": 'Hello, saya Dianaaaa'
-                },
-                {
-                    "idMessage": 2,
-                    "aiMessage": 'Hello Dian, how can I help you today?'
-                },
-            ]
-        }
-    ]
-
+    private chats : ChatLists = []
     
     findAll() {
-        return this.chats
+        if (this.chats.length !== 0) {
+            return this.chats
+        }
+        return {"error": "No conversation found"}
     }
 
     findOne(idChat: string) {
@@ -92,7 +79,7 @@ export class ChatsService {
             chat?.messages.push(newMessage)
             return newMessage
         }  else {
-            return "Error: please contact the devs"
+            return "Error: conversation not found"
         }
     }
 
@@ -111,7 +98,7 @@ export class ChatsService {
             chat?.messages.push(newAiMessage)
             return newAiMessage
         }  else {
-            return "Error: please contact the devs"
+            return "Error: conversation not found"
         }
     }
 

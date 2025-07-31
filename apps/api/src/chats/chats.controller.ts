@@ -33,18 +33,12 @@ export class ChatsController {
     
     @Post(':id')
     createMessage(@Param('id', ParseUUIDPipe) idChat: string, @Body(ValidationPipe) createMessageDto: CreateMessageDto) {
-        if (!idChat) {
-            return "Error, chat is not available"
-        }
         const res = this.chatService.createMessage(idChat, createMessageDto)
         return res
     }
 
     @Post(':id/r')
     createRespondessage(@Param('id', ParseUUIDPipe) idChat: string, @Body(ValidationPipe) createMessageDto: CreateMessageDto) {
-        if (!idChat) {
-            return "Error, chat is not available"
-        }
         const res = this.chatService.createRespondMessage(idChat, createMessageDto)
         return res
     }
