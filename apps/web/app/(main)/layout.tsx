@@ -5,6 +5,7 @@ import "@workspace/ui/globals.css"
 import { Providers } from "@/components/providers"
 import ChatToggler from "./(chatComponent)/chatToggler"
 import { Metadata, Viewport } from "next"
+import { v4 as uuidv4} from "uuid";
 
 const fontSans = Geist({
   subsets: ["latin"],
@@ -37,7 +38,7 @@ export default function RootLayout({
         className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased flex w-vw`}
       >
         <Providers>{children}</Providers>
-        <ChatToggler />
+        <ChatToggler uUID={uuidv4()}/>
       </body>
     </html>
   )
