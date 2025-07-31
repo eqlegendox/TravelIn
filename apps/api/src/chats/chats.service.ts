@@ -16,16 +16,7 @@ async function fetchLlmResponse(message: any) {
 
     return response.text();
 }
-type ChatMessage = {
-    idMessage: number,
-    userMessage: string | null,
-    aiMessage: string | null,
-}
 
-type ChatConversation = {
-    idChat: string,
-    messages: ChatMessage[]
-}
 type ChatLists = {
         idChat: string,
         messages: {
