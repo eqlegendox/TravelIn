@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Maximize, Minimize, Minus } from "lucide-react"
 import ChatPane from "./chatPane"
 import { motion, AnimatePresence } from "framer-motion"
@@ -22,6 +22,20 @@ export default function ToggleChat() {
     const toggleXpand = () => {
         setXpand(!xpand)
     }
+    
+    const messagesEndRef = useRef<null| HTMLDivElement>(null)
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({behavior: "instant"})
+    }
+    useEffect(() =>{
+        scrollToBottom()
+        console.log("WAYAW")
+        console.log("WAYAW")
+        console.log("WAYAW")
+        console.log("WAYAW")
+        console.log("WAYAW")
+        console.log("WAYAW")
+    }, [show, xpand]);
 
     if (show) {
         if (xpand) {
@@ -42,7 +56,7 @@ export default function ToggleChat() {
                             <Minus className=" right-1 bg-background rounded-full p-1 m-1 w-5 h-5 hover:bg-red" onClick= {toggleShow} />
                         </div>
                         <div className="pt-12 flex-1 max-h-full min-h-full h-auto border-1 rounded-lg ">
-                            <ChatPane />
+                            <ChatPane bottomRef={messagesEndRef} />
                         </div>
                     </motion.div>
                 </AnimatePresence>
@@ -63,11 +77,11 @@ export default function ToggleChat() {
                     transition = {{ type: 'spring', stiffness: 100, damping: 16, duration: 0.1 }}
                     >
                     <div className="bg-primary flex self-end px-2 pl-6 rounded-tl-4xl rounded-tr-md">
-                        <Maximize className=" right-1 bg-background rounded-full p-1 m-1 w-5 h-5 hover:bg-red" onClick={toggleXpand} />
+                        <Maximize className=" right-1 bg-background rounded-full p-1 m-1 w-5 h-5 hover:bg-red" onClick={toggleXpand}/>
                         <Minus className=" right-1 bg-background rounded-full p-1 m-1 w-5 h-5 hover:bg-red" onClick= {toggleShow} />
                     </div>
                     <div className="flex-1 max-h-full min-h-full h-auto border-1 rounded-lg rounded-tr-none">
-                        <ChatPane />
+                        <ChatPane bottomRef={messagesEndRef}/>
                     </div>
                 </motion.div>
             </AnimatePresence>

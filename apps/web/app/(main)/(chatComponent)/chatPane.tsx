@@ -2,12 +2,12 @@
 
 import { Button } from "@workspace/ui/components/button"
 import { MoveRight } from "lucide-react"
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { fetchData, postData, fetchLlmResponse, createNewChat } from "./routing/serverSide";
 import { Loading } from "@/components/RespondLoading";
 import { v4 as uuidv4} from "uuid";
 
-export default function ChatPane() {
+export default function ChatPane({bottomRef}) {
     const [messages, setMessages] = useState(null);
     const [userMessage, setUserMessage] = useState("");
     const [lastUserMessage, setLastUserMessage] = useState("")
@@ -88,6 +88,7 @@ export default function ChatPane() {
                 <div>
                     <h2>{isResponded? null : < Loading />}</h2> {/* rightside of the : is when ai is still responding maybe change to something better later */}
                 </div>
+                    <div className="float clear" ref={bottomRef} />
                 </div>
             </div>
 
