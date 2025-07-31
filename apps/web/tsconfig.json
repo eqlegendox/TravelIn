@@ -13,6 +13,7 @@
     ]
   },
   "include": [
+    "svgr.d.ts",
     "next-env.d.ts",
     "next.config.ts",
     "**/*.ts",

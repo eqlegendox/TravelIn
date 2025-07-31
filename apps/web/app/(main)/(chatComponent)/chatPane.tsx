@@ -7,6 +7,7 @@ import { fetchData, postData, fetchLlmResponse, createNewChat } from "./routing/
 import { Loading } from "@/components/RespondLoading";
 import Loaiding from "@/components/Loaiding"
 import { v4 as uuidv4 } from "uuid";
+import { div } from "framer-motion/client";
 
 export default function ChatPane({bottomRef, uUID}) {
     bottomRef = useRef(null)
@@ -78,16 +79,17 @@ export default function ChatPane({bottomRef, uUID}) {
     
     useEffect(() => {
         loadMessages()
+        instantiateNewChat()
     }, []);
     
     return (
         <>
-        {/* <Loaiding /> */}
-        <div className="flex flex-col h-full p-1 bg-background rounded-lg">
+        <div className="flex flex-col h-full p-1 bg-background rounded-lg inset-shadow-md">
             {/* Chat */}
-            <div className="flex-grow p-2 w-full overflow-y-auto bg-secondary rounded-md ">
+            <div className="flex-grow p-2 w-full overflow-y-auto bg-secondary rounded-md inset-shadow-md/100">
                 {/* Current issue text size isn't working properly */}
-                <div className="flex flex-col gap-2 text-sm md:text-md lg:text-lg">
+                <div className="flex py-1 flex-col gap-2 text-sm md:text-md lg:text-lg drop-shadow-sm">
+                    <Loaiding />
                     { Array.isArray(messages) ? messages.map((i, t) => {
                         if (i.userMessage) {
                             return (
@@ -100,7 +102,7 @@ export default function ChatPane({bottomRef, uUID}) {
                             )
                         }
                     }
-                ): "No conversation found, try asking something!" }
+                ): <div className="opacity-32">No conversation found, try asking something!</div> }
                 <div>
                     <h2>{isResponded? null : < Loaiding />}</h2> {/* rightside of the : is when ai is still responding maybe change to something better later */}
                 </div>
