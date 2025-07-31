@@ -6,9 +6,8 @@ import { useState, useEffect, useRef } from 'react';
 import { fetchData, postData, fetchLlmResponse, createNewChat } from "./routing/serverSide";
 import { Loading } from "@/components/RespondLoading";
 import Loaiding from "@/components/Loaiding"
-import { v4 as uuidv4} from "uuid";
 
-export default function ChatPane({bottomRef}) {
+export default function ChatPane({bottomRef, uUID}) {
     bottomRef = useRef(null)
     useEffect(() => {
         bottomRef.current?.scrollIntoView({
@@ -57,7 +56,8 @@ export default function ChatPane({bottomRef}) {
     }
 
     const instantiateNewChat = async () => {
-        const tempUuid = uuidv4();
+        // const tempUuid = uuidv4();
+        const tempUuid = uUID
         setCurrentIdV4(tempUuid)
 
         if (tempUuid) {
