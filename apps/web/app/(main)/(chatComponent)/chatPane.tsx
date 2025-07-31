@@ -6,6 +6,7 @@ import { useState, useEffect, useRef } from 'react';
 import { fetchData, postData, fetchLlmResponse, createNewChat } from "./routing/serverSide";
 import { Loading } from "@/components/RespondLoading";
 import Loaiding from "@/components/Loaiding"
+import { v4 as uuidv4 } from "uuid";
 
 export default function ChatPane({bottomRef, uUID}) {
     bottomRef = useRef(null)
@@ -21,8 +22,7 @@ export default function ChatPane({bottomRef, uUID}) {
     const [userMessage, setUserMessage] = useState("");
     const [lastUserMessage, setLastUserMessage] = useState("")
     const [isResponded, setIsResponded] = useState(true)
-    const [currentIdV4, setCurrentIdV4] = useState("")
-    const [persistence, setPersistence] = useState(true)
+    const [currentIdV4, setCurrentIdV4] = useState(uUID)
 
     const handlePost = async () => {
         const temp = { "userMessage" : userMessage};
@@ -44,6 +44,7 @@ export default function ChatPane({bottomRef, uUID}) {
         const fetchResult = await fetchData(currentIdV4);
         setMessages(fetchResult.messages)
         console.log(fetchResult)
+        return fetchResult
     }
 
     const handleRespond = async () => {
@@ -56,15 +57,15 @@ export default function ChatPane({bottomRef, uUID}) {
     }
 
     const instantiateNewChat = async () => {
-        // const tempUuid = uuidv4();
-        const tempUuid = uUID
-        setCurrentIdV4(tempUuid)
-
-        if (tempUuid) {
-            console.log("Creating new chat2")
-            const tempNewChat = createNewChat(tempUuid)
-            console.log("Creating new chat3")
+        const iNC = async () => {
+            if (currentIdV4) {
+                console.log("Creating new chat2")
+                const tempNewChat = createNewChat(currentIdV4)
+                console.log("Creating new chat3")
+            }
         }
+
+        {await loadMessages()? iNC() : null}
     }
 
     useEffect(() => {
