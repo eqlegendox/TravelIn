@@ -14,6 +14,10 @@ export default function Page() {
         {/* <h1 className="text-2xl primary font-bold">Hello World</h1> */}
         <Button size="sm">Button Waha</Button>
       </div>
+      <div>
+        <CurvedLoop className="text-primary" marqueeText="Helloo" />
+          
+      </div>
     </div>
   )
 }

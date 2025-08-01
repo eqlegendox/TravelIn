@@ -40,6 +40,13 @@ export default function ChatPane({bottomRef, uUID}) {
         }
     }
 
+    const inputKeyUp = (e) => {
+        e.which = e.which || e.keyCode;
+        if (e.which === 13) {
+            handlePost()
+        }
+    }
+
     const loadMessages = async () => {
         const fetchResult = await fetchData(currentIdV4);
         setMessages(fetchResult.messages)
@@ -85,17 +92,17 @@ export default function ChatPane({bottomRef, uUID}) {
             {/* Chat */}
             <div className="flex-grow p-2 w-full overflow-y-auto bg-secondary rounded-md inset-shadow-md/100">
                 {/* Current issue text size isn't working properly */}
-                <div className="flex py-1 flex-col gap-2 text-sm md:text-md lg:text-lg drop-shadow-sm">
-                    <Loaiding />
+                <div className="flex py-1 flex-col gap-2 text-sm md:text-md drop-shadow-sm">
+                    {/* <Loaiding /> */}
                     { Array.isArray(messages) ? messages.map((i, t) => {
                         if (i.userMessage) {
                             return (
-                                <div className="px-2 py-1 bg-background rounded-sm max-w-72/100 break-words place-self-end">{i.userMessage}</div>
+                                <div className="px-2 py-1.5 bg-background rounded-sm max-w-72/100 break-words place-self-end">{i.userMessage}</div>
                             )
                         }
                         if (i.aiMessage) {
                             return (
-                                <div className="px-2 py-1 bg-primary text-background rounded-sm max-w-72/100 break-words place-self-start">{i.aiMessage}</div>
+                                <div className="px-2 py-1.5 bg-primary text-background rounded-sm max-w-72/100 break-words place-self-start">{i.aiMessage}</div>
                             )
                         }
                     }
@@ -116,6 +123,7 @@ export default function ChatPane({bottomRef, uUID}) {
                         id="user_message"
                         value={userMessage}
                         onChange={(e) => setUserMessage(e.target.value)}
+                        onKeyUp={inputKeyUp}
                         placeholder="Type a message.."
                         className="flex-grow w-full lg:text-lg sm:text-sm p-2 border rounded-md focus:ring-2 focus:ring-ring focus:outline-none"
                         />

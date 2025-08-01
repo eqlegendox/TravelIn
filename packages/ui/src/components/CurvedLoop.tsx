@@ -1,5 +1,3 @@
-// "use client"
-
 import {
   useRef,
   useEffect,
@@ -68,7 +66,7 @@ const CurvedLoop: FC<CurvedLoopProps> = ({
       if (!dragRef.current && textPathRef.current) {
         const delta = dirRef.current === "right" ? speed : -speed;
         const currentOffset = parseFloat(
-          textPathRef.current.getAttribute("startOffset") || "0",
+          textPathRef.current.getAttribute("startOffset") || "0"
         );
         let newOffset = currentOffset + delta;
 
@@ -100,7 +98,7 @@ const CurvedLoop: FC<CurvedLoopProps> = ({
     velRef.current = dx;
 
     const currentOffset = parseFloat(
-      textPathRef.current.getAttribute("startOffset") || "0",
+      textPathRef.current.getAttribute("startOffset") || "0"
     );
     let newOffset = currentOffset + dx;
 
@@ -170,4 +168,4 @@ const CurvedLoop: FC<CurvedLoopProps> = ({
   );
 };
 
-export default {CurvedLoop};
+export default CurvedLoop;
