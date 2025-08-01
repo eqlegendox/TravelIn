@@ -34,22 +34,21 @@ export default function ToggleChat({uUID}) {
     if (show) {
         if (xpand) {
             return (
-                // Issue overflow is handled but static, any values below w40 couldn't be handled
                 <>
                 <AnimatePresence custom={-1000}>
                     <motion.div
-                        className="fixed flex h-[100vh] w-[100vw] md:relative md:max-w-[40vw] "
+                        className="fixed inset-0 h-[100vh] w-[100vw] bg-background md:sticky md:top-0 md:w-[28vw] md:flex md:flex-col"
                         key="megaPane"
                         initial = {{ x:1000 }}
                         animate = {{ x:0 }}
                         exit = {{ x:1000 }}
                         transition = {{ type: 'spring', stiffness: 100, damping: 16, duration: 0.1 }}
                         >
-                        <div className="bg-primary fixed right-2 top-2 flex self-end p-1 rounded-full">
-                            <Minimize className=" right-1 bg-background rounded-full p-1 m-1 w-5 h-5 hover:bg-red" onClick={toggleXpand} />
-                            <Minus className=" right-1 bg-background rounded-full p-1 m-1 w-5 h-5 hover:bg-red" onClick= {toggleShow} />
+                        <div className="bg-primary absolute right-2 top-2 flex self-end p-1 rounded-full">
+                            <Minimize className=" bg-background rounded-full p-1 m-1 w-5 h-5 hover:bg-red" onClick={toggleXpand} />
+                            <Minus className=" bg-background rounded-full p-1 m-1 w-5 h-5 hover:bg-red" onClick= {toggleShow} />
                         </div>
-                        <div className="pt-12 flex-1 max-h-full min-h-full h-auto border-1 rounded-lg ">
+                        <div className="pt-12 h-full flex-1 border-1 rounded-lg">
                             <ChatPane bottomRef={messagesEndRef} uUID={uUID}/>
                         </div>
                     </motion.div>
