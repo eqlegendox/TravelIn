@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, ParseIntPipe, ParseUUIDPipe, Post
 import { ChatsService } from './chats.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { CreateUuidDto } from './dto/create-uuid.dto';
+import { Throttle } from '@nestjs/throttler';
 
 @Controller('chats')
 export class ChatsController {
@@ -21,7 +22,8 @@ export class ChatsController {
         return this.chatService.findAll()
     }
 
-    @Get(':id')
+    @Throttle({ short: { ttl: 1000, limit: 5}})
+    @Get('/c/:id')
     findOne(@Param('id', ParseUUIDPipe) idChat: string) {
         return this.chatService.findOne(idChat)
     }
@@ -31,19 +33,19 @@ export class ChatsController {
         return this.chatService.createChat(uuidv4)
     }
     
-    @Post(':id')
+    @Post('/c/:id')
     createMessage(@Param('id', ParseUUIDPipe) idChat: string, @Body(ValidationPipe) createMessageDto: CreateMessageDto) {
         const res = this.chatService.createMessage(idChat, createMessageDto)
         return res
     }
 
-    @Post(':id/r')
+    @Post('/c/:id/r')
     createRespondessage(@Param('id', ParseUUIDPipe) idChat: string, @Body(ValidationPipe) createMessageDto: CreateMessageDto) {
         const res = this.chatService.createRespondMessage(idChat, createMessageDto)
         return res
     }
 
-    @Delete(':id')
+    @Delete('/c/:id')
     deleteChat(@Param('id', ParseUUIDPipe) idChat: string) {
         return this.chatService.deleteChat(idChat)
     }

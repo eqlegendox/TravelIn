@@ -1,8 +1,9 @@
 import { Chat } from '@google/genai';
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import e from 'express';
 import { c } from 'framer-motion/dist/types.d-Bq-Qm38R';
 import { stringify } from 'querystring';
+import { throwError } from 'rxjs';
 import { isString } from 'util';
 
 async function fetchLlmResponse(message: any) {
@@ -19,10 +20,10 @@ async function fetchLlmResponse(message: any) {
 
 type ChatLists = {
         idChat: string,
-        messages: {
+        messages?: {
             idMessage: number,
-            userMessage?: string | null,
-            aiMessage?: string | null,
+            userMessage?: string,
+            aiMessage?: string,
         }[]
     }[]
 
@@ -31,73 +32,89 @@ export class ChatsService {
     private chats : ChatLists = []
     
     findAll() {
-        if (this.chats.length !== 0) {
-            return this.chats
+        if (this.chats.length === 0) {
+            throw new HttpException('Not Found', HttpStatus.NOT_FOUND)
         }
-        return {"error": "No conversation found"}
+        return this.chats
     }
 
     findOne(idChat: string) {
         const chat = this.chats.find(chat => chat.idChat === idChat)
         if (!chat) {
-            return {"error": "Conversation not found"}
+            throw new HttpException('Chat Not Found', HttpStatus.NOT_FOUND)
         }
         return chat
     }
 
     createChat(uuidv4: {uuid: string}) {
-        const newChat = {
-            idChat: uuidv4.uuid,
-            messages: [{idMessage: 0, userMessage: ""}]
-        }
+        try {
+            const newChat = {
+                idChat: uuidv4.uuid,
+            }
 
-        this.chats.push(newChat)
-        return newChat
+            this.chats.push(newChat)
+            return newChat
+        }
+        catch (err) {
+            throw new HttpException('CC Error', HttpStatus.INTERNAL_SERVER_ERROR)
+        }
     }
 
     async createMessage(idChat: string, message: {userMessage: string}) {
-        const chat = this.chats.find(chat => chat.idChat === idChat)
-        const messages = chat?.messages
+        const chat = this.findOne(idChat)
+        const messages = chat?.messages? chat.messages : chat.messages = []
 
-
-        if (messages) {
-            const highestId = messages[messages.length - 1].idMessage
-            const newMessage = {
-                idMessage: highestId + 1,
-                userMessage: message.userMessage
+        try {
+            if (messages) {
+                const highestId =  messages[messages.length - 1]? messages[messages.length - 1].idMessage + 1 : 1
+                const newMessage = {
+                    idMessage: highestId,
+                    userMessage: message.userMessage
+                }
+                
+                chat?.messages?  chat.messages.push(newMessage) : chat.messages = [newMessage]
+                return newMessage
+            }  else {
+                throw new HttpException('Conversation Not Found', HttpStatus.NOT_FOUND)
             }
-            
-            chat?.messages.push(newMessage)
-            return newMessage
-        }  else {
-            return "Error: conversation not found"
+        }
+        catch (err) {
+            throw new HttpException('CM Error', HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
 
     async createRespondMessage(idChat: string, message: {userMessage: string}) {
-        const chat = this.chats.find(chat => chat.idChat === idChat)
-        const messages = chat?.messages
+        const chat = this.findOne(idChat)
+        const messages = chat?.messages? chat.messages : chat.messages = []
         
-        if (messages) {
-            const aiRespond =  await fetchLlmResponse(message)
-            const highestId = messages[messages.length - 1].idMessage
-
-            const newAiMessage = { // Temporary respond system
-                idMessage: highestId + 1,
-                aiMessage: `${aiRespond}`
+        try {
+            if (messages) {
+                const aiRespond =  await fetchLlmResponse(message)
+                const highestId = messages[messages.length - 1]? messages[messages.length - 1].idMessage + 1 : 1
+    
+                const newAiMessage = {
+                    idMessage: highestId,
+                    aiMessage: `${aiRespond}`
+                }
+                chat?.messages?.push(newAiMessage)
+                return newAiMessage
+            }  else {
+                throw new HttpException('Conversation Not Found', HttpStatus.NOT_FOUND)
             }
-            chat?.messages.push(newAiMessage)
-            return newAiMessage
-        }  else {
-            return "Error: conversation not found"
+        }
+        catch (err) {
+            throw new HttpException('CRM Error', HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
 
     deleteChat(idChat: string) {
-        const removedChat = this.findOne(idChat)
-
-        this.chats = this.chats.filter(chat => chat.idChat !== idChat)
-
-        return removedChat
+        try{
+            const removedChat = this.findOne(idChat)
+            this.chats = this.chats.filter(chat => chat.idChat !== idChat)
+            return removedChat
+        }
+        catch ( err ) {
+            throw new HttpException('DC Error', HttpStatus.INTERNAL_SERVER_ERROR)
+        }
     }
 }

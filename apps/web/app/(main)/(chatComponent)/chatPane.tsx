@@ -26,14 +26,20 @@ export default function ChatPane({bottomRef, uUID}) {
     const [currentIdV4, setCurrentIdV4] = useState(uUID)
 
     const handlePost = async () => {
+        // if (!currentIdV4) {
+        //     instantiateNewChat()
+        // }
+
+        if (!isResponded) {
+            return
+        }
+
         const temp = { "userMessage" : userMessage};
         const postResult = await postData(currentIdV4,temp);
+        
 
-        if (!currentIdV4) {
-            instantiateNewChat()
-        }
         if (postResult.idMessage) { // True if exist returned message
-            console.log("Result: ", postResult)
+            console.log("Result: ", postResult) // !!!!!!!!!!!!!!! REMEMBER TO DELETE BEFORE LAUNCH !!!!!!!!!!!!!!!!!!!!
             setLastUserMessage(userMessage)
             setUserMessage("")
             loadMessages()
@@ -60,11 +66,11 @@ export default function ChatPane({bottomRef, uUID}) {
     const instantiateNewChat = async () => {
         const iNC = async () => {
             if (currentIdV4) {
-                const tempNewChat = createNewChat(currentIdV4)
+                const tempNewChat = await createNewChat(currentIdV4)
             }
         }
-
-        {await loadMessages()? iNC() : null}
+        {await loadMessages()? await iNC() : null}
+        loadMessages()
     }
 
     useEffect(() => {
@@ -86,7 +92,7 @@ export default function ChatPane({bottomRef, uUID}) {
             <div className="flex-grow p-2 w-full overflow-y-auto bg-secondary rounded-md inset-shadow-md/100">
                 {/* Current issue text size isn't working properly */}
                 <div className="flex py-1 flex-col gap-2 text-sm md:text-md lg:text-lg drop-shadow-sm">
-                    <Loaiding />
+                    {/* <Loaiding /> */}
                     { Array.isArray(messages) ? messages.map((i, t) => {
                         if (i.userMessage) {
                             return (
