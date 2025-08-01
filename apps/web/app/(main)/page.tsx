@@ -3,9 +3,22 @@
 import { Button } from "@workspace/ui/components/button"
 import CurvedLoop from "@workspace/ui/components/CurvedLoop"
 import TextPressure from "@workspace/ui/components/TextPressure"
+import Warning from "@/components/Warning"
+import { useState, useEffect, use } from "react"
 
 export default function Page() {
+  const [warning, showWarning] = useState(false)
+  const triggerWarning = () => {
+    showWarning(true)
+  };
+  useEffect(() => {
+    showWarning(true)
+  }, [])
   return (
+    <>
+    {warning && (
+      <Warning warnMessage="" closeNoti={() => showWarning(false)} />
+    )}
     <div className="flex flex-col items-center justify-center flex-1 min-h-svh">
       {/* <CurvedLoop marqueeText="Be ✦ Creative ✦ With ✦ React ✦ Bits ✦" /> */}
 
@@ -19,5 +32,6 @@ export default function Page() {
           
       </div>
     </div>
+    </>
   )
 }

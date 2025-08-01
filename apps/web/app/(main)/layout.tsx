@@ -39,6 +39,7 @@ export default function RootLayout({
       >
         <Providers>{children}</Providers>
         <ChatToggler uUID={uuidv4()}/>
+
       </body>
     </html>
   )
