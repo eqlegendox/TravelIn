@@ -30,7 +30,6 @@ export default function ChatPane({bottomRef, uUID}) {
         const postResult = await postData(currentIdV4,temp);
 
         if (!currentIdV4) {
-            console.log("Creating new chat1")
             instantiateNewChat()
         }
         if (postResult.idMessage) { // True if exist returned message
@@ -54,15 +53,14 @@ export default function ChatPane({bottomRef, uUID}) {
             setIsResponded(false)
             const postResult = await fetchLlmResponse(currentIdV4, temp);
             setIsResponded(true)
+            loadMessages()
         }
     }
 
     const instantiateNewChat = async () => {
         const iNC = async () => {
             if (currentIdV4) {
-                console.log("Creating new chat2")
                 const tempNewChat = createNewChat(currentIdV4)
-                console.log("Creating new chat3")
             }
         }
 
@@ -72,7 +70,6 @@ export default function ChatPane({bottomRef, uUID}) {
     useEffect(() => {
         const t = async () => {
             await handleRespond()
-            loadMessages()
         }
         t()
     }, [lastUserMessage]);
