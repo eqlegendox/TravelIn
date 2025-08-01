@@ -63,9 +63,9 @@ export default function ChatPane({bottomRef, uUID}) {
         const fetchResult = await fetchData(currentIdV4);
         if (fetchResult.error === 666) {
             fetchError()
+            return
         }
         setMessages(fetchResult.messages)
-        console.log(fetchResult)
         return fetchResult
     }
 
@@ -86,7 +86,7 @@ export default function ChatPane({bottomRef, uUID}) {
                 const tempNewChat = await createNewChat(currentIdV4)
             }
         }
-        {await loadMessages()? await iNC() : null}
+        {await loadMessages()? null : await iNC()}
         loadMessages()
     }
 

@@ -22,7 +22,7 @@ export class ChatsController {
         return this.chatService.findAll()
     }
 
-    @Throttle({ short: { ttl: 1000, limit: 5}})
+    @Throttle({ short: { ttl: 1000, limit: 50}})
     @Get('/c/:id')
     findOne(@Param('id', ParseUUIDPipe) idChat: string) {
         return this.chatService.findOne(idChat)

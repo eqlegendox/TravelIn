@@ -5,8 +5,7 @@ async function fetchData(idChat: string) {
         });
 
         if (!response.ok) {
-            console.error("Failed to fetch:", response.statusText);
-            return [];
+            return false;
         }
         return response.json();
     }
@@ -17,41 +16,57 @@ async function fetchData(idChat: string) {
 }
 
 async function postData(idChat: string, newMessage: { "userMessage" : string }) {
-    const response = await fetch(`http://localhost:8000/chats/c/${idChat}`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newMessage)
-    });
-    
+    try {
+        const response = await fetch(`http://localhost:8000/chats/c/${idChat}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newMessage)
+        });
+
+        
     return response.json();
+    }
+    catch (error) {
+        return {error : 666}
+    }
 }
 
 async function fetchLlmResponse(idChat: string, userMessage : { "userMessage" : string}) {
-    const response = await fetch(`http://localhost:8000/chats/c/${idChat}/r`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userMessage)
-    });
-    
-    return response.json();
+    try {
+        const response = await fetch(`http://localhost:8000/chats/c/${idChat}/r`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(userMessage)
+        });
+        
+        return response.json();
+    }
+    catch (error) {
+        return {error : 666}
+    }
 }
 
 async function createNewChat(idChat : string) {
-    console.log(idChat, " aaa")
-    const tempIdChat = {"uuid" : idChat}
-    const response = await fetch('http://localhost:8000/chats/', {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(tempIdChat)
-    })
+    try {
+        console.log("Generated uuid: ", idChat)
+        const tempIdChat = {"uuid" : idChat}
+        const response = await fetch('http://localhost:8000/chats/', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(tempIdChat)
+        })
 
-    return response.json()
+        return response.json()
+    }
+    catch (error) {
+        return {error : 666}
+    }
 }
 
 export {fetchData, postData, fetchLlmResponse, createNewChat}
