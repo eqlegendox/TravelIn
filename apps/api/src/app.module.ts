@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { LlmModule } from './llm/llm.module';
 import { ConfigModule } from '@nestjs/config';
 import { ChatsModule } from './chats/chats.module';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -11,9 +13,17 @@ import { ChatsModule } from './chats/chats.module';
     LlmModule,
     ConfigModule.forRoot({
       isGlobal: true,
-    })
+    }),
+    ThrottlerModule.forRoot([{
+      name: 'short',
+      ttl: 1000,
+      limit: 100,
+    }])
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, {
+    provide: APP_GUARD,
+    useClass: ThrottlerGuard,
+  }],
 })
 export class AppModule {}

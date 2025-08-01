@@ -1,8 +1,7 @@
 async function fetchData(idChat: string) {
-    const response = await fetch(`http://localhost:8000/chats/${idChat}`, {
+    const response = await fetch(`http://localhost:8000/chats/c/${idChat}`, {
         method:"GET",
     });
-    console.log("Fetching data...")
 
     if (!response.ok) {
         console.error("Failed to fetch:", response.statusText);
@@ -12,7 +11,7 @@ async function fetchData(idChat: string) {
 }
 
 async function postData(idChat: string, newMessage: { "userMessage" : string }) {
-    const response = await fetch(`http://localhost:8000/chats/${idChat}`, {
+    const response = await fetch(`http://localhost:8000/chats/c/${idChat}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -24,7 +23,7 @@ async function postData(idChat: string, newMessage: { "userMessage" : string }) 
 }
 
 async function fetchLlmResponse(idChat: string, userMessage : { "userMessage" : string}) {
-    const response = await fetch(`http://localhost:8000/chats/${idChat}/r`, {
+    const response = await fetch(`http://localhost:8000/chats/c/${idChat}/r`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
