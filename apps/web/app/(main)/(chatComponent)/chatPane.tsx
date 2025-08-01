@@ -8,6 +8,8 @@ import { Loading } from "@/components/RespondLoading";
 import Loaiding from "@/components/Loaiding"
 import { v4 as uuidv4 } from "uuid";
 import { div } from "framer-motion/client";
+import Warning from "@/components/Warning";
+import { string } from "zod";
 
 export default function ChatPane({bottomRef, uUID}) {
     bottomRef = useRef(null)
@@ -24,20 +26,20 @@ export default function ChatPane({bottomRef, uUID}) {
     const [lastUserMessage, setLastUserMessage] = useState("")
     const [isResponded, setIsResponded] = useState(true)
     const [currentIdV4, setCurrentIdV4] = useState(uUID)
+    const [isWarned, setIsWarned] = useState(false)
+    const [warningMessage, setWarningMessage] = useState("")
 
     const handlePost = async () => {
-        // if (!currentIdV4) {
-        //     instantiateNewChat()
-        // }
-
+        const handlePostError = async () => {
+            setWarningMessage("Please wait before sending a message again")
+            setIsWarned(true)
+        }
         if (!isResponded) {
+            handlePostError()
             return
         }
-
         const temp = { "userMessage" : userMessage};
         const postResult = await postData(currentIdV4,temp);
-        
-
         if (postResult.idMessage) { // True if exist returned message
             console.log("Result: ", postResult) // !!!!!!!!!!!!!!! REMEMBER TO DELETE BEFORE LAUNCH !!!!!!!!!!!!!!!!!!!!
             setLastUserMessage(userMessage)
@@ -54,7 +56,14 @@ export default function ChatPane({bottomRef, uUID}) {
     }
 
     const loadMessages = async () => {
+        const fetchError = async () => {
+            setWarningMessage("Connection error, please try reloading the page again")
+            setIsWarned(true)
+        }
         const fetchResult = await fetchData(currentIdV4);
+        if (fetchResult.error === 666) {
+            fetchError()
+        }
         setMessages(fetchResult.messages)
         console.log(fetchResult)
         return fetchResult
@@ -66,6 +75,7 @@ export default function ChatPane({bottomRef, uUID}) {
             setIsResponded(false)
             const postResult = await fetchLlmResponse(currentIdV4, temp);
             setIsResponded(true)
+            setLastUserMessage("")
             loadMessages()
         }
     }
@@ -82,10 +92,18 @@ export default function ChatPane({bottomRef, uUID}) {
 
     useEffect(() => {
         const t = async () => {
-            await handleRespond()
+            if (lastUserMessage !== ""){
+                await handleRespond()
+            }
         }
         t()
     }, [lastUserMessage]);
+
+    useEffect(() => {
+        if (!isWarned){
+            setWarningMessage("")
+        }
+    }, [isWarned]);
     
     useEffect(() => {
         loadMessages()
@@ -94,6 +112,7 @@ export default function ChatPane({bottomRef, uUID}) {
     
     return (
         <>
+        { isWarned? (<Warning warnMessage={warningMessage} closeNoti={() => setIsWarned(false)} />) : null }
         <div className="flex flex-col h-full p-1 bg-background rounded-lg inset-shadow-md">
             {/* Chat */}
             <div className="flex-grow p-2 w-full overflow-y-auto bg-secondary rounded-md inset-shadow-md/100">

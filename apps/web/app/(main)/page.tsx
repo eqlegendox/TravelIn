@@ -16,9 +16,9 @@ export default function Page() {
   }, [])
   return (
     <>
-    {warning && (
-      <Warning warnMessage="" closeNoti={() => showWarning(false)} />
-    )}
+    {/* {warning && (
+      <Warning warnMessage="Test" closeNoti={() => showWarning(false)} />
+    )} */}
     <div className="flex flex-col items-center justify-center flex-1 min-h-svh">
       {/* <CurvedLoop marqueeText="Be ✦ Creative ✦ With ✦ React ✦ Bits ✦" /> */}
 

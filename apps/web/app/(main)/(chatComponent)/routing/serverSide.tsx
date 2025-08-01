@@ -1,13 +1,19 @@
 async function fetchData(idChat: string) {
-    const response = await fetch(`http://localhost:8000/chats/c/${idChat}`, {
-        method:"GET",
-    });
+    try {
+        const response = await fetch(`http://localhost:8000/chats/c/${idChat}`, {
+            method:"GET",
+        });
 
-    if (!response.ok) {
-        console.error("Failed to fetch:", response.statusText);
-        return [];
+        if (!response.ok) {
+            console.error("Failed to fetch:", response.statusText);
+            return [];
+        }
+        return response.json();
     }
-    return response.json();
+    catch (error) {
+        console.error("Error Catch: ", error)
+        return {error : 666}
+    }
 }
 
 async function postData(idChat: string, newMessage: { "userMessage" : string }) {
