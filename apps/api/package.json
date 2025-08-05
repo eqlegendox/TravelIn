@@ -20,7 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@repo/db": "workspace:*",
+    "@workspace/db": "workspace:*",
     "@dotenvx/dotenvx": "^1.48.4",
     "@google/genai": "^1.11.0",
     "@langchain/community": "^0.3.49",
