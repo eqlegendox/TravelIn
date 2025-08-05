@@ -14,25 +14,51 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model UserDetail {
+  id        String    @unique
+  email     String    @unique
+  password  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  rootUser User @relation(fields: [id], references: [id])
+}
+
 model User {
-  id        String    @id     @default(uuid())
-  name String
+  id String @id @default(uuid())
+  isTemporary Boolean @default(true)
+
+  haveChat Chat[]
+  childUser UserDetail?
 }
 
 model Chat {
   id String @id @default(uuid())
-  uC UserChats @relation(fields: [uC_id], references: [id])
-  uC_id String @unique
-  tuC TempUserChats @relation(fields: [tuC_id], references: [id])
-  tuC_id String @unique
+  userId String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  belongsTo User @relation(fields: [userId], references: [id])
+  ChatMessages ChatMessages[]
 }
 
-model UserChats {
-  id String @id @default(uuid())
-  chat Chat?
+
+model ChatMessages {
+  id Int @id @default(autoincrement())
+  chatId String
+  messageRoleId Int
+  message String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  childMessage Chat @relation(fields: [chatId], references: [id])
 }
 
-model TempUserChats {
-  id String @id @default(uuid())
-  chat Chat?
+enum MessageRole {
+  HUMAN
+  AI
+  TOOL
+  SYSTEM
 }
