@@ -72,6 +72,9 @@ importers:
       '@nestjs/typeorm':
         specifier: ^11.0.0
         version: 11.0.0(@nestjs/common@11.1.5(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@11.1.5)(reflect-metadata@0.2.2)(rxjs@7.8.1)(typeorm@0.3.25(pg@8.16.3)(reflect-metadata@0.2.2)(ts-node@10.9.2(@swc/core@1.13.2)(@types/node@22.16.5)(typescript@5.7.3)))
+      '@workspace/db':
+        specifier: workspace:*
+        version: link:../../packages/database
       class-transformer:
         specifier: ^0.5.1
         version: 0.5.1
@@ -187,6 +190,9 @@ importers:
       '@svgr/webpack':
         specifier: ^8.1.0
         version: 8.1.0(typescript@5.7.3)
+      '@workspace/db':
+        specifier: workspace:*
+        version: link:../../packages/database
       '@workspace/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -12602,8 +12608,6 @@ snapshots:
   kuler@2.0.0: {}
 
   langchain@0.3.30(@langchain/core@0.3.66(openai@5.10.2(ws@8.18.3)(zod@3.25.76)))(axios@1.11.0)(handlebars@4.7.8)(openai@5.10.2(ws@8.18.3)(zod@3.25.76))(typeorm@0.3.25(pg@8.16.3)(reflect-metadata@0.2.2)(ts-node@10.9.2(@swc/core@1.13.2)(@types/node@22.16.5)(typescript@5.7.3)))(ws@8.18.3):
-
-
     dependencies:
       '@langchain/core': 0.3.66(openai@5.10.2(ws@8.18.3)(zod@3.25.76))
       '@langchain/openai': 0.6.3(@langchain/core@0.3.66(openai@5.10.2(ws@8.18.3)(zod@3.25.76)))(ws@8.18.3)
