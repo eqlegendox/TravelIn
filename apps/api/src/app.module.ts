@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ChatsModule } from './chats/chats.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { MyLoggerModule } from './my-logger/my-logger.module';
 
 @Module({
   imports: [
@@ -18,7 +19,8 @@ import { APP_GUARD } from '@nestjs/core';
       name: 'short',
       ttl: 10000,
       limit: 100,
-    }])
+    }]),
+    MyLoggerModule
   ],
   controllers: [AppController],
   providers: [AppService, {

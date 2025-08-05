@@ -3,6 +3,7 @@ import { ChatsService } from './chats.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { CreateUuidDto } from './dto/create-uuid.dto';
 import { Throttle } from '@nestjs/throttler';
+import { MyLoggerService } from 'src/my-logger/my-logger.service';
 
 @Controller('chats')
 export class ChatsController {
@@ -16,15 +17,16 @@ export class ChatsController {
     */
 
     constructor(private readonly chatService: ChatsService) {}
-
+    private readonly logger = new MyLoggerService(ChatsController.name)
     @Get()
     findAll() {
         return this.chatService.findAll()
     }
 
-    @Throttle({ short: { ttl: 1000, limit: 50}})
+    @Throttle({ short: { ttl: 1000, limit: 25}})
     @Get('/c/:id')
     findOne(@Param('id', ParseUUIDPipe) idChat: string) {
+        // this.logger.log(`Requested to view chat with id ${idChat}`);
         return this.chatService.findOne(idChat)
     }
 
@@ -40,7 +42,7 @@ export class ChatsController {
     }
 
     @Post('/c/:id/r')
-    createRespondessage(@Param('id', ParseUUIDPipe) idChat: string, @Body(ValidationPipe) createMessageDto: CreateMessageDto) {
+    createRespondMessage(@Param('id', ParseUUIDPipe) idChat: string, @Body(ValidationPipe) createMessageDto: CreateMessageDto) {
         const res = this.chatService.createRespondMessage(idChat, createMessageDto)
         return res
     }
