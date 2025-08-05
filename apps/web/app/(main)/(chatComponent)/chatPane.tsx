@@ -23,11 +23,11 @@ export default function ChatPane({bottomRef, uUID}) {
 
     const [messages, setMessages] = useState(null);
     const [userMessage, setUserMessage] = useState("");
-    const [lastUserMessage, setLastUserMessage] = useState("")
-    const [isResponded, setIsResponded] = useState(true)
-    const [currentIdV4, setCurrentIdV4] = useState(uUID)
-    const [isWarned, setIsWarned] = useState(false)
-    const [warningMessage, setWarningMessage] = useState("")
+    const [lastUserMessage, setLastUserMessage] = useState("");
+    const [isResponded, setIsResponded] = useState(true);
+    const [currentIdV4, setCurrentIdV4] = useState(uUID);
+    const [isWarned, setIsWarned] = useState(false);
+    const [warningMessage, setWarningMessage] = useState("");
 
     const handlePost = async () => {
         const handlePostError = async () => {
