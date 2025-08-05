@@ -12,7 +12,7 @@ import Warning from "@/components/Warning";
 import { string } from "zod";
 
 export default function ChatPane({bottomRef, uUID}) {
-    bottomRef = useRef(null)
+    // bottomRef = useRef(null)
     useEffect(() => {
         bottomRef.current?.scrollIntoView({
             behavior: "smooth",
