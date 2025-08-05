@@ -21,7 +21,7 @@ model UserDetail {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
-  rootUser User @relation(fields: [id], references: [id])
+  rootUser User @relation(fields: [id], references: [id], onDelete: Cascade)
 }
 
 model User {
@@ -39,7 +39,7 @@ model Chat {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
-  belongsTo User @relation(fields: [userId], references: [id])
+  belongsTo User @relation(fields: [userId], references: [id], onDelete: Cascade)
   ChatMessages ChatMessages[]
 }
 
@@ -53,7 +53,7 @@ model ChatMessages {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
-  childMessage Chat @relation(fields: [chatId], references: [id])
+  childMessage Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
 }
 
 enum MessageRole {
