@@ -50,7 +50,6 @@ export class LlmService {
     ) {
         this.API_KEY = this.configService.get<string>("GEMINI_API_KEY")
         this.model = new GoogleGenAI({apiKey: this.API_KEY});
-        
     }
     
 
