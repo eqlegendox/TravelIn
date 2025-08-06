@@ -1,37 +1,70 @@
-import { PrismaClient } from "../generated/prisma";
-import { withAccelerate } from "@prisma/extension-accelerate";
+import { PrismaClient } from '../generated/prisma'
+import { withAccelerate } from '@prisma/extension-accelerate'
 
+const prisma = new PrismaClient()
 
-const test = new PrismaClient()
+async function createUser() {
+  const newUser = await prisma.user.create({ data: {}})
+  console.log("Created user: ", newUser)
+  return newUser.id
+}
 
-async function create() {
-  // const test1 = await test.chat.create({data: {}})
-  // console.log("Created1: ", test1)
-  // const test2 = await test.tempUserChats.create({
-  //   data: {
-  //     chat_id: "99e34a44-6905-4bad-89f8-2bac9bba1182"
-  //   }
-  // })
-  // console.log("Created2: ", test2)
+async function createChat(id: string) {
+  const newChat = await prisma.chat.create({
+    data: {
+      userId: id, //insert uuid
+    }
+  })
+
+  console.log("Created chat: ", newChat)
+  return newChat.id
+}
+
+async function createUserDetail(id: string) {
+  const newUserDetail = await prisma.userDetail.create({
+    data: {
+      id: id,
+      email: "test@gmail.com",
+      password: "123"
+    }
+  })
+  console.log(newUserDetail)
+}
+
+async function createChatMessage(id: string) {
+  const newChatMessage = await prisma.chatMessages.create({
+    data: {
+      chatId: id,
+      message: "a",
+      messageRoleId: 1
+    }
+  })
+  console.log(newChatMessage)
+}
+async function deleteTable(id: string) {
+  const deleted = await prisma.user.delete({
+    where: {
+      id: id
+    }
+  })
+  console.log("Deleted: ", deleted)
 }
 
 async function main() {
-  
-  const b = await test.userChats.deleteMany()
-  const c = await test.tempUserChats.deleteMany()
-  const a = await test.chat.deleteMany()
-
-  const user1 = await test.userChats.findMany()
-  const user2 = await test.tempUserChats.findMany()
-  const user3 = await test.userChats.findMany()
-  console.log(user1, "a\n", user2, "b\n", user3)
+  // const id = await createUser()
+  // const chatId = await createChat(id)
+  // await createUserDetail(id)
+  // await createChatMessage(chatId)
+  await deleteTable("c7d83350-bb37-4b14-85f4-c9fae88c9eaa")
+  const user = await prisma.user.findMany()
+  console.log("List: ", user)
 }
 
-create()
+
 main()
   .catch( e => {
     console.error(e.message)
   })
   .finally( async() => {
-    await test.$disconnect()
+    await prisma.$disconnect()
   })

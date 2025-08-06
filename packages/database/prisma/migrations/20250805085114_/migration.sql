@@ -1,27 +1,5 @@
-/*
-  Warnings:
-
-  - You are about to drop the column `email` on the `User` table. All the data in the column will be lost.
-  - You are about to drop the column `name` on the `User` table. All the data in the column will be lost.
-  - You are about to drop the `Post` table. If the table is not empty, all the data it contains will be lost.
-
-*/
 -- CreateEnum
 CREATE TYPE "public"."MessageRole" AS ENUM ('HUMAN', 'AI', 'TOOL', 'SYSTEM');
-
--- DropForeignKey
-ALTER TABLE "public"."Post" DROP CONSTRAINT "Post_authorId_fkey";
-
--- DropIndex
-DROP INDEX "public"."User_email_key";
-
--- AlterTable
-ALTER TABLE "public"."User" DROP COLUMN "email",
-DROP COLUMN "name",
-ADD COLUMN     "isTemporary" BOOLEAN NOT NULL DEFAULT true;
-
--- DropTable
-DROP TABLE "public"."Post";
 
 -- CreateTable
 CREATE TABLE "public"."UserDetail" (
@@ -30,6 +8,14 @@ CREATE TABLE "public"."UserDetail" (
     "password" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "public"."User" (
+    "id" TEXT NOT NULL,
+    "isTemporary" BOOLEAN NOT NULL DEFAULT true,
+
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
