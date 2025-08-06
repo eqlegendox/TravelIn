@@ -7,17 +7,11 @@ import { MyLoggerService } from 'src/my-logger/my-logger.service';
 
 @Controller('chats')
 export class ChatsController {
-    /*
-    GET /chats | 
-    GET /chats/:id | 
-    POST /chats | This will create a new chat
-    POST /chats/:id | This will create some messages?
-    PATCH /chats/:id | edit messages | TBE
-    DELETE /chats/:id | delete specific chat
-    */
-
-    constructor(private readonly chatService: ChatsService) {}
+    constructor(
+        private readonly chatService: ChatsService
+    ) {}
     private readonly logger = new MyLoggerService(ChatsController.name)
+    
     @Get()
     findAll() {
         return this.chatService.findAll()

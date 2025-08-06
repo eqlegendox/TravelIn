@@ -1,5 +1,7 @@
 import { Chat } from '@google/genai';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { PrismaChatService } from 'src/prisma-chat/prisma-chat.service';
+import { Prisma, Chat as PrismaChatModel} from 'database/generated/prisma';
 import e from 'express';
 import { c } from 'framer-motion/dist/types.d-Bq-Qm38R';
 import { stringify } from 'querystring';
@@ -29,7 +31,20 @@ type ChatLists = {
 
 @Injectable()
 export class ChatsService {
+    async initPrismaChats() {
+        this.prismaChats = await this.prismaChatService.chats()
+    }
+    
+    private prismaChats: PrismaChatModel[];
     private chats : ChatLists = []
+    constructor(
+        private readonly prismaChatService: PrismaChatService
+    ) {
+        this.initPrismaChats()
+    }
+
+    
+    
     
     findAll() {
         if (this.chats.length === 0) {
