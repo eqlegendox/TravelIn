@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ChatsService } from './chats.service';
+import { PrismaClient } from "@workspace/db/generated/prisma"
 
 describe('ChatsService', () => {
   let service: ChatsService;
