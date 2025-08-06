@@ -55,8 +55,10 @@ async function main() {
   // const chatId = await createChat(id)
   // await createUserDetail(id)
   // await createChatMessage(chatId)
-  await deleteTable("c7d83350-bb37-4b14-85f4-c9fae88c9eaa")
-  const user = await prisma.user.findMany()
+  // await deleteTable("c7d83350-bb37-4b14-85f4-c9fae88c9eaa")
+  const user = await prisma.user.findFirst({where: {
+    id: "fe5ee8cc-84f7-4903-927b-4208ee9a6459"
+  }})
   console.log("List: ", user)
 }
 
