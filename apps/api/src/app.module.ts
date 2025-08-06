@@ -7,6 +7,10 @@ import { ChatsModule } from './chats/chats.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { MyLoggerModule } from './my-logger/my-logger.module';
+import { PrismaService } from './prisma/prisma.service';
+import { PrismaChatService } from './prisma-chat/prisma-chat.service';
+import { PrismaChatModule } from './prisma-chat/prisma-chat.module';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
   imports: [
@@ -21,11 +25,13 @@ import { MyLoggerModule } from './my-logger/my-logger.module';
       limit: 100,
     }]),
     MyLoggerModule,
+    PrismaChatModule,
+    PrismaModule,
   ],
   controllers: [AppController],
   providers: [AppService, {
     provide: APP_GUARD,
     useClass: ThrottlerGuard,
-  }],
+  }, PrismaService, PrismaChatService],
 })
 export class AppModule {}
