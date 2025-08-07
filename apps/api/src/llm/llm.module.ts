@@ -5,6 +5,7 @@ import { LlmService } from './llm.service';
 // console.log(process.env.GEMINI_API_KEY);
 @Module({
     controllers: [LlmController],
-    providers: [LlmService]
+    providers: [LlmService],
+    exports: [LlmService]
 })
 export class LlmModule {}

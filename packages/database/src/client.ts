@@ -1,5 +1,4 @@
 import { PrismaClient } from '../generated/prisma'
-import { withAccelerate } from '@prisma/extension-accelerate'
 
 const prisma = new PrismaClient()
 
@@ -24,6 +23,7 @@ async function createUserDetail(id: string) {
   const newUserDetail = await prisma.userDetail.create({
     data: {
       id: id,
+      userName: "arsd",
       email: "test@gmail.com",
       password: "123"
     }
@@ -62,7 +62,19 @@ async function main() {
   console.log("List: ", user)
 }
 
-
+async function createRoles(role: string) {
+    const newRoles = await prisma.messageRole.create({
+        data: {
+            role: role
+        },
+    })
+    console.log(newRoles)
+}
+createUser()
+createRoles("system")
+createRoles("human")
+createRoles("ai")
+createRoles("tool")
 main()
   .catch( e => {
     console.error(e.message)

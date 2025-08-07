@@ -3,13 +3,9 @@
 import { Button } from "@workspace/ui/components/button"
 import { MoveRight } from "lucide-react"
 import { useState, useEffect, useRef } from 'react';
-import { fetchData, postData, fetchLlmResponse, createNewChat } from "./routing/serverSide";
-import { Loading } from "@/components/RespondLoading";
+import { fetchMessage, postMessage, fetchLlmResponse, createNewChat, fetchUserId, fetchChat } from "./routing/serverSide";
 import Loaiding from "@/components/Loaiding"
-import { v4 as uuidv4 } from "uuid";
-import { div } from "framer-motion/client";
 import Warning from "@/components/Warning";
-import { string } from "zod";
 
 export default function ChatPane({bottomRef, uUID}) {
     // bottomRef = useRef(null)
@@ -25,69 +21,73 @@ export default function ChatPane({bottomRef, uUID}) {
     const [userMessage, setUserMessage] = useState("");
     const [lastUserMessage, setLastUserMessage] = useState("");
     const [isResponded, setIsResponded] = useState(true);
-    const [currentIdV4, setCurrentIdV4] = useState(uUID);
+    const [currentChatId, setCurrentChatId] = useState("");
     const [isWarned, setIsWarned] = useState(false);
     const [warningMessage, setWarningMessage] = useState("");
+    const [currentUserId, setCurrentUserId] = useState(""); 
+
+    const handlePostError = async () => {
+        setWarningMessage("Please wait before sending a message again")
+        setIsWarned(true)
+    }
+
+    const fetchError = async () => {
+        setWarningMessage("Connection error, please try reloading the page again")
+        setIsWarned(true)
+    }
+
 
     const handlePost = async () => {
-        const handlePostError = async () => {
-            setWarningMessage("Please wait before sending a message again")
-            setIsWarned(true)
-        }
+        console.log("Posting...")
         if (!isResponded) {
-            handlePostError()
+            handlePostError();
             return
         }
-        const temp = { "userMessage" : userMessage};
-        const postResult = await postData(currentIdV4,temp);
-        if (postResult.idMessage) { // True if exist returned message
-            console.log("Result: ", postResult) // !!!!!!!!!!!!!!! REMEMBER TO DELETE BEFORE LAUNCH !!!!!!!!!!!!!!!!!!!!
-            setLastUserMessage(userMessage)
-            setUserMessage("")
-            loadMessages()
+        const postResult = await postMessage(currentChatId,{ "userMessage" : userMessage});
+        if (postResult.id) { // True if exist returned message
+            console.log("Result: ", postResult); // !!!!!!!!!!!!!!! REMEMBER TO DELETE BEFORE LAUNCH !!!!!!!!!!!!!!!!!!!!
+            setLastUserMessage(userMessage); setUserMessage(""); loadMessages();
         }
     }
 
     const inputKeyUp = (e) => {
         e.which = e.which || e.keyCode;
-        if (e.which === 13) {
+        if (e.which === 13) { // "Enter" key?
             handlePost()
         }
     }
 
     const loadMessages = async () => {
-        const fetchError = async () => {
-            setWarningMessage("Connection error, please try reloading the page again")
-            setIsWarned(true)
+        if (currentChatId !== "") {
+            const fetchResult = await fetchMessage(currentChatId);
+            {fetchResult.error? fetchError() : setMessages(fetchResult)}
+            console.log("Fetched: ", fetchResult)
+            return fetchResult
         }
-        const fetchResult = await fetchData(currentIdV4);
-        if (fetchResult.error === 666) {
-            fetchError()
-            return
-        }
-        setMessages(fetchResult.messages)
-        return fetchResult
     }
 
     const handleRespond = async () => {
         if (isResponded) {
-            const temp = { "userMessage" : lastUserMessage};
             setIsResponded(false)
-            const postResult = await fetchLlmResponse(currentIdV4, temp);
-            setIsResponded(true)
-            setLastUserMessage("")
-            loadMessages()
+            const postResult = await fetchLlmResponse(currentChatId, { "userMessage" : lastUserMessage});
+            setIsResponded(true); setLastUserMessage(""); loadMessages();
         }
     }
 
     const instantiateNewChat = async () => {
-        const iNC = async () => {
-            if (currentIdV4) {
-                const tempNewChat = await createNewChat(currentIdV4)
-            }
+        const handleNewChat = async () => {
+            const newChat = await createNewChat(currentUserId)
+            setCurrentChatId(newChat.id)
         }
-        {await loadMessages()? null : await iNC()}
-        loadMessages()
+        if (currentUserId !== ""){
+            const response = await fetchChat(currentUserId)
+            {response.response? await handleNewChat() : setCurrentChatId(response[0].id)}
+        }
+    }
+
+    const getUserId = async() => {
+        const response = await fetchUserId();
+        response.error? null : setCurrentUserId(response.id);
     }
 
     useEffect(() => {
@@ -104,11 +104,18 @@ export default function ChatPane({bottomRef, uUID}) {
             setWarningMessage("")
         }
     }, [isWarned]);
+
+    useEffect(() => {
+        getUserId()
+    }, []); 
     
     useEffect(() => {
-        loadMessages()
         instantiateNewChat()
-    }, []);
+    }, [currentUserId]); 
+
+    useEffect(() => {
+        loadMessages()
+    }, [currentChatId]); 
     
     return (
         <>
@@ -118,15 +125,15 @@ export default function ChatPane({bottomRef, uUID}) {
             <div className="flex-grow p-2 w-full overflow-y-auto bg-secondary rounded-md inset-shadow-md/100">
                 <div className="flex py-1 flex-col gap-2 text-sm md:text-md drop-shadow-sm">
                     {/* <Loaiding /> */}
-                    { Array.isArray(messages) ? messages.map((i, t) => {
-                        if (i.userMessage) {
+                    { Array.isArray(messages) ? messages.map((i) => {
+                        if (i.messageRoleId === 2) {
                             return (
-                                <div className="px-2 py-1.5 bg-background rounded-sm max-w-72/100 break-words place-self-end">{i.userMessage}</div>
+                                <div className="px-2 py-1.5 bg-background rounded-sm max-w-72/100 break-words place-self-end">{i.message}</div>
                             )
                         }
-                        if (i.aiMessage) {
+                        if (i.messageRoleId === 3) {
                             return (
-                                <div className="px-2 py-1.5 bg-primary text-background rounded-sm max-w-72/100 break-words place-self-start">{i.aiMessage}</div>
+                                <div className="px-2 py-1.5 bg-primary text-background rounded-sm max-w-72/100 break-words place-self-start">{i.message}</div>
                             )
                         }
                     }
