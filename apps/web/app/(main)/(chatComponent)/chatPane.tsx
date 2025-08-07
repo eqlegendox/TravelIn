@@ -8,15 +8,14 @@ import Loaiding from "@/components/Loaiding"
 import Warning from "@/components/Warning";
 import reducer from "./messageHandler";
 
-export default function ChatPane({bottomRef, uUID}) {
-    const currentIdV4 = uUID;
+export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
     const initialState = {
         messages: [],
         userMessage: "",
         lastUserMessage: "",
         isResponded: true,
-        currentChatId: "",
-        currentUserId: "",
+        currentChatId: CurrentChatId,
+        currentUserId: CurrentUserId,
     }
 
     
@@ -118,10 +117,6 @@ export default function ChatPane({bottomRef, uUID}) {
     }, []); 
     
     useEffect(() => {
-        instantiateNewChat()
-    }, [state.currentUserId]); 
-
-    useEffect(() => {
         loadMessages()
     }, [state.currentChatId]); 
     
@@ -133,7 +128,7 @@ export default function ChatPane({bottomRef, uUID}) {
             <div className="flex-grow p-2 w-full overflow-y-auto bg-secondary rounded-md inset-shadow-md/100">
                 <div className="flex py-1 flex-col gap-2 text-sm md:text-md drop-shadow-sm">
                     {/* <Loaiding /> */}
-                    { Array.isArray(state.messages) ? state.messages.map((i) => {
+                    { state.messages.length !== 0 ? state.messages.map((i) => {
                         if (i.messageRoleId === 2) {
                             return (
                                 <div className="px-2 py-1.5 bg-background rounded-sm max-w-72/100 break-words place-self-end">{i.message}</div>

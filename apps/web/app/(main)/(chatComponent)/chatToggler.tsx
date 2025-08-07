@@ -10,7 +10,7 @@ import { set } from "zod"
 import { div } from "framer-motion/client"
 // import {Dimensions}
 
-export default function ToggleChat({uUID}) {
+export default function ToggleChat({currentUserId, currentChatId}) {
     const [show, setShow] = useState(true)
     const [xpand, setXpand] = useState(false)
 
@@ -49,7 +49,7 @@ export default function ToggleChat({uUID}) {
                             <Minus className=" bg-background rounded-full p-1 m-1 w-5 h-5 hover:bg-red" onClick= {toggleShow} />
                         </div>
                         <div className="pt-12 h-full flex-1 border-1 rounded-lg">
-                            <ChatPane bottomRef={messagesEndRef} uUID={uUID}/>
+                            <ChatPane bottomRef={messagesEndRef} CurrentChatId={currentChatId} CurrentUserId={currentUserId}/>
                         </div>
                     </motion.div>
                 </AnimatePresence>
@@ -74,7 +74,7 @@ export default function ToggleChat({uUID}) {
                         <Minus className=" right-1 bg-background rounded-full p-1 m-1 w-5 h-5 hover:bg-red" onClick= {toggleShow} />
                     </div>
                     <div className="flex-1 max-h-full min-h-full h-auto border-1 rounded-lg rounded-tr-none">
-                        <ChatPane bottomRef={messagesEndRef} uUID={uUID}/>
+                        <ChatPane bottomRef={messagesEndRef} CurrentChatId={currentChatId} CurrentUserId={currentUserId}/>
                     </div>
                 </motion.div>
             </AnimatePresence>
