@@ -27,6 +27,9 @@ model UserDetail {
 model User {
   id          String  @id @default(uuid())
   isTemporary Boolean @default(true)
+  
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 
   haveChat    Chat[]
   userDetail  UserDetail?

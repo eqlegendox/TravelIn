@@ -2,7 +2,7 @@
 
 import { Button } from "@workspace/ui/components/button"
 import { MoveRight } from "lucide-react"
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useReducer } from 'react';
 import { fetchData, postData, fetchLlmResponse, createNewChat } from "./routing/serverSide";
 import { Loading } from "@/components/RespondLoading";
 import Loaiding from "@/components/Loaiding"
@@ -10,8 +10,11 @@ import { v4 as uuidv4 } from "uuid";
 import { div } from "framer-motion/client";
 import Warning from "@/components/Warning";
 import { string } from "zod";
+// import reducer from "./messageHandler";
 
 export default function ChatPane({bottomRef, uUID}) {
+    const currentIdV4 = uUID;
+    
     // bottomRef = useRef(null)
     useEffect(() => {
         bottomRef.current?.scrollIntoView({
@@ -21,11 +24,12 @@ export default function ChatPane({bottomRef, uUID}) {
         })
     })
 
+    // const [state, dispatch] = useReducer(reducer, )
+
     const [messages, setMessages] = useState(null);
     const [userMessage, setUserMessage] = useState("");
     const [lastUserMessage, setLastUserMessage] = useState("");
     const [isResponded, setIsResponded] = useState(true);
-    const [currentIdV4, setCurrentIdV4] = useState(uUID);
     const [isWarned, setIsWarned] = useState(false);
     const [warningMessage, setWarningMessage] = useState("");
 
@@ -45,6 +49,7 @@ export default function ChatPane({bottomRef, uUID}) {
             setLastUserMessage(userMessage)
             setUserMessage("")
             loadMessages()
+            // nanti jadi dispatch({type: 'POSTHANDLE', payload})
         }
     }
 
