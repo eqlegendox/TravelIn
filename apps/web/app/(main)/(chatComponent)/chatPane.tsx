@@ -81,7 +81,7 @@ export default function ChatPane({bottomRef, uUID}) {
         }
         if (currentUserId !== ""){
             const response = await fetchChat(currentUserId)
-            {response.response? await handleNewChat() : setCurrentChatId(response[0].id)}
+            {response.response? await handleNewChat() : handleNewChat()}
         }
     }
 
@@ -125,7 +125,7 @@ export default function ChatPane({bottomRef, uUID}) {
             <div className="flex-grow p-2 w-full overflow-y-auto bg-secondary rounded-md inset-shadow-md/100">
                 <div className="flex py-1 flex-col gap-2 text-sm md:text-md drop-shadow-sm">
                     {/* <Loaiding /> */}
-                    { Array.isArray(messages) ? messages.map((i) => {
+                    { messages.length !== 0 ? messages.map((i) => {
                         if (i.messageRoleId === 2) {
                             return (
                                 <div className="px-2 py-1.5 bg-background rounded-sm max-w-72/100 break-words place-self-end">{i.message}</div>
