@@ -2,12 +2,16 @@
 
 import { Button } from "@workspace/ui/components/button"
 import { MoveRight } from "lucide-react"
-import { useState, useEffect, useRef } from 'react';
 import { fetchMessage, postMessage, fetchLlmResponse, createNewChat, fetchUserId, fetchChat } from "./routing/serverSide";
+import { useState, useEffect, useRef, useReducer } from 'react';
+import { Loading } from "@/components/RespondLoading";
 import Loaiding from "@/components/Loaiding"
 import Warning from "@/components/Warning";
+// import reducer from "./messageHandler";
 
 export default function ChatPane({bottomRef, uUID}) {
+    const currentIdV4 = uUID;
+    
     // bottomRef = useRef(null)
     useEffect(() => {
         bottomRef.current?.scrollIntoView({
@@ -16,6 +20,8 @@ export default function ChatPane({bottomRef, uUID}) {
             inline: "nearest",
         })
     })
+
+    // const [state, dispatch] = useReducer(reducer, )
 
     const [messages, setMessages] = useState(null);
     const [userMessage, setUserMessage] = useState("");
@@ -43,6 +49,7 @@ export default function ChatPane({bottomRef, uUID}) {
             handlePostError();
             return
         }
+      
         const postResult = await postMessage(currentChatId,{ "userMessage" : userMessage});
         if (postResult.id) { // True if exist returned message
             console.log("Result: ", postResult); // !!!!!!!!!!!!!!! REMEMBER TO DELETE BEFORE LAUNCH !!!!!!!!!!!!!!!!!!!!
