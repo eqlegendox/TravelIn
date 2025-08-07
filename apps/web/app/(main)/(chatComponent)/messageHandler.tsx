@@ -10,10 +10,22 @@ export default function reducer(state, action) {
                 ...state,
                 messages: action.payload
             }
-        case 'TOGGLEISRESPONDED':
+        case 'SETISRESPONDED':
             return {
                 ...state,
-                isResponded: !state.isResponded
+                isResponded: action.payload
+            }
+        case 'SETCURRENTUID':
+            // console.log("!!!!!!!!!!!!!  ", action.payload)
+            return {
+                ...state,
+                currentUserId: action.payload,
+            }
+        case 'SETCURRENTCID':
+            console.log("CurrentCHATID:   ", action.payload)
+            return {
+                ...state,
+                currentChatId: action.payload,
             }
 
 
@@ -22,6 +34,7 @@ export default function reducer(state, action) {
                 ...state,
                 lastUserMessage: state.userMessage,
                 userMessage: "",
+                messages: action.payload
             };
 
         case 'RESPONDHANDLE':
@@ -35,8 +48,10 @@ export default function reducer(state, action) {
 }
 
 // const initialState = {
-//     messages: [],
-//     userMessage: "",
-//     lastUserMessage: "",
-//     isResponded: true,
-// }
+//         messages: [],
+//         userMessage: "",
+//         lastUserMessage: "",
+//         isResponded: true,
+//         currentChatId: "",
+//         currentUserId: "",
+//     }

@@ -4,15 +4,22 @@ import { Button } from "@workspace/ui/components/button"
 import { MoveRight } from "lucide-react"
 import { fetchMessage, postMessage, fetchLlmResponse, createNewChat, fetchUserId, fetchChat } from "./routing/serverSide";
 import { useState, useEffect, useRef, useReducer } from 'react';
-import { Loading } from "@/components/RespondLoading";
 import Loaiding from "@/components/Loaiding"
 import Warning from "@/components/Warning";
-// import reducer from "./messageHandler";
+import reducer from "./messageHandler";
 
 export default function ChatPane({bottomRef, uUID}) {
     const currentIdV4 = uUID;
+    const initialState = {
+        messages: [],
+        userMessage: "",
+        lastUserMessage: "",
+        isResponded: true,
+        currentChatId: "",
+        currentUserId: "",
+    }
+
     
-    // bottomRef = useRef(null)
     useEffect(() => {
         bottomRef.current?.scrollIntoView({
             behavior: "smooth",
@@ -21,39 +28,30 @@ export default function ChatPane({bottomRef, uUID}) {
         })
     })
 
-    // const [state, dispatch] = useReducer(reducer, )
+    const [state, dispatch] = useReducer(reducer, initialState)
 
-    const [messages, setMessages] = useState(null);
-    const [userMessage, setUserMessage] = useState("");
-    const [lastUserMessage, setLastUserMessage] = useState("");
-    const [isResponded, setIsResponded] = useState(true);
-    const [currentChatId, setCurrentChatId] = useState("");
     const [isWarned, setIsWarned] = useState(false);
     const [warningMessage, setWarningMessage] = useState("");
-    const [currentUserId, setCurrentUserId] = useState(""); 
 
     const handlePostError = async () => {
         setWarningMessage("Please wait before sending a message again")
         setIsWarned(true)
-    }
-
-    const fetchError = async () => {
+    }; const fetchError = async () => {
         setWarningMessage("Connection error, please try reloading the page again")
         setIsWarned(true)
     }
 
-
     const handlePost = async () => {
-        console.log("Posting...")
-        if (!isResponded) {
+        console.log("Posting...", state)
+        if (!state.isResponded) {
             handlePostError();
             return
         }
       
-        const postResult = await postMessage(currentChatId,{ "userMessage" : userMessage});
+        const postResult = await postMessage(state.currentChatId,{ "userMessage" : state.userMessage});
         if (postResult.id) { // True if exist returned message
-            console.log("Result: ", postResult); // !!!!!!!!!!!!!!! REMEMBER TO DELETE BEFORE LAUNCH !!!!!!!!!!!!!!!!!!!!
-            setLastUserMessage(userMessage); setUserMessage(""); loadMessages();
+            const updatedMessages = await loadMessages();// !!!!!!!!!!!!!!! REMEMBER TO DELETE BEFORE LAUNCH !!!!!!!!!!!!!!!!!!!!
+            dispatch({type: 'POSTHANDLE', payload: updatedMessages});
         }
     }
 
@@ -65,46 +63,49 @@ export default function ChatPane({bottomRef, uUID}) {
     }
 
     const loadMessages = async () => {
-        if (currentChatId !== "") {
-            const fetchResult = await fetchMessage(currentChatId);
-            {fetchResult.error? fetchError() : setMessages(fetchResult)}
+        if (state.currentChatId !== "") {
+            const fetchResult = await fetchMessage(await state.currentChatId);
+            {fetchResult.error? fetchError() : dispatch({type: "SETMESSAGE", payload: fetchResult})}
             console.log("Fetched: ", fetchResult)
             return fetchResult
         }
     }
 
     const handleRespond = async () => {
-        if (isResponded) {
-            setIsResponded(false)
-            const postResult = await fetchLlmResponse(currentChatId, { "userMessage" : lastUserMessage});
-            setIsResponded(true); setLastUserMessage(""); loadMessages();
+        if (state.isResponded) {
+            dispatch({type: 'SETISRESPONDED', payload: false})
+            const postResult = await fetchLlmResponse(state.currentChatId, { "userMessage" : state.lastUserMessage});
+            dispatch({type: "RESPONDHANDLE"}); loadMessages();
         }
     }
 
     const instantiateNewChat = async () => {
         const handleNewChat = async () => {
-            const newChat = await createNewChat(currentUserId)
-            setCurrentChatId(newChat.id)
+            const newChat = await createNewChat(await state.currentUserId)
+            dispatch({type: 'SETCURRENTCID', payload: newChat.id})
         }
-        if (currentUserId !== ""){
-            const response = await fetchChat(currentUserId)
-            {response.response? await handleNewChat() : handleNewChat()}
+        if (state.currentUserId !== ""){
+            const response = await fetchChat(state.currentUserId)
+            handleNewChat()
+            // {response.response? await handleNewChat() : dispatch({type: 'SETCURRENTCID', payload: response[0].id})}
         }
     }
 
     const getUserId = async() => {
         const response = await fetchUserId();
-        response.error? null : setCurrentUserId(response.id);
+        if (!response.error) {
+            dispatch({type: 'SETCURRENTUID', payload: response.id});
+        }
     }
 
     useEffect(() => {
         const t = async () => {
-            if (lastUserMessage !== ""){
+            if (state.lastUserMessage !== ""){
                 await handleRespond()
             }
         }
         t()
-    }, [lastUserMessage]);
+    }, [state.lastUserMessage]);
 
     useEffect(() => {
         if (!isWarned){
@@ -118,11 +119,11 @@ export default function ChatPane({bottomRef, uUID}) {
     
     useEffect(() => {
         instantiateNewChat()
-    }, [currentUserId]); 
+    }, [state.currentUserId]); 
 
     useEffect(() => {
         loadMessages()
-    }, [currentChatId]); 
+    }, [state.currentChatId]); 
     
     return (
         <>
@@ -132,7 +133,7 @@ export default function ChatPane({bottomRef, uUID}) {
             <div className="flex-grow p-2 w-full overflow-y-auto bg-secondary rounded-md inset-shadow-md/100">
                 <div className="flex py-1 flex-col gap-2 text-sm md:text-md drop-shadow-sm">
                     {/* <Loaiding /> */}
-                    { messages.length !== 0 ? messages.map((i) => {
+                    { Array.isArray(state.messages) ? state.messages.map((i) => {
                         if (i.messageRoleId === 2) {
                             return (
                                 <div className="px-2 py-1.5 bg-background rounded-sm max-w-72/100 break-words place-self-end">{i.message}</div>
@@ -146,7 +147,7 @@ export default function ChatPane({bottomRef, uUID}) {
                     }
                 ): <div className="opacity-32">No conversation found, try asking something!</div> }
                 <div>
-                    <h2>{isResponded? null : < Loaiding />}</h2> {/* rightside of the : is when ai is still responding maybe change to something better later */}
+                    <h2>{state.isResponded? null : < Loaiding />}</h2> {/* rightside of the : is when ai is still responding maybe change to something better later */}
                 </div>
                     <div className="float clear" ref={bottomRef} />
                 </div>
@@ -159,8 +160,8 @@ export default function ChatPane({bottomRef, uUID}) {
                         type="text" 
                         name="user_message"
                         id="user_message"
-                        value={userMessage}
-                        onChange={(e) => setUserMessage(e.target.value)}
+                        value={state.userMessage}
+                        onChange={(e) => dispatch({type: 'SETUSERMESSAGE', payload: e.target.value})}
                         onKeyUp={inputKeyUp}
                         placeholder="Type a message.."
                         className="flex-grow w-full lg:text-lg sm:text-sm p-2 border rounded-md focus:ring-2 focus:ring-ring focus:outline-none"
