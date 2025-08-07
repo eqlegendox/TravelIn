@@ -4,6 +4,7 @@ import { CreateMessageDto } from './dto/create-message.dto';
 import { CreateUuidDto } from './dto/create-uuid.dto';
 import { Throttle } from '@nestjs/throttler';
 import { MyLoggerService } from 'src/my-logger/my-logger.service';
+import { Prisma, Chat as PrismaChatModel } from 'database/generated/prisma';
 
 @Controller('chats')
 export class ChatsController {
@@ -11,22 +12,28 @@ export class ChatsController {
         private readonly chatService: ChatsService
     ) {}
     private readonly logger = new MyLoggerService(ChatsController.name)
-    
-    @Get()
-    findAll() {
-        return this.chatService.findAll()
+
+    @Post()
+    findAll(@Body() params: {
+        skip?: number;
+        take?: number;
+        cursor?: Prisma.ChatWhereUniqueInput;
+        where?: Prisma.ChatWhereInput;
+        orderBy?: Prisma.ChatOrderByWithRelationInput;
+    }) {
+        return this.chatService.findAll(params)
     }
 
     @Throttle({ short: { ttl: 1000, limit: 25}})
     @Get('/c/:id')
     findOne(@Param('id', ParseUUIDPipe) idChat: string) {
         // this.logger.log(`Requested to view chat with id ${idChat}`);
-        return this.chatService.findOne(idChat)
+        return this.chatService.findMessages(idChat)
     }
 
-    @Post()
-    createChat(@Body(ValidationPipe) uuidv4: CreateUuidDto) {
-        return this.chatService.createChat(uuidv4)
+    @Post("/create")
+    createChat(@Body(ValidationPipe) user_id: CreateUuidDto) {
+        return this.chatService.createChat(user_id)
     }
     
     @Post('/c/:id')

@@ -17,6 +17,7 @@ datasource db {
 model UserDetail {
   rootUser  User     @relation(fields: [id], references: [id], onDelete: Cascade)
   id        String   @id @unique
+  userName  String   @unique @db.VarChar(24)
   email     String   @unique
   password  String
   createdAt DateTime @default(now())
@@ -26,6 +27,9 @@ model UserDetail {
 model User {
   id          String  @id @default(uuid())
   isTemporary Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   haveChat   Chat[]
   userDetail UserDetail?
@@ -38,13 +42,14 @@ model Chat {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  ChatMessages ChatMessages[]
+  chatMessages ChatMessages[]
 }
 
 model ChatMessages {
-  id            Int    @id @default(autoincrement())
-  relatedChat   Chat   @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  id            Int         @id @default(autoincrement())
+  relatedChat   Chat        @relation(fields: [chatId], references: [id], onDelete: Cascade)
   chatId        String
+  msgRole       MessageRole @relation(fields: [messageRoleId], references: [id], onDelete: Restrict)
   messageRoleId Int
   message       String
 
@@ -52,9 +57,8 @@ model ChatMessages {
   updatedAt DateTime @updatedAt
 }
 
-enum MessageRole {
-  HUMAN
-  AI
-  TOOL
-  SYSTEM
+model MessageRole {
+  id          Int            @id @default(autoincrement()) @db.SmallInt
+  role        String
+  chatMessage ChatMessages[]
 }

@@ -11,6 +11,8 @@ import { PrismaService } from './prisma/prisma.service';
 import { PrismaChatService } from './prisma-chat/prisma-chat.service';
 import { PrismaChatModule } from './prisma-chat/prisma-chat.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { UserModule } from './user/user.module';
+import { PrismaUserModule } from './prisma-user/prisma-user.module';
 
 @Module({
   imports: [
@@ -27,6 +29,8 @@ import { PrismaModule } from './prisma/prisma.module';
     MyLoggerModule,
     PrismaChatModule,
     PrismaModule,
+    UserModule,
+    PrismaUserModule,
   ],
   controllers: [AppController],
   providers: [AppService, {

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, ValidationPipe } from '@nestjs/common';
 import { LlmService } from './llm.service';
 import { LlmPrompt } from './dto/llm-prompt.dto';
 
@@ -8,11 +8,13 @@ export class LlmController {
     
     @Get()
     getLlm() {
+        throw new HttpException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
         return this.llmService.getLm();
     }
 
     @Post()
     async getLlmResponse(@Body(ValidationPipe) llmPrompt: LlmPrompt) {
+        throw new HttpException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
         const response = await this.llmService.getLlmResponse(llmPrompt)
         return response
     }

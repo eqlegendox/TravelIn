@@ -1,61 +1,65 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
-
+ 
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
+ 
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
 }
-
+ 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
+ 
 model UserDetail {
-  rootUser User @relation(fields: [id], references: [id], onDelete: Cascade)
-  id        String   @id @unique
-  email     String   @unique
+  rootUser  User      @relation(fields: [id], references: [id], onDelete: Cascade)
+  id        String    @id @unique
+  userName  String    @unique @db.VarChar(24)
+  email     String    @unique
   password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
-
+ 
 model User {
   id          String  @id @default(uuid())
   isTemporary Boolean @default(true)
-
-  haveChat  Chat[]
-  userDetail UserDetail?
+ 
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+ 
+  haveChat    Chat[]
+  userDetail  UserDetail?
 }
-
+ 
 model Chat {
-  id     String @id @default(uuid())
-  createdBy    User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  ChatMessages ChatMessages[]
+  id            String    @id @default(uuid())
+  createdBy     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+ 
+  chatMessages  ChatMessages[]
 }
-
+ 
 model ChatMessages {
-  id            Int    @id @default(autoincrement())
-  relatedChat Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  id            Int           @id @default(autoincrement())
+  relatedChat   Chat          @relation(fields: [chatId], references: [id], onDelete: Cascade)
   chatId        String
+  msgRole       MessageRole   @relation(fields: [messageRoleId], references: [id], onDelete: Restrict)    
   messageRoleId Int
   message       String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
+ 
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+ 
 }
-
-enum MessageRole {
-  HUMAN
-  AI
-  TOOL
-  SYSTEM
+ 
+model MessageRole {
+  id    Int       @id @db.SmallInt @default(autoincrement())
+  role  String    
+  chatMessage ChatMessages[]
 }

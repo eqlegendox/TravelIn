@@ -1,4 +1,4 @@
-async function fetchData(idChat: string) {
+async function fetchMessage(idChat: string) {
     try {
         const response = await fetch(`http://localhost:8000/chats/c/${idChat}`, {
             method:"GET",
@@ -8,14 +8,30 @@ async function fetchData(idChat: string) {
             return false;
         }
         return response.json();
-    }
-    catch (error) {
-        console.error("Error Catch: ", error)
+    }   catch (err) {
+        console.error("Error Catch: ", err)
         return {error : 666}
     }
 }
 
-async function postData(idChat: string, newMessage: { "userMessage" : string }) {
+async function fetchChat(idUser: string) {
+    try {
+        const response = await fetch(`http://localhost:8000/chats/`, {
+            method:"POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({"where": {"userId": idUser}, "orderBy": {"createdAt": "desc"}})
+        });
+
+        return response.json();
+    }   catch (err) {
+        console.error("Error Catch: ", err)
+        return {error : 666}
+    }
+}
+
+async function postMessage(idChat: string, newMessage: { "userMessage" : string }) {
     try {
         const response = await fetch(`http://localhost:8000/chats/c/${idChat}`, {
             method: "POST",
@@ -27,8 +43,7 @@ async function postData(idChat: string, newMessage: { "userMessage" : string }) 
 
         
     return response.json();
-    }
-    catch (error) {
+    }   catch (err) {
         return {error : 666}
     }
 }
@@ -44,29 +59,40 @@ async function fetchLlmResponse(idChat: string, userMessage : { "userMessage" : 
         });
         
         return response.json();
-    }
-    catch (error) {
+    }   catch (err) {
         return {error : 666}
     }
 }
 
-async function createNewChat(idChat : string) {
+async function createNewChat(userId : string) {
     try {
-        console.log("Generated uuid: ", idChat)
-        const tempIdChat = {"uuid" : idChat}
-        const response = await fetch('http://localhost:8000/chats/', {
+        const response = await fetch('http://localhost:8000/chats/create', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(tempIdChat)
+            body: JSON.stringify({"uuid" : userId})
         })
 
         return response.json()
-    }
-    catch (error) {
+    }   catch (err) {
         return {error : 666}
     }
 }
 
-export {fetchData, postData, fetchLlmResponse, createNewChat}
+async function fetchUserId() {
+    try {
+        const response = await fetch('http://localhost:8000/user/create', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+
+        return response.json()
+    }   catch (err) {
+        return {error : 666, response: err}
+    }
+}
+
+export {fetchMessage, postMessage, fetchLlmResponse, createNewChat, fetchUserId, fetchChat}
