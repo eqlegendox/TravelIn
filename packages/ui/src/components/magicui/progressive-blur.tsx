@@ -28,7 +28,7 @@ export function ProgressiveBlur({
         position === "top"
           ? "top-0"
           : position === "bottom"
-            ? "bottom-0"
+            ? "-bottom-0"
             : "inset-y-0",
       )}
       style={{

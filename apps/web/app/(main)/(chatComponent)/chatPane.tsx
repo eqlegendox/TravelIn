@@ -21,8 +21,8 @@ export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
     
     useEffect(() => {
         bottomRef.current?.scrollIntoView({
-            behavior: "smooth",
-            block: "end",
+            behavior: "instant",
+            block: "start",
             inline: "nearest",
         })
     })
@@ -112,7 +112,7 @@ export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
     return (
         <>
         { isWarned? (<Warning warnMessage={warningMessage} closeNoti={() => setIsWarned(false)} />) : null }
-        <div className="flex flex-col h-full p-1 bg-background rounded-lg inset-shadow-md inset-shadow-lg/100">
+        <div className="flex flex-col h-full p-1 bg-background rounded-lg inset-shadow-md inset-shadow-lg/100 overflow-clip">
             {/* Chat */}
             <div className="flex-grow p-2 w-full overflow-y-auto bg-secondary rounded-md inset-shadow-sm">
                 <div className="flex py-1 flex-col gap-2 text-sm md:text-md">
@@ -132,8 +132,8 @@ export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
                 <div>
                     <h2>{state.isResponded? null : < Loaiding />}</h2> {/* rightside of the : is when ai is still responding maybe change to something better later */}
                 </div>
-                <div className="float clear" ref={bottomRef} /></div>
-                <ProgressiveBlur position="bottom" height="16%" className="z-1"/>
+                <div className="float clear min-h-16" ref={bottomRef} /></div>
+                <ProgressiveBlur position="bottom" height="18%" className="z-1"/>
                 
                 {/* Input Scetion */}
                 <div className="absolute bottom-2 left-2 right-2 p-1 flex rounded-lg bg-background shadow-md shadow-black z-2">
@@ -146,9 +146,9 @@ export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
                             onChange={(e) => dispatch({type: 'SETUSERMESSAGE', payload: e.target.value})}
                             onKeyUp={inputKeyUp}
                             placeholder="Type a message.."
-                            className="flex-grow w-full lg:text-lg sm:text-sm p-2 border rounded-md focus:ring-2 focus:ring-ring focus:outline-none inset-shadow-sm shadow-black"
+                            className="flex-grow w-full lg:text-lg sm:text-sm p-2 border rounded-md focus:ring-2 focus:ring-ring/15 focus:outline-none inset-shadow-sm shadow-black"
                             />
-                        <Button onClick={handlePost} className="h-full shadow-xs"><ChevronRight className="h-4 w-4 font-bold"/></Button>
+                        <Button onClick={handlePost} className="h-full shadow-xs "><ChevronRight className="h-4 w-4 font-bold"/></Button>
                     </div>
                 </div>
             </div>
