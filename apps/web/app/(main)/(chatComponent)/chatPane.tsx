@@ -49,7 +49,7 @@ export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
       
         const postResult = await postMessage(state.currentChatId,{ "userMessage" : state.userMessage});
         if (postResult.id) { // True if exist returned message
-            const updatedMessages = await loadMessages();// !!!!!!!!!!!!!!! REMEMBER TO DELETE BEFORE LAUNCH !!!!!!!!!!!!!!!!!!!!
+            const updatedMessages = await loadMessages();
             dispatch({type: 'POSTHANDLE', payload: updatedMessages});
         }
     }
@@ -111,10 +111,6 @@ export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
             setWarningMessage("")
         }
     }, [isWarned]);
-
-    useEffect(() => {
-        getUserId()
-    }, []); 
     
     useEffect(() => {
         loadMessages()
