@@ -43,9 +43,7 @@ export default function RootLayout({
           const newChat = await createNewChat(currentUserId)
           setCurrentChatId(newChat.id)
       }
-      if (currentUserId !== ""){
-          handleNewChat()
-      }
+      handleNewChat()
   }
 
   const getUserId = async() => {
@@ -60,16 +58,18 @@ export default function RootLayout({
   }, [])
 
   useEffect(() => {
-    instantiateNewChat()
+    if (currentUserId !== ""){
+      instantiateNewChat()
+    }
   }, [currentUserId])
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased flex w-vw`}
       >
         <Providers>{children}</Providers>
-        <ChatToggler currentChatId={currentChatId} currentUserId={currentUserId}/>
-
+        <div>{currentChatId? <ChatToggler currentChatId={currentChatId} currentUserId={currentUserId}/> : null}</div>
       </body>
     </html>
   )
