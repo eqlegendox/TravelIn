@@ -17,7 +17,6 @@ export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
         currentChatId: CurrentChatId,
         currentUserId: CurrentUserId,
     }
-
     
     useEffect(() => {
         bottomRef.current?.scrollIntoView({
@@ -87,13 +86,6 @@ export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
             const response = await fetchChat(state.currentUserId)
             handleNewChat()
             // {response.response? await handleNewChat() : dispatch({type: 'SETCURRENTCID', payload: response[0].id})}
-        }
-    }
-
-    const getUserId = async() => {
-        const response = await fetchUserId();
-        if (!response.error) {
-            dispatch({type: 'SETCURRENTUID', payload: response.id});
         }
     }
 
