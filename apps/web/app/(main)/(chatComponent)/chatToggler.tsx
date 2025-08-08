@@ -25,7 +25,7 @@ export default function ToggleChat({currentUserId, currentChatId}) {
     
     const messagesEndRef = useRef<null| HTMLDivElement>(null)
     const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
+        messagesEndRef.current?.scrollIntoView({behavior: "instant", block: "start", inline: "nearest"})
     }
     useEffect(() =>{
         scrollToBottom()
@@ -62,7 +62,7 @@ export default function ToggleChat({currentUserId, currentChatId}) {
             <>
             <AnimatePresence custom={-1000}>
                 <motion.div 
-                    className="parent flex flex-col float-right bottom-7 fixed h-[42vh] w-[100vw] md:w-[42vw] md:right-2 md:bottom-9 lg:w-[38vw] "
+                    className="parent flex flex-col bottom-0 fixed h-[42vh] w-[100vw] left-0 right-0 md:w-[42vw] md:right-2 md:left-auto lg:w-[38vw]"
                     key="miniPane"
                     initial = {{ x: 1000}}
                     animate = {{ x: 0 }}

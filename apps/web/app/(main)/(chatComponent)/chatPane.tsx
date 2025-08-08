@@ -108,7 +108,7 @@ export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
         if (state.currentChatId !== "") {
             loadMessages()
         }
-    }, [state.currentChatId]); 
+    }, [state.currentChatId]);  
     
     return (
         <>
