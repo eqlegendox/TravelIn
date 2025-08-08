@@ -49,6 +49,7 @@ export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
 
         const postResult = await postMessage(state.currentChatId,{ "userMessage" : state.userMessage});
         if (postResult.id) { // True if exist returned message
+            dispatch({type: 'PREPOSTHANDLE', payload: state.userMessage});
             const updatedMessages = await loadMessages();
             dispatch({type: 'POSTHANDLE', payload: updatedMessages});
         }

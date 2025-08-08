@@ -1,9 +1,14 @@
-export default function reducer(state, action) {
+export default function reducer(state: any, action: any) {
     switch(action.type) {
         case 'SETUSERMESSAGE':
             return {
                 ...state,
                 userMessage: action.payload,
+            };
+        case 'SETLASTUSERMESSAGE':
+            return {
+                ...state,
+                lastUserMessage: action.payload,
             };
         case 'SETMESSAGE':
             return {
@@ -28,12 +33,15 @@ export default function reducer(state, action) {
                 currentChatId: action.payload,
             }
 
-
-        case 'POSTHANDLE':
+        case 'PREPOSTHANDLE':
             return {
                 ...state,
                 lastUserMessage: state.userMessage,
                 userMessage: "",
+            };
+        case 'POSTHANDLE':
+            return {
+                ...state,
                 messages: action.payload
             };
 
