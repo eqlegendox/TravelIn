@@ -29,7 +29,6 @@ export default function Page() {
       </div>
       <div>
         <CurvedLoop className="text-primary" marqueeText="Helloo" />
-          
       </div>
     </div>
     </>
