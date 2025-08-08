@@ -63,15 +63,13 @@ export default function RootLayout({
     }
   }, [currentUserId])
 
-  const placeholderino = "Laninaelnino"
-
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased flex w-vw`}
       >
         <Providers>{children}</Providers>
-        <div>{currentChatId? <ChatToggler currentChatId={currentChatId} currentUserId={currentUserId}/> : placeholderino }</div>
+        <div>{currentChatId? <ChatToggler currentChatId={currentChatId} currentUserId={currentUserId}/> : null}</div>
       </body>
     </html>
   )

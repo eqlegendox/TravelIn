@@ -46,27 +46,12 @@ export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
             handlePostError();
             return
         }
-
+        
         const postResult = await postMessage(state.currentChatId,{ "userMessage" : state.userMessage});
         if (postResult.id) { // True if exist returned message
+            dispatch({type: 'PREPOSTHANDLE', payload: state.userMessage});
             const updatedMessages = await loadMessages();
             dispatch({type: 'POSTHANDLE', payload: updatedMessages});
-        }
-    }
-
-    const inputKeyUp = (e) => {
-        e.which = e.which || e.keyCode;
-        if (e.which === 13) { // "Enter" key?
-            handlePost()
-        }
-    }
-
-    const loadMessages = async () => {
-        if (state.currentChatId !== "") {
-            const fetchResult = await fetchMessage(await state.currentChatId);
-            {fetchResult.error? fetchError() : dispatch({type: "SETMESSAGE", payload: fetchResult})}
-            console.log("Fetched: ", fetchResult)
-            return fetchResult
         }
     }
 
@@ -76,6 +61,20 @@ export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
             const postResult = await fetchLlmResponse(state.currentChatId, { "userMessage" : state.lastUserMessage});
             dispatch({type: "RESPONDHANDLE"}); loadMessages();
         }
+    }
+    
+    const inputKeyUp = (e) => {
+        e.which = e.which || e.keyCode;
+        if (e.which === 13) { // "Enter" key?
+            handlePost()
+        }
+    }
+
+    const loadMessages = async () => {
+        const fetchResult = await fetchMessage(await state.currentChatId);
+        {fetchResult.error? fetchError() : dispatch({type: "SETMESSAGE", payload: fetchResult})}
+        console.log("Fetched: ", fetchResult)
+        return fetchResult
     }
 
     const instantiateNewChat = async () => {
@@ -106,7 +105,9 @@ export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
     }, [isWarned]);
     
     useEffect(() => {
-        loadMessages()
+        if (state.currentChatId !== "") {
+            loadMessages()
+        }
     }, [state.currentChatId]); 
     
     return (
