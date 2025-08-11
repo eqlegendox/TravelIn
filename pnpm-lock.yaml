@@ -220,6 +220,12 @@ importers:
       lucide-react:
         specifier: ^0.475.0
         version: 0.475.0(react@19.0.0)
+      marked:
+        specifier: ^16.1.2
+        version: 16.1.2
+      marked-react:
+        specifier: ^3.0.1
+        version: 3.0.1(react@19.0.0)
       next:
         specifier: ^15.2.3
         version: 15.2.3(@babel/core@7.28.0)(@playwright/test@1.54.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -272,6 +278,9 @@ importers:
       '@workspace/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
+      react-resizable-panels:
+        specifier: ^3.0.4
+        version: 3.0.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       typescript:
         specifier: ^5.7.3
         version: 5.7.3
@@ -5582,6 +5591,16 @@ packages:
   makeerror@1.0.12:
     resolution: {integrity: sha512-JmqCvUhmt43madlpFzG4BQzG2Z3m6tvQDNKdClZnO3VbIudJYmxsT0FNJMeiB2+JTSlTQTSbU8QdesVmwJcmLg==}
 
+  marked-react@3.0.1:
+    resolution: {integrity: sha512-jJnXAtEQB/5vYDDIW6TSZprgxKA4UrN9w6L6f0tLZpMDvM2Gt+za3HvdVpqHW74gKOYnIcScNK3kqQWCJlSJ1w==}
+    peerDependencies:
+      react: ^16.8.0 || >=17.0.0
+
+  marked@16.1.2:
+    resolution: {integrity: sha512-rNQt5EvRinalby7zJZu/mB+BvaAY2oz3wCuCjt1RDrWNpS1Pdf9xqMOeC9Hm5adBdcV/3XZPJpG58eT+WBc0XQ==}
+    engines: {node: '>= 20'}
+    hasBin: true
+
   math-intrinsics@1.1.0:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
     engines: {node: '>= 0.4'}
@@ -6322,6 +6341,12 @@ packages:
     engines: {node: '>=0.10.0'}
     peerDependencies:
       react: ^19.0.0
+
+  react-resizable-panels@3.0.4:
+    resolution: {integrity: sha512-8Y4KNgV94XhUvI2LeByyPIjoUJb71M/0hyhtzkHaqpVHs+ZQs8b627HmzyhmVYi3C9YP6R+XD1KmG7hHjEZXFQ==}
+    peerDependencies:
+      react: ^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
+      react-dom: ^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
 
   react-resizable@3.0.5:
     resolution: {integrity: sha512-vKpeHhI5OZvYn82kXOs1bC8aOXktGU5AmKAgaZS4F5JPburCtbmDPqE7Pzp+1kN4+Wb81LlF33VpGwWwtXem+w==}
@@ -13294,6 +13319,13 @@ snapshots:
     dependencies:
       tmpl: 1.0.5
 
+  marked-react@3.0.1(react@19.0.0):
+    dependencies:
+      marked: 16.1.2
+      react: 19.0.0
+
+  marked@16.1.2: {}
+
   math-intrinsics@1.1.0: {}
 
   mdn-data@2.0.28: {}
@@ -14042,6 +14074,11 @@ snapshots:
     dependencies:
       react: 19.0.0
       scheduler: 0.25.0
+
+  react-resizable-panels@3.0.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
+    dependencies:
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
 
   react-resizable@3.0.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
