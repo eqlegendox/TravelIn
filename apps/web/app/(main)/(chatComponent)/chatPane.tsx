@@ -28,7 +28,6 @@ export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
     })
 
     const [state, dispatch] = useReducer(reducer, initialState)
-
     const [isWarned, setIsWarned] = useState(false);
     const [warningMessage, setWarningMessage] = useState("");
 
@@ -90,20 +89,12 @@ export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
         }
     }
 
-    const getUserId = async() => {
-        const response = await fetchUserId();
-        if (!response.error) {
-            dispatch({type: 'SETCURRENTUID', payload: response.id});
-        }
-    }
-
     useEffect(() => {
         const t = async () => {
             if (state.lastUserMessage !== ""){
                 await handleRespond()
             }
-        }
-        t()
+        }; t()
     }, [state.lastUserMessage]);
 
     useEffect(() => {
@@ -111,10 +102,6 @@ export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
             setWarningMessage("")
         }
     }, [isWarned]);
-
-    useEffect(() => {
-        getUserId()
-    }, []); 
     
     useEffect(() => {
         loadMessages()
