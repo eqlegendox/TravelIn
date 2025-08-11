@@ -1,12 +1,13 @@
 "use client"
 
 import { Button } from "@workspace/ui/components/button"
-import { MoveRight } from "lucide-react"
+import { ChevronRight } from "lucide-react"
 import { fetchMessage, postMessage, fetchLlmResponse, createNewChat, fetchUserId, fetchChat } from "./routing/serverSide";
 import { useState, useEffect, useRef, useReducer } from 'react';
 import Loaiding from "@/components/Loaiding"
 import Warning from "@/components/Warning";
 import reducer from "./messageHandler";
+import ProgressiveBlur from "@workspace/ui/components/magicui/progressive-blur";
 
 export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
     const initialState = {
@@ -17,17 +18,17 @@ export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
         currentChatId: CurrentChatId,
         currentUserId: CurrentUserId,
     }
-
     
     useEffect(() => {
         bottomRef.current?.scrollIntoView({
-            behavior: "smooth",
-            block: "end",
+            behavior: "instant",
+            block: "start",
             inline: "nearest",
         })
     })
 
     const [state, dispatch] = useReducer(reducer, initialState)
+
     const [isWarned, setIsWarned] = useState(false);
     const [warningMessage, setWarningMessage] = useState("");
 
@@ -45,27 +46,12 @@ export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
             handlePostError();
             return
         }
-      
+        
         const postResult = await postMessage(state.currentChatId,{ "userMessage" : state.userMessage});
         if (postResult.id) { // True if exist returned message
-            const updatedMessages = await loadMessages();// !!!!!!!!!!!!!!! REMEMBER TO DELETE BEFORE LAUNCH !!!!!!!!!!!!!!!!!!!!
+            dispatch({type: 'PREPOSTHANDLE', payload: state.userMessage});
+            const updatedMessages = await loadMessages();
             dispatch({type: 'POSTHANDLE', payload: updatedMessages});
-        }
-    }
-
-    const inputKeyUp = (e) => {
-        e.which = e.which || e.keyCode;
-        if (e.which === 13) { // "Enter" key?
-            handlePost()
-        }
-    }
-
-    const loadMessages = async () => {
-        if (state.currentChatId !== "") {
-            const fetchResult = await fetchMessage(await state.currentChatId);
-            {fetchResult.error? fetchError() : dispatch({type: "SETMESSAGE", payload: fetchResult})}
-            console.log("Fetched: ", fetchResult)
-            return fetchResult
         }
     }
 
@@ -75,6 +61,20 @@ export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
             const postResult = await fetchLlmResponse(state.currentChatId, { "userMessage" : state.lastUserMessage});
             dispatch({type: "RESPONDHANDLE"}); loadMessages();
         }
+    }
+    
+    const inputKeyUp = (e) => {
+        e.which = e.which || e.keyCode;
+        if (e.which === 13) { // "Enter" key?
+            handlePost()
+        }
+    }
+
+    const loadMessages = async () => {
+        const fetchResult = await fetchMessage(await state.currentChatId);
+        {fetchResult.error? fetchError() : dispatch({type: "SETMESSAGE", payload: fetchResult})}
+        console.log("Fetched: ", fetchResult)
+        return fetchResult
     }
 
     const instantiateNewChat = async () => {
@@ -94,7 +94,8 @@ export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
             if (state.lastUserMessage !== ""){
                 await handleRespond()
             }
-        }; t()
+        }
+        t()
     }, [state.lastUserMessage]);
 
     useEffect(() => {
@@ -104,26 +105,27 @@ export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
     }, [isWarned]);
     
     useEffect(() => {
-        loadMessages()
-    }, [state.currentChatId]); 
+        if (state.currentChatId !== "") {
+            loadMessages()
+        }
+    }, [state.currentChatId]);  
     
     return (
         <>
         { isWarned? (<Warning warnMessage={warningMessage} closeNoti={() => setIsWarned(false)} />) : null }
-        <div className="flex flex-col h-full p-1 bg-background rounded-lg inset-shadow-md">
+        <div className="flex flex-col h-full p-1 bg-background rounded-lg inset-shadow-md inset-shadow-lg/100 overflow-clip">
             {/* Chat */}
-            <div className="flex-grow p-2 w-full overflow-y-auto bg-secondary rounded-md inset-shadow-md/100">
-                <div className="flex py-1 flex-col gap-2 text-sm md:text-md drop-shadow-sm">
-                    {/* <Loaiding /> */}
+            <div className="flex-grow p-2 w-full overflow-y-auto bg-secondary rounded-md inset-shadow-sm">
+                <div className="flex py-1 flex-col gap-2 text-sm md:text-md">
                     { state.messages.length !== 0 ? state.messages.map((i) => {
                         if (i.messageRoleId === 2) {
                             return (
-                                <div className="px-2 py-1.5 bg-background rounded-sm max-w-72/100 break-words place-self-end">{i.message}</div>
+                                <div className="px-2 py-1.5 bg-background rounded-sm max-w-72/100 break-words place-self-end shadow-md">{i.message}</div>
                             )
                         }
                         if (i.messageRoleId === 3) {
                             return (
-                                <div className="px-2 py-1.5 bg-primary text-background rounded-sm max-w-72/100 break-words place-self-start">{i.message}</div>
+                                <div className="px-2 py-1.5 bg-primary text-background rounded-sm max-w-72/100 break-words place-self-start shadow-md">{i.message}</div>
                             )
                         }
                     }
@@ -131,26 +133,27 @@ export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
                 <div>
                     <h2>{state.isResponded? null : < Loaiding />}</h2> {/* rightside of the : is when ai is still responding maybe change to something better later */}
                 </div>
-                    <div className="float clear" ref={bottomRef} />
+                <div className="float clear min-h-16" ref={bottomRef} /></div>
+                <ProgressiveBlur position="bottom" height="18%" className="z-1"/>
+                
+                {/* Input Scetion */}
+                <div className="absolute bottom-2 left-2 right-2 p-1 flex rounded-lg bg-background shadow-md shadow-black z-2">
+                    <div className="flex items-center gap-1 w-full">
+                        <input
+                            type="text" 
+                            name="user_message"
+                            id="user_message"
+                            value={state.userMessage}
+                            onChange={(e) => dispatch({type: 'SETUSERMESSAGE', payload: e.target.value})}
+                            onKeyUp={inputKeyUp}
+                            placeholder="Type a message.."
+                            className="flex-grow w-full lg:text-lg sm:text-sm p-2 border rounded-md focus:ring-2 focus:ring-ring/15 focus:outline-none inset-shadow-sm shadow-black"
+                            />
+                        <Button onClick={handlePost} className="h-full shadow-xs "><ChevronRight className="h-4 w-4 font-bold"/></Button>
+                    </div>
                 </div>
             </div>
 
-            {/* Input Scetion */}
-            <div className="p-1 flex border-t shrink-0 bg-background">
-                <div className="flex items-center gap-1 w-full">
-                    <input
-                        type="text" 
-                        name="user_message"
-                        id="user_message"
-                        value={state.userMessage}
-                        onChange={(e) => dispatch({type: 'SETUSERMESSAGE', payload: e.target.value})}
-                        onKeyUp={inputKeyUp}
-                        placeholder="Type a message.."
-                        className="flex-grow w-full lg:text-lg sm:text-sm p-2 border rounded-md focus:ring-2 focus:ring-ring focus:outline-none"
-                        />
-                    <Button onClick={handlePost}><MoveRight className="w-2 h-2 font-bold"/></Button>
-                </div>
-            </div>
         </div>
         </>
     )
