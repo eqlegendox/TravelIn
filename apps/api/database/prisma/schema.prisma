@@ -56,7 +56,6 @@ model ChatMessages {
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
  
-//  @@id([id, chatId])
 }
  
 model MessageRole {
