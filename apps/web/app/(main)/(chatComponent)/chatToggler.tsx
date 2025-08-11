@@ -8,10 +8,11 @@ import Image from "next/image"
 import Logo from "./logobos.svg"
 import { set } from "zod"
 import { div } from "framer-motion/client"
+// import {ResizableBox} from "react-resizable"
 // import {Dimensions}
 
 export default function ToggleChat({currentUserId, currentChatId}) {
-    const [show, setShow] = useState(true)
+    const [show, setShow] = useState(false)
     const [xpand, setXpand] = useState(false)
 
     const toggleShow = () => {
@@ -35,6 +36,7 @@ export default function ToggleChat({currentUserId, currentChatId}) {
         if (xpand) {
             return (
                 <>
+                {/* <ResizableBox width={200} height={200} draggableOpts={{}}></ResizableBox> */}
                 <AnimatePresence custom={-1000}>
                     <motion.div
                         className="fixed inset-0 h-[100vh] w-[100vw] bg-background md:sticky md:top-0 md:w-[28vw] md:flex md:flex-col"
