@@ -51,15 +51,8 @@ async function deleteTable(id: string) {
 }
 
 async function main() {
-  // const id = await createUser()
-  // const chatId = await createChat(id)
-  // await createUserDetail(id)
-  // await createChatMessage(chatId)
-  // await deleteTable("c7d83350-bb37-4b14-85f4-c9fae88c9eaa")
-  const user = await prisma.user.findFirst({where: {
-    id: "fe5ee8cc-84f7-4903-927b-4208ee9a6459"
-  }})
-  console.log("List: ", user)
+  const query = await prisma.messageRole.findMany()
+  console.log("List: ", query)
 }
 
 async function createRoles(role: string) {
@@ -70,11 +63,11 @@ async function createRoles(role: string) {
     })
     console.log(newRoles)
 }
-createUser()
-createRoles("system")
-createRoles("human")
-createRoles("ai")
-createRoles("tool")
+// createUser()
+// createRoles("system")
+// createRoles("human")
+// createRoles("ai")
+// createRoles("tool")
 main()
   .catch( e => {
     console.error(e.message)

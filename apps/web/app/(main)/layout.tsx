@@ -46,8 +46,10 @@ export default function RootLayout({
     }
     const prevChatId = sessionStorage.getItem("chatId")
     if (prevChatId === null){
+      console.log("No prev chat id found")
       handleNewChat()
     } else {
+      console.log("Using prev chat id")
       setCurrentChatId(prevChatId)
     }
   }

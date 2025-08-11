@@ -21,8 +21,7 @@ export class MyLoggerService extends ConsoleLogger {
 
     log(message: any, context?: string) {
         this.logger = winston.createLogger(winstonConfig)
-        const mess = `user_x: ${message}`
-        this.logger.log({ level: 'info', message: `user_x: ${message}` })
+        this.logger.log({ level: 'info', message: `${message}` })
         // super.log(message, context)
     }
 
