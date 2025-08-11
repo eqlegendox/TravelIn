@@ -6,7 +6,6 @@ import { Chat, ChatMessages, Prisma } from 'database/generated/prisma';
 @Injectable()
 export class PrismaChatService {
   constructor(private prisma: PrismaService) {}
-  
   async chat(
     where: Prisma.ChatWhereUniqueInput
   ): Promise<Chat | null> {
