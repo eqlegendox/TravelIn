@@ -1,17 +1,19 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { Maximize, Minimize, Minus } from "lucide-react"
+import { Maximize, Minimize, Minus, pane } from "lucide-react"
 import ChatPane from "./chatPane"
 import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
 import Logo from "./logobos.svg"
 import { set } from "zod"
 import { div } from "framer-motion/client"
+import {ResizableBox} from "react-resizable"
+// import {Panel, PanelGroup, PanelResizeHandle} from "react-resizable-panels"
 // import {Dimensions}
 
 export default function ToggleChat({currentUserId, currentChatId}) {
-    const [show, setShow] = useState(true)
+    const [show, setShow] = useState(false)
     const [xpand, setXpand] = useState(false)
 
     const toggleShow = () => {
@@ -68,7 +70,7 @@ export default function ToggleChat({currentUserId, currentChatId}) {
                     animate = {{ x: 0 }}
                     exit={{ x: 1000}}
                     transition = {{ type: 'spring', stiffness: 100, damping: 16, duration: 0.1 }}
-                    >
+                >
                     <div className="bg-primary flex self-end px-2 pl-6 rounded-tl-4xl rounded-tr-md">
                         <Maximize className=" right-1 bg-background rounded-full p-1 m-1 w-5 h-5 hover:bg-red" onClick={toggleXpand}/>
                         <Minus className=" right-1 bg-background rounded-full p-1 m-1 w-5 h-5 hover:bg-red" onClick= {toggleShow} />
@@ -81,10 +83,25 @@ export default function ToggleChat({currentUserId, currentChatId}) {
             </>
         )
     }
-
+    
     return (
         <>
         <AnimatePresence custom={-1000}>
+            <div className="flex flex-col gap-2">
+            {/* <ResizableBox className="bg-black" 
+                width={100} 
+                height={100} 
+                draggableOpts={{grid: [25,25]}}
+                handle={<button className="bg-primary hover:cursor-grab clikc:cursor-pointer">a</button>}
+                handleSize={[12,12]}
+                resizeHandles={['sw']}
+            >
+                <div>
+                    <button>Hello</button>
+                </div>
+            </ResizableBox> */}
+            
+            </div>
             <motion.div 
                 className="fixed right-4 bottom-4 p-1.5 bg-primary rounded-full aspect-square content-center"
                 
