@@ -42,7 +42,7 @@ export default function reducer(state: any, action: any) {
         case 'POSTHANDLE':
             return {
                 ...state,
-                messages: action.payload
+                messages: state.messages.concat(action.payload) 
             };
 
         case 'RESPONDHANDLE':

@@ -2,22 +2,20 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Chat, ChatMessages, MessageRole, Prisma } from 'database/generated/prisma';
-import { MyLoggerService } from 'src/my-logger/my-logger.service';
 
 @Injectable()
 export class PrismaChatService {
   constructor(
     private prisma: PrismaService,
   ) {}
-  private readonly logger = new MyLoggerService(PrismaChatService.name)
-  
+
   async chat(
     where: Prisma.ChatWhereUniqueInput
   ): Promise<Chat | null> {
-    this.logger.log("Querying for a chat")
-    return this.prisma.chat.findUnique({
+    const res = await this.prisma.chat.findUnique({
       where: where
     })
+    return res
   }
 
   async chats(params: {
@@ -28,19 +26,19 @@ export class PrismaChatService {
     orderBy?: Prisma.ChatOrderByWithRelationInput;
   }): Promise<Chat[]> {
     const { skip, take, cursor, where, orderBy } = params;
-    this.logger.log("Querying for chats")
-    return this.prisma.chat.findMany({
+    const res = await this.prisma.chat.findMany({
       skip,
       take,
       cursor,
       where,
       orderBy
     });
+    return res
   }
 
   async createChat(data: {userId: string}): Promise<Chat> {
-    this.logger.log("Creating new chat")
-    return await this.prisma.chat.create({data: data})
+    const res = await this.prisma.chat.create({data: data})
+    return res
   }
 
   async deleteChat(where: Prisma.ChatWhereUniqueInput): Promise<Chat | null> {
@@ -55,8 +53,8 @@ export class PrismaChatService {
   }
 
   async createMessage(data: {chatId: string, messageRoleId: number, message: string}): Promise<ChatMessages> {
-    this.logger.log("Creating new message")
-    return await this.prisma.chatMessages.create({data: data})
+    const res = await this.prisma.chatMessages.create({data: data})
+    return res
   }
 
   async messages(params: {
@@ -67,14 +65,14 @@ export class PrismaChatService {
     orderBy?: Prisma.ChatMessagesOrderByWithRelationInput;
   }): Promise<ChatMessages[]> {
     const { skip, take, cursor, where, orderBy } = params;
-    this.logger.log("Querying for messages")
-    return this.prisma.chatMessages.findMany({
+    const res = await this.prisma.chatMessages.findMany({
       skip,
       take,
       cursor,
       where,
       orderBy
     });
+    return res
   }
 
   async roles(params: {
@@ -85,13 +83,13 @@ export class PrismaChatService {
     orderBy?: Prisma.MessageRoleOrderByWithRelationInput;
   }): Promise<MessageRole[]> {
     const { skip, take, cursor, where, orderBy } = params;
-    console.log("Querying for roles")
-    return this.prisma.messageRole.findMany({
+    const res = await this.prisma.messageRole.findMany({
       skip,
       take,
       cursor,
       where,
       orderBy
     });
+    return res
   }
 }

@@ -15,7 +15,6 @@ export class ChatsService {
     ) {
         this.messagesRoles = this.prismaChatService.roles({})
     }
-
     
     async findAll(params: {
         skip?: number;
@@ -43,16 +42,17 @@ export class ChatsService {
         }
     }
 
-    async findMessages(idChat: string) {
-        try {
-            const chat = await this.prismaChatService.chat({id: idChat})
-            if (chat === null) {throw new HttpException('Chat Not Found', HttpStatus.NOT_FOUND)}
+    async findMessages(idChat: string, data: {userId: string}) {
+        try { 
+            const userIsCreator = await this.checkChatCreator({userId: data.userId, chatId: idChat})
+            if (!userIsCreator.ok) return userIsCreator
             
             const messages = this.prismaChatService.messages({
                 where: {
                 chatId: idChat
             }, orderBy: {createdAt: 'asc'}})
             return messages
+            
         }   catch (err) {
             throw new HttpException('Error finding a chat', HttpStatus.NOT_FOUND)
         }
@@ -68,43 +68,49 @@ export class ChatsService {
         }
     }
 
-    async createMessage(idChat: string, message: {userMessage: string}) {
+    async createMessage(idChat: string, createMessageData: {userMessage: string, userId: string}) {
         try {
+            const userIsCreator = await this.checkChatCreator({userId: createMessageData.userId, chatId: idChat})
+            if (!userIsCreator.ok) return userIsCreator // if false, then it have error message
+
             const humanRoleId = (await this.messagesRoles).filter(r => r.role === 'human')[0].id    
             const newMessage = await this.prismaChatService.createMessage({
                 chatId: idChat, messageRoleId: humanRoleId, 
-                message: message.userMessage
+                message: createMessageData.userMessage
             })
 
             return newMessage
         }   catch (e) {
-            throw new HttpException(`Error when creating message ${e}`, HttpStatus.INTERNAL_SERVER_ERROR)
+            throw new HttpException(`${ e? e.response: "Error when creating message"}`, HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
 
-    async createRespondMessage(idChat: string, message: {userMessage: string}) {
+    async createRespondMessage(idChat: string, createMessageData: {userMessage: string, userId: string}) {
         try {
-            let aiRespond: string;
-            try {
-                aiRespond = await this.llmService.getLlmResponse(message)
-            }   catch (err) {
-                throw new HttpException('CRM Respond Error', HttpStatus.INTERNAL_SERVER_ERROR)
-            }
+            const userIsCreator = await this.checkChatCreator({userId: createMessageData.userId, chatId: idChat})
+            if (!userIsCreator.ok) return userIsCreator // if false, then it have error message
+
+            const newAiResponse = await this.getAiresponse(createMessageData.userMessage)
+            if (!newAiResponse.ok) return newAiResponse
+
             const aiRoleId = (await this.messagesRoles).filter(r => r.role === 'ai')[0].id
             const newAiMessage = await this.prismaChatService.createMessage({
                 chatId: idChat, 
                 messageRoleId: aiRoleId, 
-                message: `${aiRespond}`
+                message: `${newAiResponse.aiResponse}`
             })
             return newAiMessage
         }
-        catch (err) {
-            throw new HttpException('CRM Error', HttpStatus.INTERNAL_SERVER_ERROR)
+        catch (e) {
+            throw new HttpException(`${e? e.response : "CRM Error"}`, HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
 
     async deleteChat(idChat: string) {
         try{
+            const userIsCreator = await this.checkChatCreator({userId: "test", chatId: idChat})
+            if (!userIsCreator.ok) return userIsCreator
+            
             const removedChat = await this.prismaChatService.deleteChat({id: idChat})
             if (removedChat === null) {
                 throw new HttpException('DC Error When Finding', HttpStatus.INTERNAL_SERVER_ERROR)
@@ -113,6 +119,26 @@ export class ChatsService {
         }
         catch ( err ) {
             throw new HttpException('DC Error', HttpStatus.INTERNAL_SERVER_ERROR)
+        }
+    }
+
+    async checkChatCreator(data: {userId: string, chatId: string}) {
+        try {
+            if ((await this.findOne(data.chatId)).userId !== data.userId) {
+                throw new HttpException(`User is not authorized to this chat`, HttpStatus.INTERNAL_SERVER_ERROR)
+            }
+            return {ok: true}
+        } catch (err) {
+            throw new HttpException(`${err? err.response: "Error when matching userId with chatId"}`, HttpStatus.INTERNAL_SERVER_ERROR)
+        }
+    }
+
+    async getAiresponse(userMessage: string) {
+        try {
+            const aiResponse = await this.llmService.getLlmResponse({userMessage: userMessage})
+            return {ok: true, aiResponse: aiResponse}
+        }   catch (e) {
+            throw new HttpException('Failed to get AI respond', HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
 }

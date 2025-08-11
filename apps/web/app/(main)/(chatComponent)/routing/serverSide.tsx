@@ -1,7 +1,11 @@
-async function fetchMessage(idChat: string) {
+async function fetchMessage(idChat: string, userId: string) {
     try {
         const response = await fetch(`http://localhost:8000/chats/c/${idChat}`, {
-            method:"GET",
+            method:"POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({userId: userId})
         });
 
         if (!response.ok) {
@@ -31,14 +35,14 @@ async function fetchChat(idUser: string) {
     }
 }
 
-async function postMessage(idChat: string, newMessage: { "userMessage" : string }) {
+async function postMessage(idChat: string, createMessageData: { "userMessage" : string, "userId": string }) {
     try {
-        const response = await fetch(`http://localhost:8000/chats/c/${idChat}`, {
+        const response = await fetch(`http://localhost:8000/chats/c/${idChat}/create`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(newMessage)
+            body: JSON.stringify(createMessageData)
         });
 
         
@@ -48,14 +52,14 @@ async function postMessage(idChat: string, newMessage: { "userMessage" : string 
     }
 }
 
-async function fetchLlmResponse(idChat: string, userMessage : { "userMessage" : string}) {
+async function fetchLlmResponse(idChat: string, responseMessageData: { "userMessage" : string, "userId": string }) {
     try {
-        const response = await fetch(`http://localhost:8000/chats/c/${idChat}/r`, {
+        const response = await fetch(`http://localhost:8000/chats/c/${idChat}/reply`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(userMessage)
+            body: JSON.stringify(responseMessageData)
         });
         
         return response.json();

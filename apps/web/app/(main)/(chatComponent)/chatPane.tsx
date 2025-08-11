@@ -47,19 +47,19 @@ export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
             return
         }
         
-        const postResult = await postMessage(state.currentChatId,{ "userMessage" : state.userMessage});
+        const postResult = await postMessage(state.currentChatId,{ "userMessage" : state.userMessage, "userId": state.currentUserId});
         if (postResult.id) { // True if exist returned message
             dispatch({type: 'PREPOSTHANDLE', payload: state.userMessage});
-            const updatedMessages = await loadMessages();
-            dispatch({type: 'POSTHANDLE', payload: updatedMessages});
+            dispatch({type: 'SETMESSAGE', payload: state.messages.concat(postResult)});
         }
     }
 
     const handleRespond = async () => {
         if (state.isResponded) {
             dispatch({type: 'SETISRESPONDED', payload: false})
-            const postResult = await fetchLlmResponse(state.currentChatId, { "userMessage" : state.lastUserMessage});
-            dispatch({type: "RESPONDHANDLE"}); loadMessages();
+            const postResult = await fetchLlmResponse(state.currentChatId, { "userMessage" : state.lastUserMessage, "userId": state.currentUserId});
+            dispatch({type: "RESPONDHANDLE"});
+            dispatch({type: 'SETMESSAGE', payload: state.messages.concat(postResult)});
         }
     }
     
@@ -71,7 +71,7 @@ export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
     }
 
     const loadMessages = async () => {
-        const fetchResult = await fetchMessage(await state.currentChatId);
+        const fetchResult = await fetchMessage(await state.currentChatId, state.currentUserId);
         {fetchResult.error? fetchError() : dispatch({type: "SETMESSAGE", payload: fetchResult})}
         console.log("Fetched: ", fetchResult)
         return fetchResult
