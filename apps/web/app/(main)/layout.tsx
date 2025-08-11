@@ -39,11 +39,19 @@ export default function RootLayout({
   const [currentChatId, setCurrentChatId] = useState("")
 
   const instantiateNewChat = async () => {
-      const handleNewChat = async () => {
-          const newChat = await createNewChat(currentUserId)
-          setCurrentChatId(newChat.id)
-      }
+    const handleNewChat = async () => {
+      const newChat = await createNewChat(currentUserId)
+      setCurrentChatId(newChat.id)
+      sessionStorage.setItem("chatId", newChat.id)
+    }
+    const prevChatId = sessionStorage.getItem("chatId")
+    if (prevChatId === null){
+      console.log("No prev chat id found")
       handleNewChat()
+    } else {
+      console.log("Using prev chat id")
+      setCurrentChatId(prevChatId)
+    }
   }
 
   const getUserId = async() => {

@@ -5,22 +5,16 @@ import { Prisma, Chat as PrismaChatModel} from 'database/generated/prisma';
 import { LlmService } from 'src/llm/llm.service';
 
 
-type ChatLists = {
-        idChat: string,
-        messages?: {
-            idMessage: number,
-            userMessage?: string,
-            aiMessage?: string,
-        }[]
-    }[]
-
 @Injectable()
 export class ChatsService {
-    private chats : ChatLists = []
+    private messagesRoles: any
+
     constructor(
         private readonly prismaChatService: PrismaChatService,
         private readonly llmService: LlmService,
-    ) {}
+    ) {
+        this.messagesRoles = this.prismaChatService.roles({})
+    }
 
     
     async findAll(params: {
@@ -52,10 +46,10 @@ export class ChatsService {
     async findMessages(idChat: string) {
         try {
             const chat = await this.prismaChatService.chat({id: idChat})
-            if (chat === null) {
-                throw new HttpException('Chat Not Found', HttpStatus.NOT_FOUND)
-            }
-            const messages = this.prismaChatService.messages({where: {
+            if (chat === null) {throw new HttpException('Chat Not Found', HttpStatus.NOT_FOUND)}
+            
+            const messages = this.prismaChatService.messages({
+                where: {
                 chatId: idChat
             }, orderBy: {createdAt: 'asc'}})
             return messages
@@ -76,11 +70,15 @@ export class ChatsService {
 
     async createMessage(idChat: string, message: {userMessage: string}) {
         try {
-            const newMessage = await this.prismaChatService.createMessage({chatId: idChat, messageRoleId: 2, message: message.userMessage})
+            const humanRoleId = (await this.messagesRoles).filter(r => r.role === 'human')[0].id    
+            const newMessage = await this.prismaChatService.createMessage({
+                chatId: idChat, messageRoleId: humanRoleId, 
+                message: message.userMessage
+            })
 
             return newMessage
         }   catch (e) {
-            throw new HttpException('Error when creating message', HttpStatus.INTERNAL_SERVER_ERROR)
+            throw new HttpException(`Error when creating message ${e}`, HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
 
@@ -92,7 +90,12 @@ export class ChatsService {
             }   catch (err) {
                 throw new HttpException('CRM Respond Error', HttpStatus.INTERNAL_SERVER_ERROR)
             }
-            const newAiMessage = await this.prismaChatService.createMessage({chatId: idChat, messageRoleId: 3, message: `${aiRespond}`})
+            const aiRoleId = (await this.messagesRoles).filter(r => r.role === 'ai')[0].id
+            const newAiMessage = await this.prismaChatService.createMessage({
+                chatId: idChat, 
+                messageRoleId: aiRoleId, 
+                message: `${aiRespond}`
+            })
             return newAiMessage
         }
         catch (err) {

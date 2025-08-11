@@ -153,7 +153,6 @@ export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
                     </div>
                 </div>
             </div>
-
         </div>
         </>
     )
