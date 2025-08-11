@@ -21,6 +21,7 @@ export default function Page() {
   //   showWarning(true)
   // }, [])
   const dummy = ["la Mija", "el Mijo", "Nina", "Nino", "Gato", "Casa", "Abuela", "Abuelo", "Leche"]
+  const dumTour = ["Cafe", "Garden", "Forest", "Beach"]
   return (
     <>
     {/* {warning && (
@@ -41,12 +42,18 @@ export default function Page() {
     <div className="flex flex-col items-center flex-1 min-h-svh gap-6">
       {/* <CurvedLoop marqueeText="Be ✦ Creative ✦ With ✦ React ✦ Bits ✦" /> */}
 
+      {/* Hero Section */}
       <div className="flex flex-col items-center justify-center overflow-hidden max-w-svw max-h-10 gap-4 min-h-screen">
         <TextPressure text="Hello?" minFontSize={240} textColor="foreground" className="center"/>
         {/* <h1 className="text-2xl primary font-bold">Hello World</h1> */}
-        <Link href="#hotel"><Button size="lg">Hotel?</Button></Link>
+        <div className="flex gap-2">
+          <Link href="#hotel"><Button size="lg">Hotel?</Button></Link>
+          <Link href="#tour"><Button size="lg">Tour?</Button></Link>
+        </div>
       </div>
-      <h1 className="self-start font-bold text-2xl mx-6 -my-2">Hotel</h1>
+
+      {/* Hotel Section */}
+      <h1 className="self-start font-bold text-2xl mx-6 -mb-2">Hotel</h1>
       <div className="grid grid-flow-dense grid-cols-2 md:grid-cols-3 auto-rows-auto gap-2 p-3" id="hotel">
         {dummy.map((val) => {
           return (
@@ -54,6 +61,31 @@ export default function Page() {
               <CardHeader>
                 <CardTitle>Hotel {val}</CardTitle>
                 <CardDescription>Hotel {val} is the best hotel in Bali</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Image src={foto} alt="meow" className="rounded-lg"/>
+              </CardContent>
+              <div className="flex justify-end">
+                <CardAction className="flex gap-1 p-4">
+                  <Button>Book This</Button>
+                  <Button variant={"destructive"}><Heart/></Button>
+                </CardAction>
+              </div>
+            </Card>
+          )
+        })}
+      </div>
+
+      {/* Tour Section */}
+      <h1 className="self-start font-bold text-2xl mx-6 -mb-2">Tour Location</h1>
+      <div className="grid grid-flow-dense grid-cols-2 md:grid-cols-3 auto-rows-auto gap-2 p-3" id="tour">
+        {dummy.map((val, i) => {
+          const loc = dumTour[i%4]
+          return (
+            <Card className="w-full flex flex-col justify-between">
+              <CardHeader>
+                <CardTitle>{loc} {val}</CardTitle>
+                <CardDescription>{loc} {val} is the best {loc} in Bali</CardDescription>
               </CardHeader>
               <CardContent>
                 <Image src={foto} alt="meow" className="rounded-lg"/>
