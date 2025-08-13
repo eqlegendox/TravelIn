@@ -118,8 +118,12 @@ export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
             {/* Chat */}
             <div className="flex-grow p-2 w-full overflow-y-auto bg-secondary rounded-md inset-shadow-sm">
                 <div className="flex py-1 flex-col gap-2 text-sm md:text-md">
+                    {console.log("this is the messages: ", state.messages)}
                     { state.messages.length !== 0 ? state.messages.map((i) => {
-                        const parsedMess = marked.parse(i.message)
+                        // const parsedMess = ""
+                        // if (i.message) {
+                            const parsedMess = marked.parse(i.message)
+                        // }
                         if (i.messageRoleId === 2) {
                             return (
                                 <div className="px-2 py-1.5 bg-background rounded-sm max-w-72/100 break-words place-self-end shadow-md" dangerouslySetInnerHTML={{__html: parsedMess}} />

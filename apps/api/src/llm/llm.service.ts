@@ -1,6 +1,13 @@
-import { Injectable } from '@nestjs/common';
-import { GoogleGenAI } from '@google/genai';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { GoogleGenAI } from '@google/genai';
+
+import { BaseMessage, HumanMessage } from '@langchain/core/messages';
+import { ChatGoogleGenerativeAI } from '@langchain/google-genai'
+import { Runnable } from '@langchain/core/runnables';
+import { workflow } from './graph/graph'
+import { ChatState } from './graph/state';
+import { Run } from '@langchain/core/dist/tracers/base';
 
 // async function mainLM () {
     //     const response = await ai.models.generateContentStream({
@@ -35,22 +42,63 @@ async function mainLM(lm, prompt: string) {
         }
     });
 
+    // const response = await lm.invoke(prompt)
+    // console.log(response)
+    return response.text
+}
+
+async function fakeLM(lm, prompt: string) {
+    const response = await lm.invoke({messages: prompt})
+    console.log(response)
+
     return response.text
 }
 
 
 @Injectable()
-export class LlmService {
-    private model: any;
-    private API_KEY: any;
-    private aiAgent: any;
-
-    constructor(
-        private configService: ConfigService,
-    ) {
-        this.API_KEY = this.configService.get<string>("GEMINI_API_KEY")
-        this.model = new GoogleGenAI({apiKey: this.API_KEY});
+export class LlmService implements OnModuleInit {
+    // private model: any;
+    // private API_KEY: any;
+    // private aiAgent: any;
+    private model: ChatGoogleGenerativeAI;
+    private graph: Runnable<typeof ChatState.State>;
+    
+    constructor(private configService: ConfigService) {
+    // this.API_KEY = this.configService.get<string>("GEMINI_API_KEY")
+        // this.model = new GoogleGenAI({apiKey: this.API_KEY});
+        // this.aiAgent = Graph
     }
+
+    onModuleInit() {
+        const APIKey = this.configService.get<string>('GEMINI_API_KEY')
+        if (!APIKey) {
+            throw new Error('GEMINI_API_KEY is not configured in your .env file!');
+        }
+
+        this.model = new ChatGoogleGenerativeAI({
+            model: "gemini-2.0-flash-001",
+            temperature: 0.1,
+            maxRetries: 2,
+            apiKey: APIKey,
+        });
+
+        this.graph = workflow.compile();
+    }
+
+    private async runGraph(
+        // systemPrompt: string,
+        history: BaseMessage[],
+    ):Promise<string> {
+        const response = await this.graph.invoke(
+            {messages: history},
+            {configurable: {model: this.model}}
+        );
+
+        const lastMessage = response.messages[response.messages.length - 1];
+        return lastMessage.content as string;
+    }
+    
+
     
 
     getLm(): any {
@@ -63,7 +111,13 @@ export class LlmService {
     }
 
     getLangGraph(prompt: {userMessage: string}): any {
-        const response = this.aiAgent(prompt.userMessage)
-        return response
+        // const response = fakeLM(this.aiAgent, prompt.userMessage)
+        // return response
+        // !!!!!!! importante add history to params as BaseMessage[]
+
+        // const fullHistory = [...history, new HumanMessage(prompt)]
+        const fullHistory = new HumanMessage(prompt.userMessage)
+
+        return this.runGraph([fullHistory])
     }
 }
