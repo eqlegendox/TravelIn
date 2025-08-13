@@ -16,7 +16,7 @@ export class LlmController {
     async getLlmResponse(@Body(ValidationPipe) llmPrompt: LlmPrompt) {
         throw new HttpException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
-        const response = await this.llmService.getLangGraph(llmPrompt)
+        const response = await this.llmService.getGraphResponse(llmPrompt)
         return response
     }
 

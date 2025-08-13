@@ -3,7 +3,7 @@ import { RunnableConfig } from "@langchain/core/runnables";
 import { StateGraph } from "@langchain/langgraph";
 import { ToolNode } from "@langchain/langgraph/prebuilt";
 
-// import { TOOLS } from "./tools";
+// import {TOOLS} from "./tools"
 // import { LoadChatModel } from "./loader";
 import { ChatState } from "./state";
 
@@ -18,7 +18,7 @@ async function CallModel(
         throw new Error("Model is not configured. Please pass it in the 'configurable' field of the config.");
     }
 
-    const model = config.configurable.model;
+    const model = config.configurable.model
         // .bindTools(TOOLS);
 
     const response = await model.invoke([
@@ -49,7 +49,7 @@ export const workflow = new StateGraph(ChatState)
     .addNode("callModel", CallModel)
     // .addNode("tools", new ToolNode(TOOLS))
     .addEdge("__start__", "callModel")
-    // .addConditionalEdge("callModel", RouteModel)
+    // .addConditionalEdges("callModel", RouteModel)
     // .addEdge("tools", "callModel");
     .addEdge("callModel", "__end__")
 

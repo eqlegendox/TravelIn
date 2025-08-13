@@ -135,7 +135,7 @@ export class ChatsService {
 
     async getAiresponse(userMessage: string) {
         try {
-            const aiResponse = await this.llmService.getLangGraph({userMessage: userMessage})
+            const aiResponse = await this.llmService.getGraphResponse({userMessage: userMessage})
             return {ok: true, aiResponse: aiResponse}
         }   catch (e) {
             throw new HttpException('Failed to get AI respond', HttpStatus.INTERNAL_SERVER_ERROR)
