@@ -69,7 +69,7 @@ export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
         if (e.which === 13) { // "Enter" key?
             handlePost()
         }
-    }
+    }   
 
     const loadMessages = async () => {
         const fetchResult = await fetchMessage(await state.currentChatId, state.currentUserId);
@@ -118,7 +118,6 @@ export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
             {/* Chat */}
             <div className="flex-grow p-2 w-full overflow-y-auto bg-secondary rounded-md inset-shadow-sm">
                 <div className="flex py-1 flex-col gap-2 text-sm md:text-md">
-                    {console.log("this is the messages: ", state.messages)}
                     { state.messages.length !== 0 ? state.messages.map((i) => {
                         // const parsedMess = ""
                         // if (i.message) {
