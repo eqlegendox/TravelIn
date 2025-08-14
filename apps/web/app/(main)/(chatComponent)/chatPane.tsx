@@ -69,7 +69,7 @@ export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
         if (e.which === 13) { // "Enter" key?
             handlePost()
         }
-    }
+    }   
 
     const loadMessages = async () => {
         const fetchResult = await fetchMessage(await state.currentChatId, state.currentUserId);

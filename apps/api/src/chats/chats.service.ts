@@ -3,6 +3,8 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaChatService } from 'src/prisma-chat/prisma-chat.service';
 import { Prisma, Chat as PrismaChatModel} from 'database/generated/prisma';
 import { LlmService } from 'src/llm/llm.service';
+import { formatHistory } from './formatter/formatter';
+import { BaseMessage } from '@langchain/core/messages';
 
 
 @Injectable()
@@ -90,7 +92,15 @@ export class ChatsService {
             const userIsCreator = await this.checkChatCreator({userId: createMessageData.userId, chatId: idChat})
             if (!userIsCreator.ok) return userIsCreator // if false, then it have error message
 
-            const newAiResponse = await this.getAiresponse(createMessageData.userMessage)
+            // implement db fetching
+            const unprocMessageHistory = await this.prismaChatService.messages({ where: { chatId: idChat},
+                skip: 1, take: 6, orderBy:{ createdAt: 'desc' }});
+
+            const history = formatHistory(unprocMessageHistory)
+
+            // console.log("!!this is your message History boss", history)
+
+            const newAiResponse = await this.getAiresponse(createMessageData.userMessage, history)
             if (!newAiResponse.ok) return newAiResponse
 
             const aiRoleId = (await this.messagesRoles).filter(r => r.role === 'ai')[0].id
@@ -133,9 +143,9 @@ export class ChatsService {
         }
     }
 
-    async getAiresponse(userMessage: string) {
+    async getAiresponse(userMessage: string, history: BaseMessage[]) {
         try {
-            const aiResponse = await this.llmService.getGraphResponse({userMessage: userMessage})
+            const aiResponse = await this.llmService.getGraphResponse({userMessage: userMessage}, history)
             return {ok: true, aiResponse: aiResponse}
         }   catch (e) {
             throw new HttpException('Failed to get AI respond', HttpStatus.INTERNAL_SERVER_ERROR)

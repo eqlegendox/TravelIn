@@ -1,6 +1,5 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { GoogleGenAI } from '@google/genai';
 
 import { BaseMessage, HumanMessage } from '@langchain/core/messages';
 import { ChatGoogleGenerativeAI } from '@langchain/google-genai'
@@ -35,7 +34,7 @@ export class LlmService implements OnModuleInit {
     onModuleInit() {
         const APIKey = this.configService.get<string>('GEMINI_API_KEY')
         if (!APIKey) {
-            throw new Error('GEMINI_API_KEY is not configured in your .env file!');
+            throw new Error('GEMINI_API_KEY is not in your .env');
         }
 
         this.model = new ChatGoogleGenerativeAI({
@@ -57,27 +56,24 @@ export class LlmService implements OnModuleInit {
             {configurable: {model: this.model}}
         );
 
-        console.log("here is the response in llm service")
-        console.log("here is the response in llm service", response)
+        // console.log("here is the response in llm service")
+        // console.log("here is the response in llm service", response)
         const lastMessage = response.messages[response.messages.length - 1]; //the output is usually [humanMessage, AiMessage] so it will always return the ai messages dk about tool call doe
         return lastMessage.content as string;
     }
     
-
-    
-
-    getLm(): any {
+    getLm(): any { //only for testing but too lazy to refactor
         return mainLM(this.model, "Can you plan me a week trip in Bali?");
     }
 
-    getGraphResponse(prompt: {userMessage: string}): any {
+    getGraphResponse(prompt: {userMessage: string}, history: BaseMessage[]): any {
         // const response = fakeLM(this.aiAgent, prompt.userMessage)
         // return response
         // !!!!!!! importante add history to params as BaseMessage[]
 
-        // const fullHistory = [...history, new HumanMessage(prompt)]
-        const fullHistory = new HumanMessage(prompt.userMessage)
+        const fullHistory = [...history, new HumanMessage(prompt.userMessage)]
+        // const fullHistory = new HumanMessage(prompt.userMessage)
 
-        return this.runGraph([fullHistory])
+        return this.runGraph(fullHistory) //after is able to implement memory remove the bracket
     }
 }
