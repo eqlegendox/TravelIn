@@ -94,7 +94,7 @@ export class ChatsService {
 
             // implement db fetching
             const unprocMessageHistory = await this.prismaChatService.messages({ where: { chatId: idChat},
-                skip: 1, take: 6, orderBy:{ createdAt: 'desc' }});
+                skip: 1, take: 10, orderBy:{ createdAt: 'desc' }});
 
             const history = formatHistory(unprocMessageHistory)
 

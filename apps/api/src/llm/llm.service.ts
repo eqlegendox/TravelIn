@@ -42,6 +42,8 @@ export class LlmService implements OnModuleInit {
             temperature: 0.1,
             maxRetries: 2,
             apiKey: APIKey,
+
+            maxOutputTokens: 1024,
         });
 
         this.graph = workflow.compile();
@@ -57,7 +59,7 @@ export class LlmService implements OnModuleInit {
         );
 
         // console.log("here is the response in llm service")
-        // console.log("here is the response in llm service", response)
+        console.log("here is the response in llm service", response)
         const lastMessage = response.messages[response.messages.length - 1]; //the output is usually [humanMessage, AiMessage] so it will always return the ai messages dk about tool call doe
         return lastMessage.content as string;
     }
@@ -67,13 +69,8 @@ export class LlmService implements OnModuleInit {
     }
 
     getGraphResponse(prompt: {userMessage: string}, history: BaseMessage[]): any {
-        // const response = fakeLM(this.aiAgent, prompt.userMessage)
-        // return response
-        // !!!!!!! importante add history to params as BaseMessage[]
-
         const fullHistory = [...history, new HumanMessage(prompt.userMessage)]
-        // const fullHistory = new HumanMessage(prompt.userMessage)
 
-        return this.runGraph(fullHistory) //after is able to implement memory remove the bracket
+        return this.runGraph(fullHistory) 
     }
 }
