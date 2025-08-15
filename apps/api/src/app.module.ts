@@ -13,6 +13,7 @@ import { PrismaChatModule } from './prisma-chat/prisma-chat.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { UserModule } from './user/user.module';
 import { PrismaUserModule } from './prisma-user/prisma-user.module';
+import { CrawlerModule } from './crawler/crawler.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { PrismaUserModule } from './prisma-user/prisma-user.module';
     PrismaModule,
     UserModule,
     PrismaUserModule,
+    CrawlerModule,
   ],
   controllers: [AppController],
   providers: [AppService, {
