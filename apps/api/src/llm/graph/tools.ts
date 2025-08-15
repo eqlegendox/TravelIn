@@ -1,20 +1,20 @@
 import { tool } from "@langchain/core/dist/tools";
 import { z } from "zod";
 
-// // const placeholderTool = new DynamicStructuredTool({
-// //     name: "placeholder",
-// //     description: "this tool currently exist only to act as a placeholder",
-// //     schema: z.object({
-// //         a: z.string().describe("just a variable to store string")
-// //     }),
-// //     func: async ({ a } : {a: string}) => {
-// //         return (a + " hahay");
-// //     },
-// // });
+// const placeholderTool = new DynamicStructuredTool({
+//     name: "placeholder",
+//     description: "this tool currently exist only to act as a placeholder",
+//     schema: z.object({
+//         a: z.string().describe("just a variable to store string")
+//     }),
+//     func: async ({ a } : {a: string}) => {
+//         return (a + " hahay");
+//     },
+// });
 
-// const phSchema = z.object({
-//     str: z.string(),
-// })
+const phSchema = z.object({
+    str: z.string(),
+})
 
 // // const placeholderTool = tool(
 // //     async (input): Promise<string> => {
