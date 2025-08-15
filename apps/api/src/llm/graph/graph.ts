@@ -3,9 +3,10 @@ import { RunnableConfig } from "@langchain/core/runnables";
 import { StateGraph } from "@langchain/langgraph";
 import { ToolNode } from "@langchain/langgraph/prebuilt";
 
-// import {TOOLS} from "./tools"
+// import {TOOLS} from "./tools";
 // import { LoadChatModel } from "./loader";
 import { ChatState } from "./state";
+import { TOOLS } from "./twools";
 
 
 
@@ -19,12 +20,14 @@ async function CallModel(
     }
 
     const model = config.configurable.model
-        // .bindTools(TOOLS);
+        .bindTools(TOOLS);
 
     const response = await model.invoke([
         {
             role: "system",
-            content: `You are a travelIn ai agent helper called Travy, you will answer as a representative of this travel-agent that is located in Bali. Date Now ${new Date().toISOString()}`,
+            content: `You are a travelIn ai agent helper called Travy, you will answer as a representative of this travel-agent that is located in Bali. Date Now ${new Date().toISOString()},
+            if you receive tool response, please format them as beautiful and structurally sound as possible, you may use emoji to improve our user experience,
+            if links are included also pass them that in an html-styled hyperlink`,
         },
         ...state.messages,
     ]);
@@ -47,10 +50,10 @@ function RouteModel(state: typeof ChatState.State): string {
 
 export const workflow = new StateGraph(ChatState)
     .addNode("callModel", CallModel)
-    // .addNode("tools", new ToolNode(TOOLS))
+    .addNode("tools", new ToolNode(TOOLS))
     .addEdge("__start__", "callModel")
-    // .addConditionalEdges("callModel", RouteModel)
-    // .addEdge("tools", "callModel");
+    .addConditionalEdges("callModel", RouteModel)
+    .addEdge("tools", "callModel")
     .addEdge("callModel", "__end__")
 
 // export const Graph = workflow.compile({
