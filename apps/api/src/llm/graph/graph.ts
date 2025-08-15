@@ -49,8 +49,8 @@ function RouteModel(state: typeof ChatState.State): string {
 }
 
 export const workflow = new StateGraph(ChatState)
-    .addNode("callModel", CallModel)
     .addNode("tools", new ToolNode(TOOLS))
+    .addNode("callModel", CallModel)
     .addEdge("__start__", "callModel")
     .addConditionalEdges("callModel", RouteModel)
     .addEdge("tools", "callModel")

@@ -55,10 +55,26 @@ model ChatMessages {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([chatId, createdAt])
 }
 
 model MessageRole {
   id          Int            @id @default(autoincrement()) @db.SmallInt
   role        String
   chatMessage ChatMessages[]
+}
+
+model HotelInfo {
+  id          Int    @id @default(autoincrement())
+  hotelName   String
+  location    String
+  price       Int
+  link        String
+  description String
+  rating      Float
+  reviews     Int
+  star        Int    @db.SmallInt
+
+  @@index([location, price, rating, reviews, star])
 }

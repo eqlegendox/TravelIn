@@ -125,7 +125,7 @@ export default function ChatPane({bottomRef, CurrentChatId, CurrentUserId}) {
                         // }
                         if (i.messageRoleId === 2) {
                             return (
-                                <div className="px-2 py-1.5 bg-background rounded-sm max-w-72/100 break-words place-self-end shadow-md" dangerouslySetInnerHTML={{__html: parsedMess}} />
+                                <div className="px-2 py-1.5 bg-background rounded-sm max-w-72/100 break-words place-self-end shadow-md">{i.message}</div> 
                             )
                         }
                         if (i.messageRoleId === 3) {
