@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { Maximize, Minimize, Minus, pane } from "lucide-react"
+import { Maximize, Minimize, Minus } from "lucide-react"
 import ChatPane from "./chatPane"
 import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
