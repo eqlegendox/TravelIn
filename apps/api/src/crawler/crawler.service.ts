@@ -70,11 +70,8 @@ export class CrawlerService {
         ]
         return dummyData
     }
-    async hotelCrawler(params: {area: string, minPrice?: number, maxPrice?: number, numChild?: number, childAges?: number[], numAdult?: number, numRoom? : number, starRating?: number[], sortBy: string, checkOutDate?: Date, checkInDate?: Date}): Promise<{}[]> {
-        console.log("U call me?")
-        
-        const sourceUrls = [""] // Hotel Website Links
-
+    async hotelCrawler(params: {area: string, minPrice?: number, maxPrice?: number, numChild?: number, childAges?: number[], numAdult?: number, numRoom? : number, starRating?: number[], sortBy: string, checkOutDate?: Date, checkInDate?: Date}): Promise<{}[] | void> {
+        let error;
         const today = new Date();
         const tomorrow = new Date(today);
         tomorrow.setDate(today.getDate() + 1);
@@ -94,8 +91,6 @@ export class CrawlerService {
             checkInDate: params?.checkInDate ?? tomorrow.toISOString().split('T')[0],
             checkOutDate: params?.checkOutDate ?? twoDaysLater.toISOString().split('T')[0]
         }
-
-        console.log(params, config)
 
         const operations = {
             minPrice: value => { 
@@ -155,14 +150,11 @@ export class CrawlerService {
                 await new Promise(resolve => setTimeout(resolve, 300));
                 await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
                 } else {
-                throw new Error('Element bounding box not found');
+                    error = new Error('Element bounding box not found');
                 }
             };
 
-            
-
             await page.goto('https://www.tiket.com/hotel', { waitUntil: 'networkidle2' });
-            console.log('Page Title:', await page.title());
 
             try {
                 const locationChoser = await page.waitForSelector("div[class*='SearchForm_input_var_b__frc_L SearchForm_input_destination__']", { visible: true, timeout: 10000 });
@@ -172,18 +164,24 @@ export class CrawlerService {
                 const locationTextField = await locationInput?.$('label > input')
                 await locationTextField?.type(params.area, {delay: 200})
 
-                const locationButton = await page.waitForSelector('[class*="HotelListItem_heading_text__"]', { visible: true, timeout: 5000 })
-                const locationButtonText = await page.evaluate(el => el?.textContent, locationButton)
-                if (locationButtonText?.toLowerCase() !== params.area.toLowerCase()) {
-                    throw new HttpException('Area not found', HttpStatus.NOT_FOUND)
+                let locationButton
+                try {
+                    locationButton = await page.waitForSelector('[class*="HotelListItem_heading_text__"]', { visible: true, timeout: 5000 })
+                    const locationButtonText = await page.evaluate(el => el?.textContent, locationButton)
+                    if (locationButtonText?.toLowerCase() !== params.area.toLowerCase()) {
+                        error = new HttpException('Area not found', HttpStatus.NOT_FOUND)
+                    }
+                } catch {
+                    error = new HttpException('Area not found', HttpStatus.NOT_FOUND)
+                    throw error
                 }
                 await locationButton?.click()
                 
                 const searchSubmitButton = await page.waitForSelector('[aria-label="search"]', { visible: true, timeout: 5000 });
-                console.log(await page.evaluate(el => el?.textContent, searchSubmitButton))
                 searchSubmitButton? await hoverAndClick(searchSubmitButton) : null
                 
-                if (await page.waitForSelector('[class*="FullProductCard_container__"]', { visible: true, timeout: 30000 })) {
+                try {
+                    await page.waitForSelector('[class*="FullProductCard_container__"]', { visible: true, timeout: 30000 })
                     let currentUrl = await page.url()
                     
                     config.query = currentUrl
@@ -196,9 +194,7 @@ export class CrawlerService {
                     }
                     await updateURL()
 
-                    console.log(config.query)
                     await page.goto(config.query)
-                    console.log('Page Title:', await page.title());
                     const hotelsData = [{}]
                     const seenLinks = new Set();
                     
@@ -211,11 +207,10 @@ export class CrawlerService {
                         await new Promise(resolve => setTimeout(resolve, 1000))
 
                         const hotels = await page.$$('[class*="main_list_item__"]')
-                        console.log(hotels.length)
                         for (const hot of hotels) {
                             let hotelName, location, starCount, facilities, rating, price, link;
 
-                            const hotelNameEl = await hot.waitForSelector('::-p-xpath(.//div[contains(@class,"FullProductCard_content_wrapper__")]//h3)', { timeout: 5000 });
+                            const hotelNameEl = await hot.waitForSelector('::-p-xpath(.//div[contains(@class,"FullProductCard_content_wrapper__")]//h3)', { timeout: 500 });
                             hotelName = await hotelNameEl?.evaluate(el => el.textContent);
 
                             location = await hot.$eval('::-p-xpath(.//span[contains(@class,"FullProductCard_hotel_address__")])', el => el.textContent);
@@ -249,39 +244,30 @@ export class CrawlerService {
                                 seenLinks.add(link);
                                 isNew = true
                                 hotelsData.push(data)
-                                console.log("New data found")
                             }
                         }
 
                         if (!isNew) {
                             tries = tries + 1
-                            console.log("No new data found!")
                         } else {
                             isNew = false
                         }
                     }
                     
                     hotelsData.shift()
-                    writeFile("hotelsInfo.json", JSON.stringify(hotelsData), err => {
-                        if (err) console.error("Error writing to file:", err);
-                        else console.log("File written successfully!");
-                    });
-                    console.log(hotelsData)
-                    console.log(hotelsData.length)
                     await browser.close();
                     return hotelsData
-                } else if(await page.waitForSelector('[class*="NoSearchResult_no_result_found_wrapper__eGoN9"]', { visible: true, timeout: 30000 })) {
-                    console.log("Nothing found")
-                    throw new HttpException('Nothing found', HttpStatus.NOT_FOUND)
+                } catch {
+                    error = new HttpException('Nothing found', HttpStatus.NOT_FOUND)
+                    throw error
                 }
             } catch (err) {
-                console.log(err)
             }
             await browser.close();
         } catch (e) {
-            console.log(e)
-            return e
+            error = new HttpException('Internal Server Error', HttpStatus.INTERNAL_SERVER_ERROR)
+            throw error
         }
-        throw new HttpException('Crawl failed', HttpStatus.INTERNAL_SERVER_ERROR)
+        throw error
     }
 }
