@@ -234,7 +234,7 @@ export class CrawlerService {
                             rating = await hot.$eval('::-p-xpath(.//div[contains(@class,"ProductRatingAndReviews_rating_text__")])', el => el.textContent);
                             price = await hot.$eval('::-p-xpath(.//div[contains(@class,"PriceArea_price_description__")])', el => el.textContent);
                             link = await hot.$eval('::-p-xpath(.//a[contains(@class,"FullProductCard_container__")])', el => el.getAttribute('href'));
-
+                            link = "tiket.com".concat(link)
                             const data = {
                                 hotelName: hotelName,
                                 hotelStarRating: starCount,
