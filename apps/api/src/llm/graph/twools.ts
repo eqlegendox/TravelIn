@@ -1,6 +1,8 @@
 const { tool } = require("@langchain/core/tools");
-const { z } = require("zod");
-
+import { CrawlerController } from "src/crawler/crawler.controller";
+import { CrawlerService } from "src/crawler/crawler.service";
+// const { z } = require("zod");
+import * as z from "zod";
 const dbHotelSchema = z.object({
   area: z.string(),
 });
@@ -45,6 +47,36 @@ const dbTourTool = tool(
     }
 )
 
-const TOOLS = [dbHotelTool, dbTourTool]
+const crawlerParamaters = z.object({
+  area: z.string().min(1).max(30),
+  minPrice: z.number().min(0).optional().transform(e => e === 0 ? undefined : e),
+  maxPrice: z.number().min(0).optional().transform(e => e === 0 ? undefined : e),
+  numChild: z.number().min(0).optional().transform(e => e === 0 ? undefined : e),
+  childAges: z.array(z.number()).optional().transform(e => e?.length === 0 ? undefined : e),
+  numAdult: z.number().min(0).optional().transform(e => e === 0 ? undefined : e),
+  numRoom: z.number().min(0).optional().transform(e => e === 0 ? undefined : e),
+  starRating: z.array(z.number()).optional().transform(e => e?.length === 0 ? undefined : e),
+  sortBy: z.enum(["lowest_price", "highest_price", "review", "highest_star", "recommended"]),
+  checkInDate: z.string().optional().transform(e => e === "" ? undefined : e),
+  checkOutDate: z.string().optional().transform(e => e === "" ? undefined : e)
+});
 
-module.exports = { TOOLS };
+const hotelCrawlerTool = tool(
+  async (input) => {
+    const crawler = new CrawlerService()
+    const data = crawler.hotelCrawler(input)
+    return JSON.stringify(await data)
+  },
+  {
+    name: "hotelWebCrawler",
+    description: `You need to call this tool when user asks for hotel information that doesn't
+     exist in the hotelDatabase or when you want to search for hotel with specific requirements.
+     It accepts a general location in Bali (pass only one location, specific area or general area)
+     and hotel requirements. Date format is 'YYYY-MM-DD.`,
+     schema: crawlerParamaters
+  }
+)
+const TOOLS = [dbHotelTool, dbTourTool, hotelCrawlerTool]
+
+// module.exports = { TOOLS };
+export { TOOLS }

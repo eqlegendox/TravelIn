@@ -18,6 +18,58 @@ interface HotelData {
 
 @Injectable()
 export class CrawlerService {
+    async testCrawler(params: {area: string, minPrice?: number, maxPrice?: number, numChild?: number, childAges?: number[], numAdult?: number, numRoom? : number, starRating?: number[], sortBy: string, checkOutDate?: Date, checkInDate?: Date}): Promise<{}[]> {
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(today.getDate() + 1);
+        const twoDaysLater = new Date(today);
+        twoDaysLater.setDate(today.getDate() + 2);
+        const config = {
+            query: "",
+            minPrice: params?.minPrice ?? null, 
+            maxPrice: params?.maxPrice ?? null, 
+            numChild: params?.numChild ?? 0, 
+            childAges: params?.childAges ?? [], 
+            numAdult: params?.numAdult ?? null, 
+            numRoom: params?.numRoom ?? null, 
+            starRating: params?.starRating ?? [], 
+            sortBy: params?.sortBy === "recommended" ? null : params.sortBy,
+            checkInDate: params?.checkInDate ?? tomorrow.toISOString().split('T')[0],
+            checkOutDate: params?.checkOutDate ?? twoDaysLater.toISOString().split('T')[0]
+        }
+        console.log(params)
+        console.log(config)
+        const dummyData = [
+            {
+                "hotelName": "Yans House Hotel Kuta",
+                "hotelStarRating": 5,
+                "location": "Kuta, Badung",
+                "facilities": "100% Refund & RescheduleSarapan GratisBayar di HotelKolam Renang+2",
+                "rating": "4,6/5(742)",
+                "price": " IDR 912.448)",
+                "link": "/hotel/indonesia/yans-house-hotel-kuta-610001696402853466?room=1&adult=2&checkin=2025-08-25&checkout=2025-08-26&child=12&searchSessionId=F51E0160-CADC-4409-851F-B9E8F64973AF&isFromSRP=true&referrer=https%3A%2F%2Fwww.tiket.com%2Fhotel%2Fsearch%3Froom%3D1%26adult%3D2%26id%3Dkuta-108001534490276350%26type%3DAREA%26q%3DKuta%26checkin%3D2025-08-25%26checkout%3D2025-08-26%26searchSessionId%3D6DF83747-2EF5-4FB0-A5CB-54B2AF65A89B%26child%3D12%26sort%3Dundefined&utm_page=searchResultPage"
+            },
+            {
+                "hotelName": "Ramada by Wyndham Bali Sunset Road Kuta",
+                "hotelStarRating": 4,
+                "location": "Kuta, Badung",
+                "facilities": "Sarapan GratisKolam RenangParkir GratisWifi Gratis",
+                "rating": "4,1/5(1.088)",
+                "price": " IDR 2.649.999)",
+                "link": "/hotel/indonesia/ramada-by-wyndham-bali-sunset-road-kuta-807001751612805075?room=1&adult=2&checkin=2025-08-25&checkout=2025-08-26&child=12&searchSessionId=F51E0160-CADC-4409-851F-B9E8F64973AF&isFromSRP=true&referrer=https%3A%2F%2Fwww.tiket.com%2Fhotel%2Fsearch%3Froom%3D1%26adult%3D2%26id%3Dkuta-108001534490276350%26type%3DAREA%26q%3DKuta%26checkin%3D2025-08-25%26checkout%3D2025-08-26%26searchSessionId%3D6DF83747-2EF5-4FB0-A5CB-54B2AF65A89B%26child%3D12%26sort%3Dundefined&utm_page=searchResultPage"
+            },
+            {
+                "hotelName": "Ramada Encore by Wyndham Bali Seminyak",
+                "hotelStarRating": 4,
+                "location": "Seminyak, Badung",
+                "facilities": "Sarapan GratisBayar di HotelKolam RenangParkir Gratis+1",
+                "rating": "4,4/5(2.580)",
+                "price": " IDR 5.591.357)",
+                "link": "/hotel/indonesia/ramada-encore-by-wyndham-bali-seminyak-807001752218274968?room=1&adult=2&checkin=2025-08-25&checkout=2025-08-26&child=12&searchSessionId=F51E0160-CADC-4409-851F-B9E8F64973AF&isFromSRP=true&referrer=https%3A%2F%2Fwww.tiket.com%2Fhotel%2Fsearch%3Froom%3D1%26adult%3D2%26id%3Dkuta-108001534490276350%26type%3DAREA%26q%3DKuta%26checkin%3D2025-08-25%26checkout%3D2025-08-26%26searchSessionId%3D6DF83747-2EF5-4FB0-A5CB-54B2AF65A89B%26child%3D12%26sort%3Dundefined&utm_page=searchResultPage"
+            },
+        ]
+        return dummyData
+    }
     async hotelCrawler(params: {area: string, minPrice?: number, maxPrice?: number, numChild?: number, childAges?: number[], numAdult?: number, numRoom? : number, starRating?: number[], sortBy: string, checkOutDate?: Date, checkInDate?: Date}): Promise<{}[]> {
         console.log("U call me?")
         
@@ -38,7 +90,7 @@ export class CrawlerService {
             numAdult: params?.numAdult ?? null, 
             numRoom: params?.numRoom ?? null, 
             starRating: params?.starRating ?? [], 
-            sortBy: params?.sortBy ?? null,
+            sortBy: params?.sortBy === "recommended" ? null : params.sortBy,
             checkInDate: params?.checkInDate ?? tomorrow.toISOString().split('T')[0],
             checkOutDate: params?.checkOutDate ?? twoDaysLater.toISOString().split('T')[0]
         }

@@ -63,11 +63,11 @@ async function createRoles(role: string) {
     })
     console.log(newRoles)
 }
-// createUser()
-// createRoles("system")
-// createRoles("human")
-// createRoles("ai")
-// createRoles("tool")
+createUser()
+createRoles("system")
+createRoles("human")
+createRoles("ai")
+createRoles("tool")
 main()
   .catch( e => {
     console.error(e.message)
