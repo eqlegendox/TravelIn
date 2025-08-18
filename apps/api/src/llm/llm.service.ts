@@ -43,7 +43,7 @@ export class LlmService implements OnModuleInit {
             maxRetries: 2,
             apiKey: APIKey,
 
-            maxOutputTokens: 1024,
+            // maxOutputTokens: 100000,
         });
 
         this.graph = workflow.compile();
