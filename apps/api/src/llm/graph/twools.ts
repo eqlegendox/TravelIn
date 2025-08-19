@@ -85,15 +85,19 @@ const hotelCrawlerTool = tool(
   async (input) => {
     const crawler = new CrawlerService()
     const data = crawler.hotelCrawler(input)
-    return JSON.stringify(await data)
+    const stringData = JSON.stringify(await data)
+
+
+    return stringData
   },
   {
     name: "hotelWebCrawler",
     description: `You need to call this tool when user asks for hotel information that doesn't
-      exist in the hotelDatabase or when you want to search for hotel with specific requirements.
-      It accepts a general location in Bali (pass only one location, specific area or general area)
-      and hotel requirements. Date format is 'YYYY-MM-DD.`,
-      schema: crawlerParamaters
+     exist in the hotelDatabase or when you want to search for hotel with specific requirements.
+     It accepts a general location in Bali (pass only one location, specific area or general area)
+     and hotel requirements. Date format is 'YYYY-MM-DD. When displaying links, use the returned link 
+     without any addon.`,
+     schema: crawlerParamaters
   }
 )
 const TOOLS = [dbHotelTool, dbTourTool, hotelCrawlerTool]
