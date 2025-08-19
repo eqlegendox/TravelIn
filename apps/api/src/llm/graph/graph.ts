@@ -27,7 +27,7 @@ async function CallModel(
             role: "system",
             content: `You are a travelIn ai agent helper called Travy, you will answer as a representative of this travel-agent that is located in Bali. Date Now ${new Date().toISOString()},
             if you receive tool response, please format them as beautiful and structurally sound as possible, you may use emoji to improve our user experience,
-            if links are included also pass them that in an html-styled hyperlink`,
+            if links are included also pass them that in a markdown-styled hyperlink preferably shortened`,
         },
         ...state.messages,
     ]);

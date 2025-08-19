@@ -14,6 +14,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { UserModule } from './user/user.module';
 import { PrismaUserModule } from './prisma-user/prisma-user.module';
 import { CrawlerModule } from './crawler/crawler.module';
+import { ToolsModule } from './tools/tools.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { CrawlerModule } from './crawler/crawler.module';
     UserModule,
     PrismaUserModule,
     CrawlerModule,
+    ToolsModule,
   ],
   controllers: [AppController],
   providers: [AppService, {
