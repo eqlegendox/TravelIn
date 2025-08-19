@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, OnModuleInit } from '@nestjs/common';
 import { ElementHandle, Browser, Page } from 'puppeteer';
 import { MyLoggerService } from 'src/my-logger/my-logger.service';
 import puppeteer from 'puppeteer-extra';
@@ -6,68 +6,18 @@ import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 puppeteer.use(StealthPlugin());
 
 @Injectable()
-export class CrawlerService {
-    private readonly logger: MyLoggerService
+export class CrawlerService{
+    private logger: MyLoggerService
     constructor() {
         this.logger = new MyLoggerService()
     }
 
-    async testCrawler(params: {area: string, minPrice?: number, maxPrice?: number, numChild?: number, childAges?: number[], numAdult?: number, numRoom? : number, starRating?: number[], sortBy: string, checkOutDate?: Date, checkInDate?: Date}): Promise<{}[]> {
-        const today = new Date();
-        const tomorrow = new Date(today);
-        tomorrow.setDate(today.getDate() + 1);
-        const twoDaysLater = new Date(today);
-        twoDaysLater.setDate(today.getDate() + 2);
-        const config = {
-            query: "",
-            minPrice: params?.minPrice ?? null, 
-            maxPrice: params?.maxPrice ?? null, 
-            numChild: params?.numChild ?? 0, 
-            childAges: params?.childAges     ?? [], 
-            numAdult: params?.numAdult ?? null, 
-            numRoom: params?.numRoom ?? null, 
-            starRating: params?.starRating ?? [], 
-            sortBy: params?.sortBy === "recommended" ? null : params.sortBy,
-            checkInDate: params?.checkInDate ?? tomorrow.toISOString().split('T')[0],
-            checkOutDate: params?.checkOutDate ?? twoDaysLater.toISOString().split('T')[0]
-        }
-        console.log(params)
-        console.log(config)
-        const dummyData = [
-            {
-                "hotelName": "Yans House Hotel Kuta",
-                "hotelStarRating": 5,
-                "location": "Kuta, Badung",
-                "facilities": "100% Refund & RescheduleSarapan GratisBayar di HotelKolam Renang+2",
-                "rating": "4,6/5(742)",
-                "price": " IDR 912.448)",
-                "link": "/hotel/indonesia/yans-house-hotel-kuta-610001696402853466?room=1&adult=2&checkin=2025-08-25&checkout=2025-08-26&child=12&searchSessionId=F51E0160-CADC-4409-851F-B9E8F64973AF&isFromSRP=true&referrer=https%3A%2F%2Fwww.tiket.com%2Fhotel%2Fsearch%3Froom%3D1%26adult%3D2%26id%3Dkuta-108001534490276350%26type%3DAREA%26q%3DKuta%26checkin%3D2025-08-25%26checkout%3D2025-08-26%26searchSessionId%3D6DF83747-2EF5-4FB0-A5CB-54B2AF65A89B%26child%3D12%26sort%3Dundefined&utm_page=searchResultPage"
-            },
-            {
-                "hotelName": "Ramada by Wyndham Bali Sunset Road Kuta",
-                "hotelStarRating": 4,
-                "location": "Kuta, Badung",
-                "facilities": "Sarapan GratisKolam RenangParkir GratisWifi Gratis",
-                "rating": "4,1/5(1.088)",
-                "price": " IDR 2.649.999)",
-                "link": "/hotel/indonesia/ramada-by-wyndham-bali-sunset-road-kuta-807001751612805075?room=1&adult=2&checkin=2025-08-25&checkout=2025-08-26&child=12&searchSessionId=F51E0160-CADC-4409-851F-B9E8F64973AF&isFromSRP=true&referrer=https%3A%2F%2Fwww.tiket.com%2Fhotel%2Fsearch%3Froom%3D1%26adult%3D2%26id%3Dkuta-108001534490276350%26type%3DAREA%26q%3DKuta%26checkin%3D2025-08-25%26checkout%3D2025-08-26%26searchSessionId%3D6DF83747-2EF5-4FB0-A5CB-54B2AF65A89B%26child%3D12%26sort%3Dundefined&utm_page=searchResultPage"
-            },
-            {
-                "hotelName": "Ramada Encore by Wyndham Bali Seminyak",
-                "hotelStarRating": 4,
-                "location": "Seminyak, Badung",
-                "facilities": "Sarapan GratisBayar di HotelKolam RenangParkir Gratis+1",
-                "rating": "4,4/5(2.580)",
-                "price": " IDR 5.591.357)",
-                "link": "/hotel/indonesia/ramada-encore-by-wyndham-bali-seminyak-807001752218274968?room=1&adult=2&checkin=2025-08-25&checkout=2025-08-26&child=12&searchSessionId=F51E0160-CADC-4409-851F-B9E8F64973AF&isFromSRP=true&referrer=https%3A%2F%2Fwww.tiket.com%2Fhotel%2Fsearch%3Froom%3D1%26adult%3D2%26id%3Dkuta-108001534490276350%26type%3DAREA%26q%3DKuta%26checkin%3D2025-08-25%26checkout%3D2025-08-26%26searchSessionId%3D6DF83747-2EF5-4FB0-A5CB-54B2AF65A89B%26child%3D12%26sort%3Dundefined&utm_page=searchResultPage"
-            },
-        ]
-        return dummyData
-    }
     async hotelCrawler(params: {area: string, minPrice?: number, maxPrice?: number, numChild?: number, childAges?: number[], numAdult?: number, numRoom? : number, starRating?: number[], sortBy: string, checkOutDate?: Date, checkInDate?: Date}): Promise<{}[] | void> {
         const startTime = performance.now()
 
         let error;
+        let errorLink;
+
         const today = new Date();
         const tomorrow = new Date(today);
         tomorrow.setDate(today.getDate() + 1);
@@ -129,9 +79,9 @@ export class CrawlerService {
                 ]
             })
 
-            const ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36';
+            const userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36';
             const page: Page = await browser.newPage();
-            await page.setUserAgent(ua);
+            await page.setUserAgent(userAgent);
             await page.setViewport({
                 width: 1366,
                 height: 768,
@@ -189,7 +139,7 @@ export class CrawlerService {
                         }
                     }
                     await updateURL()
-
+                    errorLink = config.query
                     await page.goto(config.query)
                     const hotelsData = [{}]
                     const seenLinks = new Set();
@@ -205,10 +155,16 @@ export class CrawlerService {
                         const hotels = await page.$$('[class*="main_list_item__"]')
                         for (const hot of hotels) {
                             let hotelName, location, starCount, facilities, rating, price, link;
+                            
+                            let isPromotion: boolean
+                            try {
+                                await hot.waitForSelector('::-p-xpath(.//div[contains(@class,"main_intercept_banner_wrapper__")])', { timeout: 500 });
+                                isPromotion = true
+                            } catch { isPromotion = false }
+                            if (isPromotion) continue
 
                             const hotelNameEl = await hot.waitForSelector('::-p-xpath(.//div[contains(@class,"FullProductCard_content_wrapper__")]//h3)', { timeout: 500 });
                             hotelName = await hotelNameEl?.evaluate(el => el.textContent);
-
                             location = await hot.$eval('::-p-xpath(.//span[contains(@class,"FullProductCard_hotel_address__")])', el => el.textContent);
 
                             try {
@@ -222,10 +178,23 @@ export class CrawlerService {
                             }
 
                             facilities = await hot.$eval('::-p-xpath(.//div[contains(@class,"ProductBenefits_benefits_wrapper__")])', el => el.textContent);
-                            rating = await hot.$eval('::-p-xpath(.//div[contains(@class,"ProductRatingAndReviews_rating_text__")])', el => el.textContent);
-                            price = await hot.$eval('::-p-xpath(.//div[contains(@class,"PriceArea_price_description__")])', el => el.textContent);
-                            link = await hot.$eval('::-p-xpath(.//a[contains(@class,"FullProductCard_container__")])', el => el.getAttribute('href'));
-                            link = "//tiket.com".concat(link)
+                            try {
+                                rating = await hot.$eval('::-p-xpath(.//div[contains(@class,"ProductRatingAndReviews_rating_text__")])', el => el.textContent);
+                            } catch {
+                                rating = "unknown"
+                            }
+                            try {
+                                price = await hot.$eval('::-p-xpath(.//div[contains(@class,"PriceArea_price_description__")])', el => el.textContent);
+                            } catch {
+                                price = "unknown"
+                            }
+                            try {
+                                link = await hot.$eval('::-p-xpath(.//a[contains(@class,"FullProductCard_container__")])', el => el.getAttribute('href'));
+                                link = "//tiket.com".concat(link)
+                            } catch {
+                                link = "unknown"
+                            }
+
                             const data = {
                                 hotelName: hotelName,
                                 hotelStarRating: starCount,
@@ -249,23 +218,27 @@ export class CrawlerService {
                             isNew = false
                         }
                     }
-                    
+
+                    if (tries >= 3 && hotelsData.length == 0){
+                        error = new HttpException(`Nothing found, link: ${errorLink}`, HttpStatus.NOT_FOUND)
+                        throw error
+                    }
                     hotelsData.shift()
                     await browser.close();
-                    await this.logger.log(`Hotel Crawl Success, duration: ${performance.now() - startTime}`)
+                    // console.log(errorLink, hotelsData)
+                    this.logger.log(`Hotel Crawl Success, duration: ${performance.now() - startTime}`)
                     return hotelsData
-                } catch {
-                    error = new HttpException('Nothing found', HttpStatus.NOT_FOUND)
+                } catch (error) {
+                    error = new HttpException(`${error}`, HttpStatus.NOT_FOUND)
                     throw error
                 }
             } catch (err) {
+                error = new HttpException(`${err}`, HttpStatus.INTERNAL_SERVER_ERROR)
+                throw error
             }
-            await browser.close();
         } catch (e) {
-            error = new HttpException('Internal Server Error', HttpStatus.INTERNAL_SERVER_ERROR)
+            error = new HttpException(`${e}`, HttpStatus.INTERNAL_SERVER_ERROR)
             throw error
         }
-        this.logger.log(`Hotel Crawl Failed, reason: ${error}, duration: ${performance.now() - startTime}`)
-        throw error
     }
 }

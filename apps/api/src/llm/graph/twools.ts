@@ -31,7 +31,6 @@ const dbHotelTool = tool(
       take: input.take || 3,
       where: query
     })
-
     return JSON.stringify(await retrieved);
     // return `Hotel Adi Permana ${input.area}, 1690 dollar a night, 5/5 reviews (4200 people);
     // Villa Kokonut, 20 dollar per hour, 4.6/5 reviews (123 people) `;
@@ -83,10 +82,10 @@ const crawlerParamaters = z.object({
 
 const hotelCrawlerTool = tool(
   async (input) => {
+    // console.log(input)
     const crawler = new CrawlerService()
-    const data = crawler.hotelCrawler(input)
-    const stringData = JSON.stringify(await data)
-
+    const data = await crawler.hotelCrawler(input)
+    const stringData = JSON.stringify(data) 
 
     return stringData
   },
