@@ -198,17 +198,18 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
-        "fromEnvVar": "DATABASE_URL",
-        "value": null
+        "fromEnvVar": null,
+        "value": "prisma+postgres://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqd3RfaWQiOjEsInNlY3VyZV9rZXkiOiJza18tZUpaUzFhSUhPSUxNYU1LRXBZeWkiLCJhcGlfa2V5IjoiMDFLMVZZODQyQVZHTjREM0s5MEdBV0hZM0ciLCJ0ZW5hbnRfaWQiOiI0OWU2NGE5ZDhiN2FhNDUzZDMxYzE3OWFhNDMyMDQzNzU5MWM3OGFkMTU5Yzk3NDAzMmE2MGY3ZTVhYzBhMzRhIiwiaW50ZXJuYWxfc2VjcmV0IjoiNTk4MDM5ZWYtY2YxMy00MTRhLWFiMjItYTliNDEyZTUxY2NiIn0.c8Gsrkq0SfgH2RrmFGru-qCFJefflPqh_kJeHzJFu8g"
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel UserDetail {\n  rootUser  User     @relation(fields: [id], references: [id], onDelete: Cascade)\n  id        String   @id @unique\n  userName  String   @unique @db.VarChar(24)\n  email     String   @unique\n  password  String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel User {\n  id          String  @id @default(uuid())\n  isTemporary Boolean @default(true)\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  haveChat   Chat[]\n  userDetail UserDetail?\n}\n\nmodel Chat {\n  id        String   @id @default(uuid())\n  createdBy User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n  userId    String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  chatMessages ChatMessages[]\n}\n\nmodel ChatMessages {\n  id            Int         @id @default(autoincrement())\n  relatedChat   Chat        @relation(fields: [chatId], references: [id], onDelete: Cascade)\n  chatId        String\n  msgRole       MessageRole @relation(fields: [messageRoleId], references: [id], onDelete: Restrict)\n  messageRoleId Int\n  message       String\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@index([chatId, createdAt])\n}\n\nmodel MessageRole {\n  id          Int            @id @default(autoincrement()) @db.SmallInt\n  role        String\n  chatMessage ChatMessages[]\n}\n\nmodel HotelInfo {\n  id          Int    @id @default(autoincrement())\n  hotelName   String\n  location    String\n  price       Int\n  link        String\n  description String\n  rating      Float\n  reviews     Int\n  star        Int    @db.SmallInt\n\n  @@index([location, price, rating, reviews, star])\n}\n",
-  "inlineSchemaHash": "762248f6386569709599a3b223fcee089a47046482460fb149a58531b589b25d",
-  "copyEngine": false
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  // url      = env(\"DATABASE_URL\")\n  url      = \"prisma+postgres://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqd3RfaWQiOjEsInNlY3VyZV9rZXkiOiJza18tZUpaUzFhSUhPSUxNYU1LRXBZeWkiLCJhcGlfa2V5IjoiMDFLMVZZODQyQVZHTjREM0s5MEdBV0hZM0ciLCJ0ZW5hbnRfaWQiOiI0OWU2NGE5ZDhiN2FhNDUzZDMxYzE3OWFhNDMyMDQzNzU5MWM3OGFkMTU5Yzk3NDAzMmE2MGY3ZTVhYzBhMzRhIiwiaW50ZXJuYWxfc2VjcmV0IjoiNTk4MDM5ZWYtY2YxMy00MTRhLWFiMjItYTliNDEyZTUxY2NiIn0.c8Gsrkq0SfgH2RrmFGru-qCFJefflPqh_kJeHzJFu8g\"\n}\n\nmodel UserDetail {\n  rootUser  User     @relation(fields: [id], references: [id], onDelete: Cascade)\n  id        String   @id @unique\n  userName  String   @unique @db.VarChar(24)\n  email     String   @unique\n  password  String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel User {\n  id          String  @id @default(uuid())\n  isTemporary Boolean @default(true)\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  haveChat   Chat[]\n  userDetail UserDetail?\n}\n\nmodel Chat {\n  id        String   @id @default(uuid())\n  createdBy User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n  userId    String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  chatMessages ChatMessages[]\n}\n\nmodel ChatMessages {\n  id            Int         @id @default(autoincrement())\n  relatedChat   Chat        @relation(fields: [chatId], references: [id], onDelete: Cascade)\n  chatId        String\n  msgRole       MessageRole @relation(fields: [messageRoleId], references: [id], onDelete: Restrict)\n  messageRoleId Int\n  message       String\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@index([chatId, createdAt])\n}\n\nmodel MessageRole {\n  id          Int            @id @default(autoincrement()) @db.SmallInt\n  role        String\n  chatMessage ChatMessages[]\n}\n\nmodel HotelInfo {\n  id          Int    @id @default(autoincrement())\n  hotelName   String\n  location    String\n  price       Int\n  link        String\n  description String\n  rating      Float\n  reviews     Int\n  star        Int    @db.SmallInt\n\n  @@index([location, price, rating, reviews, star])\n}\n",
+  "inlineSchemaHash": "24e415a0964d30e93add0b86fd9201a903e3b08ae86aa6bd92006ec636b0ddf8",
+  "copyEngine": true
 }
 config.dirname = '/'
 
@@ -218,9 +219,7 @@ config.engineWasm = undefined
 config.compilerWasm = undefined
 
 config.injectableEdgeEnv = () => ({
-  parsed: {
-    DATABASE_URL: typeof globalThis !== 'undefined' && globalThis['DATABASE_URL'] || typeof process !== 'undefined' && process.env && process.env.DATABASE_URL || undefined
-  }
+  parsed: {}
 })
 
 if (typeof globalThis !== 'undefined' && globalThis['DEBUG'] || typeof process !== 'undefined' && process.env && process.env.DEBUG || undefined) {

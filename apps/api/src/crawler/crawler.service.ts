@@ -23,7 +23,7 @@ export class CrawlerService {
             minPrice: params?.minPrice ?? null, 
             maxPrice: params?.maxPrice ?? null, 
             numChild: params?.numChild ?? 0, 
-            childAges: params?.childAges ?? [], 
+            childAges: params?.childAges     ?? [], 
             numAdult: params?.numAdult ?? null, 
             numRoom: params?.numRoom ?? null, 
             starRating: params?.starRating ?? [], 
