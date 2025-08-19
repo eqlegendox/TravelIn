@@ -1,23 +1,17 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { NONAME } from 'dns';
-import { writeFile } from 'fs';
 import { ElementHandle, Browser, Page } from 'puppeteer';
+import { MyLoggerService } from 'src/my-logger/my-logger.service';
 import puppeteer from 'puppeteer-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 puppeteer.use(StealthPlugin());
 
-interface HotelData {
-  hotelName: string | null;
-  hotelStarRating: number;
-  location: string | null;
-  facilities: string | null;
-  rating: string | null;
-  price: string | null;
-  link: string | null;
-}
-
 @Injectable()
 export class CrawlerService {
+    private readonly logger: MyLoggerService
+    constructor() {
+        this.logger = new MyLoggerService()
+    }
+
     async testCrawler(params: {area: string, minPrice?: number, maxPrice?: number, numChild?: number, childAges?: number[], numAdult?: number, numRoom? : number, starRating?: number[], sortBy: string, checkOutDate?: Date, checkInDate?: Date}): Promise<{}[]> {
         const today = new Date();
         const tomorrow = new Date(today);
@@ -71,6 +65,8 @@ export class CrawlerService {
         return dummyData
     }
     async hotelCrawler(params: {area: string, minPrice?: number, maxPrice?: number, numChild?: number, childAges?: number[], numAdult?: number, numRoom? : number, starRating?: number[], sortBy: string, checkOutDate?: Date, checkInDate?: Date}): Promise<{}[] | void> {
+        const startTime = performance.now()
+
         let error;
         const today = new Date();
         const tomorrow = new Date(today);
@@ -229,7 +225,7 @@ export class CrawlerService {
                             rating = await hot.$eval('::-p-xpath(.//div[contains(@class,"ProductRatingAndReviews_rating_text__")])', el => el.textContent);
                             price = await hot.$eval('::-p-xpath(.//div[contains(@class,"PriceArea_price_description__")])', el => el.textContent);
                             link = await hot.$eval('::-p-xpath(.//a[contains(@class,"FullProductCard_container__")])', el => el.getAttribute('href'));
-                            link = "tiket.com".concat(link)
+                            link = "//tiket.com".concat(link)
                             const data = {
                                 hotelName: hotelName,
                                 hotelStarRating: starCount,
@@ -256,6 +252,7 @@ export class CrawlerService {
                     
                     hotelsData.shift()
                     await browser.close();
+                    await this.logger.log(`Hotel Crawl Success, duration: ${performance.now() - startTime}`)
                     return hotelsData
                 } catch {
                     error = new HttpException('Nothing found', HttpStatus.NOT_FOUND)
@@ -268,6 +265,7 @@ export class CrawlerService {
             error = new HttpException('Internal Server Error', HttpStatus.INTERNAL_SERVER_ERROR)
             throw error
         }
+        this.logger.log(`Hotel Crawl Failed, reason: ${error}, duration: ${performance.now() - startTime}`)
         throw error
     }
 }
