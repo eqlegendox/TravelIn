@@ -59,7 +59,7 @@ export class LlmService implements OnModuleInit {
         );
 
         // console.log("here is the response in llm service")
-        console.log("here is the response in llm service", response)
+        // console.log("here is the response in llm service", response)
         const lastMessage = response.messages[response.messages.length - 1]; //the output is usually [humanMessage, AiMessage] so it will always return the ai messages dk about tool call doe
         return lastMessage.content as string;
     }

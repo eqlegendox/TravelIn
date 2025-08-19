@@ -20,8 +20,8 @@ const dbHotelTool = tool(
     name: "hotelDatabaseQuery",
     description: `You need to call this tool when user ask for hotel detail,
     it accepts a general location in bali (please only pass one location, either the general or specific area) 
-    and will output some top hotel detail refering to the query.
-    after receiving this output please present it to the user as beautifully as possible`,
+    and will output some top hotel detail refering to the query. 
+    after receiving this output please present it to the user as beautifully as possible.`,
     schema: dbHotelSchema,
   }
 );
@@ -65,14 +65,18 @@ const hotelCrawlerTool = tool(
   async (input) => {
     const crawler = new CrawlerService()
     const data = crawler.hotelCrawler(input)
-    return JSON.stringify(await data)
+    const stringData = JSON.stringify(await data)
+
+
+    return stringData
   },
   {
     name: "hotelWebCrawler",
     description: `You need to call this tool when user asks for hotel information that doesn't
      exist in the hotelDatabase or when you want to search for hotel with specific requirements.
      It accepts a general location in Bali (pass only one location, specific area or general area)
-     and hotel requirements. Date format is 'YYYY-MM-DD.`,
+     and hotel requirements. Date format is 'YYYY-MM-DD. When displaying links, use the returned link 
+     without any addon.`,
      schema: crawlerParamaters
   }
 )
