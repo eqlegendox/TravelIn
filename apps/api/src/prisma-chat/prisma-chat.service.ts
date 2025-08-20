@@ -1,7 +1,7 @@
 
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { Chat, ChatMessages, MessageRole, Prisma } from 'database/generated/prisma';
+import { PrismaService } from '../prisma/prisma.service';
+import { Chat, ChatMessages, MessageRole, Prisma } from '../../database/generated/prisma';
 
 @Injectable()
 export class PrismaChatService {

@@ -1,15 +1,14 @@
 import { Injectable, Param } from '@nestjs/common';
 // import { PrismaService } from 'src/prisma/prisma.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { HotelInfo, TourInfo, Prisma } from 'database/generated/prisma';
+import { HotelInfo, , TourInfo, Prisma } from '../../database/generated/prisma';
+
 
 @Injectable()
 export class ToolsService {
     constructor(
         private readonly prisma: PrismaService,
-    ) {
-
-    }
+    ) {}
 
     async hotels(params: {
         skip?: number;
