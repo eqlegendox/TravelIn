@@ -78,3 +78,24 @@ model HotelInfo {
 
   @@index([location, price, rating, reviews, star])
 }
+
+model TourInfo {
+  id          Int           @id
+  tourName    String
+  location    String
+  price       Int
+  link        String
+  description String
+  rating      Float
+  ratingCount Int
+  reviews     TourReviews[]
+
+  @@index([location, price, rating])
+}
+
+model TourReviews {
+  id       Int      @id @default(autoincrement())
+  tourInfo TourInfo @relation(fields: [tourId], references: [id], onDelete: Cascade)
+  tourId   Int
+  tourDesc String
+}

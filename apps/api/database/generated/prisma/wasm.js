@@ -169,6 +169,23 @@ exports.Prisma.HotelInfoScalarFieldEnum = {
   star: 'star'
 };
 
+exports.Prisma.TourInfoScalarFieldEnum = {
+  id: 'id',
+  tourName: 'tourName',
+  location: 'location',
+  price: 'price',
+  link: 'link',
+  description: 'description',
+  rating: 'rating',
+  ratingCount: 'ratingCount'
+};
+
+exports.Prisma.TourReviewsScalarFieldEnum = {
+  id: 'id',
+  tourId: 'tourId',
+  tourDesc: 'tourDesc'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -186,7 +203,9 @@ exports.Prisma.ModelName = {
   Chat: 'Chat',
   ChatMessages: 'ChatMessages',
   MessageRole: 'MessageRole',
-  HotelInfo: 'HotelInfo'
+  HotelInfo: 'HotelInfo',
+  TourInfo: 'TourInfo',
+  TourReviews: 'TourReviews'
 };
 
 /**
