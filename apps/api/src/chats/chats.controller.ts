@@ -3,8 +3,8 @@ import { ChatsService } from './chats.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { CreateUuidDto } from './dto/create-uuid.dto';
 import { Throttle } from '@nestjs/throttler';
-import { MyLoggerService } from 'src/my-logger/my-logger.service';
-import { Prisma, Chat as PrismaChatModel } from 'database/generated/prisma';
+import { MyLoggerService } from '../my-logger/my-logger.service';
+import { Prisma, Chat as PrismaChatModel } from '../../database/generated/prisma';
 import { SearchMessageDto } from './dto/search-messages.dto';
 
 @Controller('chats')

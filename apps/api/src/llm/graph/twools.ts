@@ -1,10 +1,10 @@
 const { tool } = require("@langchain/core/tools");
 // import { CrawlerController } from "src/crawler/crawler.controller";
-import { CrawlerService } from "src/crawler/crawler.service";
+import { CrawlerService } from "../../crawler/crawler.service";
 // const { z } = require("zod");
 import * as z from "zod";
-import { ToolsService } from "src/tools/tools.service";
-import { PrismaService } from "src/prisma/prisma.service";
+import { ToolsService } from "../../tools/tools.service";
+import { PrismaService } from "../../prisma/prisma.service";
 import { Tool } from "@langchain/core/tools";
 
 const dbHotelSchema = z.object({

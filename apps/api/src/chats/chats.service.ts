@@ -1,8 +1,8 @@
 import { Chat } from '@google/genai';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { PrismaChatService } from 'src/prisma-chat/prisma-chat.service';
-import { Prisma, Chat as PrismaChatModel} from 'database/generated/prisma';
-import { LlmService } from 'src/llm/llm.service';
+import { PrismaChatService } from '../prisma-chat/prisma-chat.service';
+import { Prisma, Chat as PrismaChatModel} from '../../database/generated/prisma';
+import { LlmService } from '../llm/llm.service';
 import { formatHistory } from './formatter/formatter';
 import { BaseMessage } from '@langchain/core/messages';
 
@@ -33,15 +33,11 @@ export class ChatsService {
     }
 
     async findOne(idChat: string) {
-        try {
-            const chat = await this.prismaChatService.chat({id: idChat})
-            if (chat === null) {
-                throw new HttpException('Chat Not Found', HttpStatus.NOT_FOUND)
-            }
-            return chat
-        }   catch (err) {
-            throw new HttpException('Error finding a chat', HttpStatus.NOT_FOUND)
+        const chat = await this.prismaChatService.chat({id: idChat})
+        if (!chat) {
+            throw new HttpException('Chat Not Found', HttpStatus.NOT_FOUND)
         }
+        return chat
     }
 
     async findMessages(idChat: string, data: {userId: string}) {
