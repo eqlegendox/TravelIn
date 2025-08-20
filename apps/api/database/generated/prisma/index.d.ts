@@ -43,6 +43,16 @@ export type MessageRole = $Result.DefaultSelection<Prisma.$MessageRolePayload>
  * 
  */
 export type HotelInfo = $Result.DefaultSelection<Prisma.$HotelInfoPayload>
+/**
+ * Model TourInfo
+ * 
+ */
+export type TourInfo = $Result.DefaultSelection<Prisma.$TourInfoPayload>
+/**
+ * Model TourReviews
+ * 
+ */
+export type TourReviews = $Result.DefaultSelection<Prisma.$TourReviewsPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -221,6 +231,26 @@ export class PrismaClient<
     * ```
     */
   get hotelInfo(): Prisma.HotelInfoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.tourInfo`: Exposes CRUD operations for the **TourInfo** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TourInfos
+    * const tourInfos = await prisma.tourInfo.findMany()
+    * ```
+    */
+  get tourInfo(): Prisma.TourInfoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.tourReviews`: Exposes CRUD operations for the **TourReviews** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TourReviews
+    * const tourReviews = await prisma.tourReviews.findMany()
+    * ```
+    */
+  get tourReviews(): Prisma.TourReviewsDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -666,7 +696,9 @@ export namespace Prisma {
     Chat: 'Chat',
     ChatMessages: 'ChatMessages',
     MessageRole: 'MessageRole',
-    HotelInfo: 'HotelInfo'
+    HotelInfo: 'HotelInfo',
+    TourInfo: 'TourInfo',
+    TourReviews: 'TourReviews'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -685,7 +717,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "userDetail" | "user" | "chat" | "chatMessages" | "messageRole" | "hotelInfo"
+      modelProps: "userDetail" | "user" | "chat" | "chatMessages" | "messageRole" | "hotelInfo" | "tourInfo" | "tourReviews"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1133,6 +1165,154 @@ export namespace Prisma {
           }
         }
       }
+      TourInfo: {
+        payload: Prisma.$TourInfoPayload<ExtArgs>
+        fields: Prisma.TourInfoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TourInfoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TourInfoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TourInfoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TourInfoPayload>
+          }
+          findFirst: {
+            args: Prisma.TourInfoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TourInfoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TourInfoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TourInfoPayload>
+          }
+          findMany: {
+            args: Prisma.TourInfoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TourInfoPayload>[]
+          }
+          create: {
+            args: Prisma.TourInfoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TourInfoPayload>
+          }
+          createMany: {
+            args: Prisma.TourInfoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TourInfoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TourInfoPayload>[]
+          }
+          delete: {
+            args: Prisma.TourInfoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TourInfoPayload>
+          }
+          update: {
+            args: Prisma.TourInfoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TourInfoPayload>
+          }
+          deleteMany: {
+            args: Prisma.TourInfoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TourInfoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TourInfoUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TourInfoPayload>[]
+          }
+          upsert: {
+            args: Prisma.TourInfoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TourInfoPayload>
+          }
+          aggregate: {
+            args: Prisma.TourInfoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTourInfo>
+          }
+          groupBy: {
+            args: Prisma.TourInfoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TourInfoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TourInfoCountArgs<ExtArgs>
+            result: $Utils.Optional<TourInfoCountAggregateOutputType> | number
+          }
+        }
+      }
+      TourReviews: {
+        payload: Prisma.$TourReviewsPayload<ExtArgs>
+        fields: Prisma.TourReviewsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TourReviewsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TourReviewsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TourReviewsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TourReviewsPayload>
+          }
+          findFirst: {
+            args: Prisma.TourReviewsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TourReviewsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TourReviewsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TourReviewsPayload>
+          }
+          findMany: {
+            args: Prisma.TourReviewsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TourReviewsPayload>[]
+          }
+          create: {
+            args: Prisma.TourReviewsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TourReviewsPayload>
+          }
+          createMany: {
+            args: Prisma.TourReviewsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TourReviewsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TourReviewsPayload>[]
+          }
+          delete: {
+            args: Prisma.TourReviewsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TourReviewsPayload>
+          }
+          update: {
+            args: Prisma.TourReviewsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TourReviewsPayload>
+          }
+          deleteMany: {
+            args: Prisma.TourReviewsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TourReviewsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TourReviewsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TourReviewsPayload>[]
+          }
+          upsert: {
+            args: Prisma.TourReviewsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TourReviewsPayload>
+          }
+          aggregate: {
+            args: Prisma.TourReviewsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTourReviews>
+          }
+          groupBy: {
+            args: Prisma.TourReviewsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TourReviewsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TourReviewsCountArgs<ExtArgs>
+            result: $Utils.Optional<TourReviewsCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1231,6 +1411,8 @@ export namespace Prisma {
     chatMessages?: ChatMessagesOmit
     messageRole?: MessageRoleOmit
     hotelInfo?: HotelInfoOmit
+    tourInfo?: TourInfoOmit
+    tourReviews?: TourReviewsOmit
   }
 
   /* Types for Logging */
@@ -1396,6 +1578,37 @@ export namespace Prisma {
    */
   export type MessageRoleCountOutputTypeCountChatMessageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ChatMessagesWhereInput
+  }
+
+
+  /**
+   * Count Type TourInfoCountOutputType
+   */
+
+  export type TourInfoCountOutputType = {
+    reviews: number
+  }
+
+  export type TourInfoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    reviews?: boolean | TourInfoCountOutputTypeCountReviewsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * TourInfoCountOutputType without action
+   */
+  export type TourInfoCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TourInfoCountOutputType
+     */
+    select?: TourInfoCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * TourInfoCountOutputType without action
+   */
+  export type TourInfoCountOutputTypeCountReviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TourReviewsWhereInput
   }
 
 
@@ -7909,6 +8122,2231 @@ export namespace Prisma {
 
 
   /**
+   * Model TourInfo
+   */
+
+  export type AggregateTourInfo = {
+    _count: TourInfoCountAggregateOutputType | null
+    _avg: TourInfoAvgAggregateOutputType | null
+    _sum: TourInfoSumAggregateOutputType | null
+    _min: TourInfoMinAggregateOutputType | null
+    _max: TourInfoMaxAggregateOutputType | null
+  }
+
+  export type TourInfoAvgAggregateOutputType = {
+    id: number | null
+    price: number | null
+    rating: number | null
+    ratingCount: number | null
+  }
+
+  export type TourInfoSumAggregateOutputType = {
+    id: number | null
+    price: number | null
+    rating: number | null
+    ratingCount: number | null
+  }
+
+  export type TourInfoMinAggregateOutputType = {
+    id: number | null
+    tourName: string | null
+    location: string | null
+    price: number | null
+    link: string | null
+    description: string | null
+    rating: number | null
+    ratingCount: number | null
+  }
+
+  export type TourInfoMaxAggregateOutputType = {
+    id: number | null
+    tourName: string | null
+    location: string | null
+    price: number | null
+    link: string | null
+    description: string | null
+    rating: number | null
+    ratingCount: number | null
+  }
+
+  export type TourInfoCountAggregateOutputType = {
+    id: number
+    tourName: number
+    location: number
+    price: number
+    link: number
+    description: number
+    rating: number
+    ratingCount: number
+    _all: number
+  }
+
+
+  export type TourInfoAvgAggregateInputType = {
+    id?: true
+    price?: true
+    rating?: true
+    ratingCount?: true
+  }
+
+  export type TourInfoSumAggregateInputType = {
+    id?: true
+    price?: true
+    rating?: true
+    ratingCount?: true
+  }
+
+  export type TourInfoMinAggregateInputType = {
+    id?: true
+    tourName?: true
+    location?: true
+    price?: true
+    link?: true
+    description?: true
+    rating?: true
+    ratingCount?: true
+  }
+
+  export type TourInfoMaxAggregateInputType = {
+    id?: true
+    tourName?: true
+    location?: true
+    price?: true
+    link?: true
+    description?: true
+    rating?: true
+    ratingCount?: true
+  }
+
+  export type TourInfoCountAggregateInputType = {
+    id?: true
+    tourName?: true
+    location?: true
+    price?: true
+    link?: true
+    description?: true
+    rating?: true
+    ratingCount?: true
+    _all?: true
+  }
+
+  export type TourInfoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TourInfo to aggregate.
+     */
+    where?: TourInfoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TourInfos to fetch.
+     */
+    orderBy?: TourInfoOrderByWithRelationInput | TourInfoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TourInfoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TourInfos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TourInfos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TourInfos
+    **/
+    _count?: true | TourInfoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TourInfoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TourInfoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TourInfoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TourInfoMaxAggregateInputType
+  }
+
+  export type GetTourInfoAggregateType<T extends TourInfoAggregateArgs> = {
+        [P in keyof T & keyof AggregateTourInfo]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTourInfo[P]>
+      : GetScalarType<T[P], AggregateTourInfo[P]>
+  }
+
+
+
+
+  export type TourInfoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TourInfoWhereInput
+    orderBy?: TourInfoOrderByWithAggregationInput | TourInfoOrderByWithAggregationInput[]
+    by: TourInfoScalarFieldEnum[] | TourInfoScalarFieldEnum
+    having?: TourInfoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TourInfoCountAggregateInputType | true
+    _avg?: TourInfoAvgAggregateInputType
+    _sum?: TourInfoSumAggregateInputType
+    _min?: TourInfoMinAggregateInputType
+    _max?: TourInfoMaxAggregateInputType
+  }
+
+  export type TourInfoGroupByOutputType = {
+    id: number
+    tourName: string
+    location: string
+    price: number
+    link: string
+    description: string
+    rating: number
+    ratingCount: number
+    _count: TourInfoCountAggregateOutputType | null
+    _avg: TourInfoAvgAggregateOutputType | null
+    _sum: TourInfoSumAggregateOutputType | null
+    _min: TourInfoMinAggregateOutputType | null
+    _max: TourInfoMaxAggregateOutputType | null
+  }
+
+  type GetTourInfoGroupByPayload<T extends TourInfoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TourInfoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TourInfoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TourInfoGroupByOutputType[P]>
+            : GetScalarType<T[P], TourInfoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TourInfoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tourName?: boolean
+    location?: boolean
+    price?: boolean
+    link?: boolean
+    description?: boolean
+    rating?: boolean
+    ratingCount?: boolean
+    reviews?: boolean | TourInfo$reviewsArgs<ExtArgs>
+    _count?: boolean | TourInfoCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tourInfo"]>
+
+  export type TourInfoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tourName?: boolean
+    location?: boolean
+    price?: boolean
+    link?: boolean
+    description?: boolean
+    rating?: boolean
+    ratingCount?: boolean
+  }, ExtArgs["result"]["tourInfo"]>
+
+  export type TourInfoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tourName?: boolean
+    location?: boolean
+    price?: boolean
+    link?: boolean
+    description?: boolean
+    rating?: boolean
+    ratingCount?: boolean
+  }, ExtArgs["result"]["tourInfo"]>
+
+  export type TourInfoSelectScalar = {
+    id?: boolean
+    tourName?: boolean
+    location?: boolean
+    price?: boolean
+    link?: boolean
+    description?: boolean
+    rating?: boolean
+    ratingCount?: boolean
+  }
+
+  export type TourInfoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tourName" | "location" | "price" | "link" | "description" | "rating" | "ratingCount", ExtArgs["result"]["tourInfo"]>
+  export type TourInfoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    reviews?: boolean | TourInfo$reviewsArgs<ExtArgs>
+    _count?: boolean | TourInfoCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type TourInfoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type TourInfoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $TourInfoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TourInfo"
+    objects: {
+      reviews: Prisma.$TourReviewsPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      tourName: string
+      location: string
+      price: number
+      link: string
+      description: string
+      rating: number
+      ratingCount: number
+    }, ExtArgs["result"]["tourInfo"]>
+    composites: {}
+  }
+
+  type TourInfoGetPayload<S extends boolean | null | undefined | TourInfoDefaultArgs> = $Result.GetResult<Prisma.$TourInfoPayload, S>
+
+  type TourInfoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TourInfoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TourInfoCountAggregateInputType | true
+    }
+
+  export interface TourInfoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TourInfo'], meta: { name: 'TourInfo' } }
+    /**
+     * Find zero or one TourInfo that matches the filter.
+     * @param {TourInfoFindUniqueArgs} args - Arguments to find a TourInfo
+     * @example
+     * // Get one TourInfo
+     * const tourInfo = await prisma.tourInfo.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TourInfoFindUniqueArgs>(args: SelectSubset<T, TourInfoFindUniqueArgs<ExtArgs>>): Prisma__TourInfoClient<$Result.GetResult<Prisma.$TourInfoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TourInfo that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TourInfoFindUniqueOrThrowArgs} args - Arguments to find a TourInfo
+     * @example
+     * // Get one TourInfo
+     * const tourInfo = await prisma.tourInfo.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TourInfoFindUniqueOrThrowArgs>(args: SelectSubset<T, TourInfoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TourInfoClient<$Result.GetResult<Prisma.$TourInfoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TourInfo that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TourInfoFindFirstArgs} args - Arguments to find a TourInfo
+     * @example
+     * // Get one TourInfo
+     * const tourInfo = await prisma.tourInfo.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TourInfoFindFirstArgs>(args?: SelectSubset<T, TourInfoFindFirstArgs<ExtArgs>>): Prisma__TourInfoClient<$Result.GetResult<Prisma.$TourInfoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TourInfo that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TourInfoFindFirstOrThrowArgs} args - Arguments to find a TourInfo
+     * @example
+     * // Get one TourInfo
+     * const tourInfo = await prisma.tourInfo.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TourInfoFindFirstOrThrowArgs>(args?: SelectSubset<T, TourInfoFindFirstOrThrowArgs<ExtArgs>>): Prisma__TourInfoClient<$Result.GetResult<Prisma.$TourInfoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TourInfos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TourInfoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TourInfos
+     * const tourInfos = await prisma.tourInfo.findMany()
+     * 
+     * // Get first 10 TourInfos
+     * const tourInfos = await prisma.tourInfo.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const tourInfoWithIdOnly = await prisma.tourInfo.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TourInfoFindManyArgs>(args?: SelectSubset<T, TourInfoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TourInfoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TourInfo.
+     * @param {TourInfoCreateArgs} args - Arguments to create a TourInfo.
+     * @example
+     * // Create one TourInfo
+     * const TourInfo = await prisma.tourInfo.create({
+     *   data: {
+     *     // ... data to create a TourInfo
+     *   }
+     * })
+     * 
+     */
+    create<T extends TourInfoCreateArgs>(args: SelectSubset<T, TourInfoCreateArgs<ExtArgs>>): Prisma__TourInfoClient<$Result.GetResult<Prisma.$TourInfoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TourInfos.
+     * @param {TourInfoCreateManyArgs} args - Arguments to create many TourInfos.
+     * @example
+     * // Create many TourInfos
+     * const tourInfo = await prisma.tourInfo.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TourInfoCreateManyArgs>(args?: SelectSubset<T, TourInfoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TourInfos and returns the data saved in the database.
+     * @param {TourInfoCreateManyAndReturnArgs} args - Arguments to create many TourInfos.
+     * @example
+     * // Create many TourInfos
+     * const tourInfo = await prisma.tourInfo.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TourInfos and only return the `id`
+     * const tourInfoWithIdOnly = await prisma.tourInfo.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TourInfoCreateManyAndReturnArgs>(args?: SelectSubset<T, TourInfoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TourInfoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TourInfo.
+     * @param {TourInfoDeleteArgs} args - Arguments to delete one TourInfo.
+     * @example
+     * // Delete one TourInfo
+     * const TourInfo = await prisma.tourInfo.delete({
+     *   where: {
+     *     // ... filter to delete one TourInfo
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TourInfoDeleteArgs>(args: SelectSubset<T, TourInfoDeleteArgs<ExtArgs>>): Prisma__TourInfoClient<$Result.GetResult<Prisma.$TourInfoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TourInfo.
+     * @param {TourInfoUpdateArgs} args - Arguments to update one TourInfo.
+     * @example
+     * // Update one TourInfo
+     * const tourInfo = await prisma.tourInfo.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TourInfoUpdateArgs>(args: SelectSubset<T, TourInfoUpdateArgs<ExtArgs>>): Prisma__TourInfoClient<$Result.GetResult<Prisma.$TourInfoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TourInfos.
+     * @param {TourInfoDeleteManyArgs} args - Arguments to filter TourInfos to delete.
+     * @example
+     * // Delete a few TourInfos
+     * const { count } = await prisma.tourInfo.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TourInfoDeleteManyArgs>(args?: SelectSubset<T, TourInfoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TourInfos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TourInfoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TourInfos
+     * const tourInfo = await prisma.tourInfo.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TourInfoUpdateManyArgs>(args: SelectSubset<T, TourInfoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TourInfos and returns the data updated in the database.
+     * @param {TourInfoUpdateManyAndReturnArgs} args - Arguments to update many TourInfos.
+     * @example
+     * // Update many TourInfos
+     * const tourInfo = await prisma.tourInfo.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TourInfos and only return the `id`
+     * const tourInfoWithIdOnly = await prisma.tourInfo.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TourInfoUpdateManyAndReturnArgs>(args: SelectSubset<T, TourInfoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TourInfoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TourInfo.
+     * @param {TourInfoUpsertArgs} args - Arguments to update or create a TourInfo.
+     * @example
+     * // Update or create a TourInfo
+     * const tourInfo = await prisma.tourInfo.upsert({
+     *   create: {
+     *     // ... data to create a TourInfo
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TourInfo we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TourInfoUpsertArgs>(args: SelectSubset<T, TourInfoUpsertArgs<ExtArgs>>): Prisma__TourInfoClient<$Result.GetResult<Prisma.$TourInfoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TourInfos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TourInfoCountArgs} args - Arguments to filter TourInfos to count.
+     * @example
+     * // Count the number of TourInfos
+     * const count = await prisma.tourInfo.count({
+     *   where: {
+     *     // ... the filter for the TourInfos we want to count
+     *   }
+     * })
+    **/
+    count<T extends TourInfoCountArgs>(
+      args?: Subset<T, TourInfoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TourInfoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TourInfo.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TourInfoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TourInfoAggregateArgs>(args: Subset<T, TourInfoAggregateArgs>): Prisma.PrismaPromise<GetTourInfoAggregateType<T>>
+
+    /**
+     * Group by TourInfo.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TourInfoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TourInfoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TourInfoGroupByArgs['orderBy'] }
+        : { orderBy?: TourInfoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TourInfoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTourInfoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TourInfo model
+   */
+  readonly fields: TourInfoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TourInfo.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TourInfoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    reviews<T extends TourInfo$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, TourInfo$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TourReviewsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TourInfo model
+   */
+  interface TourInfoFieldRefs {
+    readonly id: FieldRef<"TourInfo", 'Int'>
+    readonly tourName: FieldRef<"TourInfo", 'String'>
+    readonly location: FieldRef<"TourInfo", 'String'>
+    readonly price: FieldRef<"TourInfo", 'Int'>
+    readonly link: FieldRef<"TourInfo", 'String'>
+    readonly description: FieldRef<"TourInfo", 'String'>
+    readonly rating: FieldRef<"TourInfo", 'Float'>
+    readonly ratingCount: FieldRef<"TourInfo", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TourInfo findUnique
+   */
+  export type TourInfoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TourInfo
+     */
+    select?: TourInfoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TourInfo
+     */
+    omit?: TourInfoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TourInfoInclude<ExtArgs> | null
+    /**
+     * Filter, which TourInfo to fetch.
+     */
+    where: TourInfoWhereUniqueInput
+  }
+
+  /**
+   * TourInfo findUniqueOrThrow
+   */
+  export type TourInfoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TourInfo
+     */
+    select?: TourInfoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TourInfo
+     */
+    omit?: TourInfoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TourInfoInclude<ExtArgs> | null
+    /**
+     * Filter, which TourInfo to fetch.
+     */
+    where: TourInfoWhereUniqueInput
+  }
+
+  /**
+   * TourInfo findFirst
+   */
+  export type TourInfoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TourInfo
+     */
+    select?: TourInfoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TourInfo
+     */
+    omit?: TourInfoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TourInfoInclude<ExtArgs> | null
+    /**
+     * Filter, which TourInfo to fetch.
+     */
+    where?: TourInfoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TourInfos to fetch.
+     */
+    orderBy?: TourInfoOrderByWithRelationInput | TourInfoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TourInfos.
+     */
+    cursor?: TourInfoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TourInfos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TourInfos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TourInfos.
+     */
+    distinct?: TourInfoScalarFieldEnum | TourInfoScalarFieldEnum[]
+  }
+
+  /**
+   * TourInfo findFirstOrThrow
+   */
+  export type TourInfoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TourInfo
+     */
+    select?: TourInfoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TourInfo
+     */
+    omit?: TourInfoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TourInfoInclude<ExtArgs> | null
+    /**
+     * Filter, which TourInfo to fetch.
+     */
+    where?: TourInfoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TourInfos to fetch.
+     */
+    orderBy?: TourInfoOrderByWithRelationInput | TourInfoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TourInfos.
+     */
+    cursor?: TourInfoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TourInfos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TourInfos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TourInfos.
+     */
+    distinct?: TourInfoScalarFieldEnum | TourInfoScalarFieldEnum[]
+  }
+
+  /**
+   * TourInfo findMany
+   */
+  export type TourInfoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TourInfo
+     */
+    select?: TourInfoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TourInfo
+     */
+    omit?: TourInfoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TourInfoInclude<ExtArgs> | null
+    /**
+     * Filter, which TourInfos to fetch.
+     */
+    where?: TourInfoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TourInfos to fetch.
+     */
+    orderBy?: TourInfoOrderByWithRelationInput | TourInfoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TourInfos.
+     */
+    cursor?: TourInfoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TourInfos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TourInfos.
+     */
+    skip?: number
+    distinct?: TourInfoScalarFieldEnum | TourInfoScalarFieldEnum[]
+  }
+
+  /**
+   * TourInfo create
+   */
+  export type TourInfoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TourInfo
+     */
+    select?: TourInfoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TourInfo
+     */
+    omit?: TourInfoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TourInfoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TourInfo.
+     */
+    data: XOR<TourInfoCreateInput, TourInfoUncheckedCreateInput>
+  }
+
+  /**
+   * TourInfo createMany
+   */
+  export type TourInfoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TourInfos.
+     */
+    data: TourInfoCreateManyInput | TourInfoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TourInfo createManyAndReturn
+   */
+  export type TourInfoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TourInfo
+     */
+    select?: TourInfoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TourInfo
+     */
+    omit?: TourInfoOmit<ExtArgs> | null
+    /**
+     * The data used to create many TourInfos.
+     */
+    data: TourInfoCreateManyInput | TourInfoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TourInfo update
+   */
+  export type TourInfoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TourInfo
+     */
+    select?: TourInfoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TourInfo
+     */
+    omit?: TourInfoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TourInfoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TourInfo.
+     */
+    data: XOR<TourInfoUpdateInput, TourInfoUncheckedUpdateInput>
+    /**
+     * Choose, which TourInfo to update.
+     */
+    where: TourInfoWhereUniqueInput
+  }
+
+  /**
+   * TourInfo updateMany
+   */
+  export type TourInfoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TourInfos.
+     */
+    data: XOR<TourInfoUpdateManyMutationInput, TourInfoUncheckedUpdateManyInput>
+    /**
+     * Filter which TourInfos to update
+     */
+    where?: TourInfoWhereInput
+    /**
+     * Limit how many TourInfos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TourInfo updateManyAndReturn
+   */
+  export type TourInfoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TourInfo
+     */
+    select?: TourInfoSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TourInfo
+     */
+    omit?: TourInfoOmit<ExtArgs> | null
+    /**
+     * The data used to update TourInfos.
+     */
+    data: XOR<TourInfoUpdateManyMutationInput, TourInfoUncheckedUpdateManyInput>
+    /**
+     * Filter which TourInfos to update
+     */
+    where?: TourInfoWhereInput
+    /**
+     * Limit how many TourInfos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TourInfo upsert
+   */
+  export type TourInfoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TourInfo
+     */
+    select?: TourInfoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TourInfo
+     */
+    omit?: TourInfoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TourInfoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TourInfo to update in case it exists.
+     */
+    where: TourInfoWhereUniqueInput
+    /**
+     * In case the TourInfo found by the `where` argument doesn't exist, create a new TourInfo with this data.
+     */
+    create: XOR<TourInfoCreateInput, TourInfoUncheckedCreateInput>
+    /**
+     * In case the TourInfo was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TourInfoUpdateInput, TourInfoUncheckedUpdateInput>
+  }
+
+  /**
+   * TourInfo delete
+   */
+  export type TourInfoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TourInfo
+     */
+    select?: TourInfoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TourInfo
+     */
+    omit?: TourInfoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TourInfoInclude<ExtArgs> | null
+    /**
+     * Filter which TourInfo to delete.
+     */
+    where: TourInfoWhereUniqueInput
+  }
+
+  /**
+   * TourInfo deleteMany
+   */
+  export type TourInfoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TourInfos to delete
+     */
+    where?: TourInfoWhereInput
+    /**
+     * Limit how many TourInfos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TourInfo.reviews
+   */
+  export type TourInfo$reviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TourReviews
+     */
+    select?: TourReviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TourReviews
+     */
+    omit?: TourReviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TourReviewsInclude<ExtArgs> | null
+    where?: TourReviewsWhereInput
+    orderBy?: TourReviewsOrderByWithRelationInput | TourReviewsOrderByWithRelationInput[]
+    cursor?: TourReviewsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TourReviewsScalarFieldEnum | TourReviewsScalarFieldEnum[]
+  }
+
+  /**
+   * TourInfo without action
+   */
+  export type TourInfoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TourInfo
+     */
+    select?: TourInfoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TourInfo
+     */
+    omit?: TourInfoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TourInfoInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TourReviews
+   */
+
+  export type AggregateTourReviews = {
+    _count: TourReviewsCountAggregateOutputType | null
+    _avg: TourReviewsAvgAggregateOutputType | null
+    _sum: TourReviewsSumAggregateOutputType | null
+    _min: TourReviewsMinAggregateOutputType | null
+    _max: TourReviewsMaxAggregateOutputType | null
+  }
+
+  export type TourReviewsAvgAggregateOutputType = {
+    id: number | null
+    tourId: number | null
+  }
+
+  export type TourReviewsSumAggregateOutputType = {
+    id: number | null
+    tourId: number | null
+  }
+
+  export type TourReviewsMinAggregateOutputType = {
+    id: number | null
+    tourId: number | null
+    tourDesc: string | null
+  }
+
+  export type TourReviewsMaxAggregateOutputType = {
+    id: number | null
+    tourId: number | null
+    tourDesc: string | null
+  }
+
+  export type TourReviewsCountAggregateOutputType = {
+    id: number
+    tourId: number
+    tourDesc: number
+    _all: number
+  }
+
+
+  export type TourReviewsAvgAggregateInputType = {
+    id?: true
+    tourId?: true
+  }
+
+  export type TourReviewsSumAggregateInputType = {
+    id?: true
+    tourId?: true
+  }
+
+  export type TourReviewsMinAggregateInputType = {
+    id?: true
+    tourId?: true
+    tourDesc?: true
+  }
+
+  export type TourReviewsMaxAggregateInputType = {
+    id?: true
+    tourId?: true
+    tourDesc?: true
+  }
+
+  export type TourReviewsCountAggregateInputType = {
+    id?: true
+    tourId?: true
+    tourDesc?: true
+    _all?: true
+  }
+
+  export type TourReviewsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TourReviews to aggregate.
+     */
+    where?: TourReviewsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TourReviews to fetch.
+     */
+    orderBy?: TourReviewsOrderByWithRelationInput | TourReviewsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TourReviewsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TourReviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TourReviews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TourReviews
+    **/
+    _count?: true | TourReviewsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TourReviewsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TourReviewsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TourReviewsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TourReviewsMaxAggregateInputType
+  }
+
+  export type GetTourReviewsAggregateType<T extends TourReviewsAggregateArgs> = {
+        [P in keyof T & keyof AggregateTourReviews]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTourReviews[P]>
+      : GetScalarType<T[P], AggregateTourReviews[P]>
+  }
+
+
+
+
+  export type TourReviewsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TourReviewsWhereInput
+    orderBy?: TourReviewsOrderByWithAggregationInput | TourReviewsOrderByWithAggregationInput[]
+    by: TourReviewsScalarFieldEnum[] | TourReviewsScalarFieldEnum
+    having?: TourReviewsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TourReviewsCountAggregateInputType | true
+    _avg?: TourReviewsAvgAggregateInputType
+    _sum?: TourReviewsSumAggregateInputType
+    _min?: TourReviewsMinAggregateInputType
+    _max?: TourReviewsMaxAggregateInputType
+  }
+
+  export type TourReviewsGroupByOutputType = {
+    id: number
+    tourId: number
+    tourDesc: string
+    _count: TourReviewsCountAggregateOutputType | null
+    _avg: TourReviewsAvgAggregateOutputType | null
+    _sum: TourReviewsSumAggregateOutputType | null
+    _min: TourReviewsMinAggregateOutputType | null
+    _max: TourReviewsMaxAggregateOutputType | null
+  }
+
+  type GetTourReviewsGroupByPayload<T extends TourReviewsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TourReviewsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TourReviewsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TourReviewsGroupByOutputType[P]>
+            : GetScalarType<T[P], TourReviewsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TourReviewsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tourId?: boolean
+    tourDesc?: boolean
+    tourInfo?: boolean | TourInfoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tourReviews"]>
+
+  export type TourReviewsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tourId?: boolean
+    tourDesc?: boolean
+    tourInfo?: boolean | TourInfoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tourReviews"]>
+
+  export type TourReviewsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tourId?: boolean
+    tourDesc?: boolean
+    tourInfo?: boolean | TourInfoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tourReviews"]>
+
+  export type TourReviewsSelectScalar = {
+    id?: boolean
+    tourId?: boolean
+    tourDesc?: boolean
+  }
+
+  export type TourReviewsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tourId" | "tourDesc", ExtArgs["result"]["tourReviews"]>
+  export type TourReviewsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tourInfo?: boolean | TourInfoDefaultArgs<ExtArgs>
+  }
+  export type TourReviewsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tourInfo?: boolean | TourInfoDefaultArgs<ExtArgs>
+  }
+  export type TourReviewsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tourInfo?: boolean | TourInfoDefaultArgs<ExtArgs>
+  }
+
+  export type $TourReviewsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TourReviews"
+    objects: {
+      tourInfo: Prisma.$TourInfoPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      tourId: number
+      tourDesc: string
+    }, ExtArgs["result"]["tourReviews"]>
+    composites: {}
+  }
+
+  type TourReviewsGetPayload<S extends boolean | null | undefined | TourReviewsDefaultArgs> = $Result.GetResult<Prisma.$TourReviewsPayload, S>
+
+  type TourReviewsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TourReviewsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TourReviewsCountAggregateInputType | true
+    }
+
+  export interface TourReviewsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TourReviews'], meta: { name: 'TourReviews' } }
+    /**
+     * Find zero or one TourReviews that matches the filter.
+     * @param {TourReviewsFindUniqueArgs} args - Arguments to find a TourReviews
+     * @example
+     * // Get one TourReviews
+     * const tourReviews = await prisma.tourReviews.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TourReviewsFindUniqueArgs>(args: SelectSubset<T, TourReviewsFindUniqueArgs<ExtArgs>>): Prisma__TourReviewsClient<$Result.GetResult<Prisma.$TourReviewsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TourReviews that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TourReviewsFindUniqueOrThrowArgs} args - Arguments to find a TourReviews
+     * @example
+     * // Get one TourReviews
+     * const tourReviews = await prisma.tourReviews.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TourReviewsFindUniqueOrThrowArgs>(args: SelectSubset<T, TourReviewsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TourReviewsClient<$Result.GetResult<Prisma.$TourReviewsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TourReviews that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TourReviewsFindFirstArgs} args - Arguments to find a TourReviews
+     * @example
+     * // Get one TourReviews
+     * const tourReviews = await prisma.tourReviews.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TourReviewsFindFirstArgs>(args?: SelectSubset<T, TourReviewsFindFirstArgs<ExtArgs>>): Prisma__TourReviewsClient<$Result.GetResult<Prisma.$TourReviewsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TourReviews that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TourReviewsFindFirstOrThrowArgs} args - Arguments to find a TourReviews
+     * @example
+     * // Get one TourReviews
+     * const tourReviews = await prisma.tourReviews.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TourReviewsFindFirstOrThrowArgs>(args?: SelectSubset<T, TourReviewsFindFirstOrThrowArgs<ExtArgs>>): Prisma__TourReviewsClient<$Result.GetResult<Prisma.$TourReviewsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TourReviews that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TourReviewsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TourReviews
+     * const tourReviews = await prisma.tourReviews.findMany()
+     * 
+     * // Get first 10 TourReviews
+     * const tourReviews = await prisma.tourReviews.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const tourReviewsWithIdOnly = await prisma.tourReviews.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TourReviewsFindManyArgs>(args?: SelectSubset<T, TourReviewsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TourReviewsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TourReviews.
+     * @param {TourReviewsCreateArgs} args - Arguments to create a TourReviews.
+     * @example
+     * // Create one TourReviews
+     * const TourReviews = await prisma.tourReviews.create({
+     *   data: {
+     *     // ... data to create a TourReviews
+     *   }
+     * })
+     * 
+     */
+    create<T extends TourReviewsCreateArgs>(args: SelectSubset<T, TourReviewsCreateArgs<ExtArgs>>): Prisma__TourReviewsClient<$Result.GetResult<Prisma.$TourReviewsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TourReviews.
+     * @param {TourReviewsCreateManyArgs} args - Arguments to create many TourReviews.
+     * @example
+     * // Create many TourReviews
+     * const tourReviews = await prisma.tourReviews.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TourReviewsCreateManyArgs>(args?: SelectSubset<T, TourReviewsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TourReviews and returns the data saved in the database.
+     * @param {TourReviewsCreateManyAndReturnArgs} args - Arguments to create many TourReviews.
+     * @example
+     * // Create many TourReviews
+     * const tourReviews = await prisma.tourReviews.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TourReviews and only return the `id`
+     * const tourReviewsWithIdOnly = await prisma.tourReviews.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TourReviewsCreateManyAndReturnArgs>(args?: SelectSubset<T, TourReviewsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TourReviewsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TourReviews.
+     * @param {TourReviewsDeleteArgs} args - Arguments to delete one TourReviews.
+     * @example
+     * // Delete one TourReviews
+     * const TourReviews = await prisma.tourReviews.delete({
+     *   where: {
+     *     // ... filter to delete one TourReviews
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TourReviewsDeleteArgs>(args: SelectSubset<T, TourReviewsDeleteArgs<ExtArgs>>): Prisma__TourReviewsClient<$Result.GetResult<Prisma.$TourReviewsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TourReviews.
+     * @param {TourReviewsUpdateArgs} args - Arguments to update one TourReviews.
+     * @example
+     * // Update one TourReviews
+     * const tourReviews = await prisma.tourReviews.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TourReviewsUpdateArgs>(args: SelectSubset<T, TourReviewsUpdateArgs<ExtArgs>>): Prisma__TourReviewsClient<$Result.GetResult<Prisma.$TourReviewsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TourReviews.
+     * @param {TourReviewsDeleteManyArgs} args - Arguments to filter TourReviews to delete.
+     * @example
+     * // Delete a few TourReviews
+     * const { count } = await prisma.tourReviews.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TourReviewsDeleteManyArgs>(args?: SelectSubset<T, TourReviewsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TourReviews.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TourReviewsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TourReviews
+     * const tourReviews = await prisma.tourReviews.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TourReviewsUpdateManyArgs>(args: SelectSubset<T, TourReviewsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TourReviews and returns the data updated in the database.
+     * @param {TourReviewsUpdateManyAndReturnArgs} args - Arguments to update many TourReviews.
+     * @example
+     * // Update many TourReviews
+     * const tourReviews = await prisma.tourReviews.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TourReviews and only return the `id`
+     * const tourReviewsWithIdOnly = await prisma.tourReviews.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TourReviewsUpdateManyAndReturnArgs>(args: SelectSubset<T, TourReviewsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TourReviewsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TourReviews.
+     * @param {TourReviewsUpsertArgs} args - Arguments to update or create a TourReviews.
+     * @example
+     * // Update or create a TourReviews
+     * const tourReviews = await prisma.tourReviews.upsert({
+     *   create: {
+     *     // ... data to create a TourReviews
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TourReviews we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TourReviewsUpsertArgs>(args: SelectSubset<T, TourReviewsUpsertArgs<ExtArgs>>): Prisma__TourReviewsClient<$Result.GetResult<Prisma.$TourReviewsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TourReviews.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TourReviewsCountArgs} args - Arguments to filter TourReviews to count.
+     * @example
+     * // Count the number of TourReviews
+     * const count = await prisma.tourReviews.count({
+     *   where: {
+     *     // ... the filter for the TourReviews we want to count
+     *   }
+     * })
+    **/
+    count<T extends TourReviewsCountArgs>(
+      args?: Subset<T, TourReviewsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TourReviewsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TourReviews.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TourReviewsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TourReviewsAggregateArgs>(args: Subset<T, TourReviewsAggregateArgs>): Prisma.PrismaPromise<GetTourReviewsAggregateType<T>>
+
+    /**
+     * Group by TourReviews.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TourReviewsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TourReviewsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TourReviewsGroupByArgs['orderBy'] }
+        : { orderBy?: TourReviewsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TourReviewsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTourReviewsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TourReviews model
+   */
+  readonly fields: TourReviewsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TourReviews.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TourReviewsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tourInfo<T extends TourInfoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TourInfoDefaultArgs<ExtArgs>>): Prisma__TourInfoClient<$Result.GetResult<Prisma.$TourInfoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TourReviews model
+   */
+  interface TourReviewsFieldRefs {
+    readonly id: FieldRef<"TourReviews", 'Int'>
+    readonly tourId: FieldRef<"TourReviews", 'Int'>
+    readonly tourDesc: FieldRef<"TourReviews", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TourReviews findUnique
+   */
+  export type TourReviewsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TourReviews
+     */
+    select?: TourReviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TourReviews
+     */
+    omit?: TourReviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TourReviewsInclude<ExtArgs> | null
+    /**
+     * Filter, which TourReviews to fetch.
+     */
+    where: TourReviewsWhereUniqueInput
+  }
+
+  /**
+   * TourReviews findUniqueOrThrow
+   */
+  export type TourReviewsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TourReviews
+     */
+    select?: TourReviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TourReviews
+     */
+    omit?: TourReviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TourReviewsInclude<ExtArgs> | null
+    /**
+     * Filter, which TourReviews to fetch.
+     */
+    where: TourReviewsWhereUniqueInput
+  }
+
+  /**
+   * TourReviews findFirst
+   */
+  export type TourReviewsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TourReviews
+     */
+    select?: TourReviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TourReviews
+     */
+    omit?: TourReviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TourReviewsInclude<ExtArgs> | null
+    /**
+     * Filter, which TourReviews to fetch.
+     */
+    where?: TourReviewsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TourReviews to fetch.
+     */
+    orderBy?: TourReviewsOrderByWithRelationInput | TourReviewsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TourReviews.
+     */
+    cursor?: TourReviewsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TourReviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TourReviews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TourReviews.
+     */
+    distinct?: TourReviewsScalarFieldEnum | TourReviewsScalarFieldEnum[]
+  }
+
+  /**
+   * TourReviews findFirstOrThrow
+   */
+  export type TourReviewsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TourReviews
+     */
+    select?: TourReviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TourReviews
+     */
+    omit?: TourReviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TourReviewsInclude<ExtArgs> | null
+    /**
+     * Filter, which TourReviews to fetch.
+     */
+    where?: TourReviewsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TourReviews to fetch.
+     */
+    orderBy?: TourReviewsOrderByWithRelationInput | TourReviewsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TourReviews.
+     */
+    cursor?: TourReviewsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TourReviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TourReviews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TourReviews.
+     */
+    distinct?: TourReviewsScalarFieldEnum | TourReviewsScalarFieldEnum[]
+  }
+
+  /**
+   * TourReviews findMany
+   */
+  export type TourReviewsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TourReviews
+     */
+    select?: TourReviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TourReviews
+     */
+    omit?: TourReviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TourReviewsInclude<ExtArgs> | null
+    /**
+     * Filter, which TourReviews to fetch.
+     */
+    where?: TourReviewsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TourReviews to fetch.
+     */
+    orderBy?: TourReviewsOrderByWithRelationInput | TourReviewsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TourReviews.
+     */
+    cursor?: TourReviewsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TourReviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TourReviews.
+     */
+    skip?: number
+    distinct?: TourReviewsScalarFieldEnum | TourReviewsScalarFieldEnum[]
+  }
+
+  /**
+   * TourReviews create
+   */
+  export type TourReviewsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TourReviews
+     */
+    select?: TourReviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TourReviews
+     */
+    omit?: TourReviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TourReviewsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TourReviews.
+     */
+    data: XOR<TourReviewsCreateInput, TourReviewsUncheckedCreateInput>
+  }
+
+  /**
+   * TourReviews createMany
+   */
+  export type TourReviewsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TourReviews.
+     */
+    data: TourReviewsCreateManyInput | TourReviewsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TourReviews createManyAndReturn
+   */
+  export type TourReviewsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TourReviews
+     */
+    select?: TourReviewsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TourReviews
+     */
+    omit?: TourReviewsOmit<ExtArgs> | null
+    /**
+     * The data used to create many TourReviews.
+     */
+    data: TourReviewsCreateManyInput | TourReviewsCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TourReviewsIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TourReviews update
+   */
+  export type TourReviewsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TourReviews
+     */
+    select?: TourReviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TourReviews
+     */
+    omit?: TourReviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TourReviewsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TourReviews.
+     */
+    data: XOR<TourReviewsUpdateInput, TourReviewsUncheckedUpdateInput>
+    /**
+     * Choose, which TourReviews to update.
+     */
+    where: TourReviewsWhereUniqueInput
+  }
+
+  /**
+   * TourReviews updateMany
+   */
+  export type TourReviewsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TourReviews.
+     */
+    data: XOR<TourReviewsUpdateManyMutationInput, TourReviewsUncheckedUpdateManyInput>
+    /**
+     * Filter which TourReviews to update
+     */
+    where?: TourReviewsWhereInput
+    /**
+     * Limit how many TourReviews to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TourReviews updateManyAndReturn
+   */
+  export type TourReviewsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TourReviews
+     */
+    select?: TourReviewsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TourReviews
+     */
+    omit?: TourReviewsOmit<ExtArgs> | null
+    /**
+     * The data used to update TourReviews.
+     */
+    data: XOR<TourReviewsUpdateManyMutationInput, TourReviewsUncheckedUpdateManyInput>
+    /**
+     * Filter which TourReviews to update
+     */
+    where?: TourReviewsWhereInput
+    /**
+     * Limit how many TourReviews to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TourReviewsIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TourReviews upsert
+   */
+  export type TourReviewsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TourReviews
+     */
+    select?: TourReviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TourReviews
+     */
+    omit?: TourReviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TourReviewsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TourReviews to update in case it exists.
+     */
+    where: TourReviewsWhereUniqueInput
+    /**
+     * In case the TourReviews found by the `where` argument doesn't exist, create a new TourReviews with this data.
+     */
+    create: XOR<TourReviewsCreateInput, TourReviewsUncheckedCreateInput>
+    /**
+     * In case the TourReviews was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TourReviewsUpdateInput, TourReviewsUncheckedUpdateInput>
+  }
+
+  /**
+   * TourReviews delete
+   */
+  export type TourReviewsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TourReviews
+     */
+    select?: TourReviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TourReviews
+     */
+    omit?: TourReviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TourReviewsInclude<ExtArgs> | null
+    /**
+     * Filter which TourReviews to delete.
+     */
+    where: TourReviewsWhereUniqueInput
+  }
+
+  /**
+   * TourReviews deleteMany
+   */
+  export type TourReviewsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TourReviews to delete
+     */
+    where?: TourReviewsWhereInput
+    /**
+     * Limit how many TourReviews to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TourReviews without action
+   */
+  export type TourReviewsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TourReviews
+     */
+    select?: TourReviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TourReviews
+     */
+    omit?: TourReviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TourReviewsInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -7987,6 +10425,29 @@ export namespace Prisma {
   };
 
   export type HotelInfoScalarFieldEnum = (typeof HotelInfoScalarFieldEnum)[keyof typeof HotelInfoScalarFieldEnum]
+
+
+  export const TourInfoScalarFieldEnum: {
+    id: 'id',
+    tourName: 'tourName',
+    location: 'location',
+    price: 'price',
+    link: 'link',
+    description: 'description',
+    rating: 'rating',
+    ratingCount: 'ratingCount'
+  };
+
+  export type TourInfoScalarFieldEnum = (typeof TourInfoScalarFieldEnum)[keyof typeof TourInfoScalarFieldEnum]
+
+
+  export const TourReviewsScalarFieldEnum: {
+    id: 'id',
+    tourId: 'tourId',
+    tourDesc: 'tourDesc'
+  };
+
+  export type TourReviewsScalarFieldEnum = (typeof TourReviewsScalarFieldEnum)[keyof typeof TourReviewsScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -8423,6 +10884,125 @@ export namespace Prisma {
     star?: IntWithAggregatesFilter<"HotelInfo"> | number
   }
 
+  export type TourInfoWhereInput = {
+    AND?: TourInfoWhereInput | TourInfoWhereInput[]
+    OR?: TourInfoWhereInput[]
+    NOT?: TourInfoWhereInput | TourInfoWhereInput[]
+    id?: IntFilter<"TourInfo"> | number
+    tourName?: StringFilter<"TourInfo"> | string
+    location?: StringFilter<"TourInfo"> | string
+    price?: IntFilter<"TourInfo"> | number
+    link?: StringFilter<"TourInfo"> | string
+    description?: StringFilter<"TourInfo"> | string
+    rating?: FloatFilter<"TourInfo"> | number
+    ratingCount?: IntFilter<"TourInfo"> | number
+    reviews?: TourReviewsListRelationFilter
+  }
+
+  export type TourInfoOrderByWithRelationInput = {
+    id?: SortOrder
+    tourName?: SortOrder
+    location?: SortOrder
+    price?: SortOrder
+    link?: SortOrder
+    description?: SortOrder
+    rating?: SortOrder
+    ratingCount?: SortOrder
+    reviews?: TourReviewsOrderByRelationAggregateInput
+  }
+
+  export type TourInfoWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: TourInfoWhereInput | TourInfoWhereInput[]
+    OR?: TourInfoWhereInput[]
+    NOT?: TourInfoWhereInput | TourInfoWhereInput[]
+    tourName?: StringFilter<"TourInfo"> | string
+    location?: StringFilter<"TourInfo"> | string
+    price?: IntFilter<"TourInfo"> | number
+    link?: StringFilter<"TourInfo"> | string
+    description?: StringFilter<"TourInfo"> | string
+    rating?: FloatFilter<"TourInfo"> | number
+    ratingCount?: IntFilter<"TourInfo"> | number
+    reviews?: TourReviewsListRelationFilter
+  }, "id">
+
+  export type TourInfoOrderByWithAggregationInput = {
+    id?: SortOrder
+    tourName?: SortOrder
+    location?: SortOrder
+    price?: SortOrder
+    link?: SortOrder
+    description?: SortOrder
+    rating?: SortOrder
+    ratingCount?: SortOrder
+    _count?: TourInfoCountOrderByAggregateInput
+    _avg?: TourInfoAvgOrderByAggregateInput
+    _max?: TourInfoMaxOrderByAggregateInput
+    _min?: TourInfoMinOrderByAggregateInput
+    _sum?: TourInfoSumOrderByAggregateInput
+  }
+
+  export type TourInfoScalarWhereWithAggregatesInput = {
+    AND?: TourInfoScalarWhereWithAggregatesInput | TourInfoScalarWhereWithAggregatesInput[]
+    OR?: TourInfoScalarWhereWithAggregatesInput[]
+    NOT?: TourInfoScalarWhereWithAggregatesInput | TourInfoScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"TourInfo"> | number
+    tourName?: StringWithAggregatesFilter<"TourInfo"> | string
+    location?: StringWithAggregatesFilter<"TourInfo"> | string
+    price?: IntWithAggregatesFilter<"TourInfo"> | number
+    link?: StringWithAggregatesFilter<"TourInfo"> | string
+    description?: StringWithAggregatesFilter<"TourInfo"> | string
+    rating?: FloatWithAggregatesFilter<"TourInfo"> | number
+    ratingCount?: IntWithAggregatesFilter<"TourInfo"> | number
+  }
+
+  export type TourReviewsWhereInput = {
+    AND?: TourReviewsWhereInput | TourReviewsWhereInput[]
+    OR?: TourReviewsWhereInput[]
+    NOT?: TourReviewsWhereInput | TourReviewsWhereInput[]
+    id?: IntFilter<"TourReviews"> | number
+    tourId?: IntFilter<"TourReviews"> | number
+    tourDesc?: StringFilter<"TourReviews"> | string
+    tourInfo?: XOR<TourInfoScalarRelationFilter, TourInfoWhereInput>
+  }
+
+  export type TourReviewsOrderByWithRelationInput = {
+    id?: SortOrder
+    tourId?: SortOrder
+    tourDesc?: SortOrder
+    tourInfo?: TourInfoOrderByWithRelationInput
+  }
+
+  export type TourReviewsWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: TourReviewsWhereInput | TourReviewsWhereInput[]
+    OR?: TourReviewsWhereInput[]
+    NOT?: TourReviewsWhereInput | TourReviewsWhereInput[]
+    tourId?: IntFilter<"TourReviews"> | number
+    tourDesc?: StringFilter<"TourReviews"> | string
+    tourInfo?: XOR<TourInfoScalarRelationFilter, TourInfoWhereInput>
+  }, "id">
+
+  export type TourReviewsOrderByWithAggregationInput = {
+    id?: SortOrder
+    tourId?: SortOrder
+    tourDesc?: SortOrder
+    _count?: TourReviewsCountOrderByAggregateInput
+    _avg?: TourReviewsAvgOrderByAggregateInput
+    _max?: TourReviewsMaxOrderByAggregateInput
+    _min?: TourReviewsMinOrderByAggregateInput
+    _sum?: TourReviewsSumOrderByAggregateInput
+  }
+
+  export type TourReviewsScalarWhereWithAggregatesInput = {
+    AND?: TourReviewsScalarWhereWithAggregatesInput | TourReviewsScalarWhereWithAggregatesInput[]
+    OR?: TourReviewsScalarWhereWithAggregatesInput[]
+    NOT?: TourReviewsScalarWhereWithAggregatesInput | TourReviewsScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"TourReviews"> | number
+    tourId?: IntWithAggregatesFilter<"TourReviews"> | number
+    tourDesc?: StringWithAggregatesFilter<"TourReviews"> | string
+  }
+
   export type UserDetailCreateInput = {
     userName: string
     email: string
@@ -8767,6 +11347,125 @@ export namespace Prisma {
     rating?: FloatFieldUpdateOperationsInput | number
     reviews?: IntFieldUpdateOperationsInput | number
     star?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type TourInfoCreateInput = {
+    id: number
+    tourName: string
+    location: string
+    price: number
+    link: string
+    description: string
+    rating: number
+    ratingCount: number
+    reviews?: TourReviewsCreateNestedManyWithoutTourInfoInput
+  }
+
+  export type TourInfoUncheckedCreateInput = {
+    id: number
+    tourName: string
+    location: string
+    price: number
+    link: string
+    description: string
+    rating: number
+    ratingCount: number
+    reviews?: TourReviewsUncheckedCreateNestedManyWithoutTourInfoInput
+  }
+
+  export type TourInfoUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    tourName?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    link?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    rating?: FloatFieldUpdateOperationsInput | number
+    ratingCount?: IntFieldUpdateOperationsInput | number
+    reviews?: TourReviewsUpdateManyWithoutTourInfoNestedInput
+  }
+
+  export type TourInfoUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    tourName?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    link?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    rating?: FloatFieldUpdateOperationsInput | number
+    ratingCount?: IntFieldUpdateOperationsInput | number
+    reviews?: TourReviewsUncheckedUpdateManyWithoutTourInfoNestedInput
+  }
+
+  export type TourInfoCreateManyInput = {
+    id: number
+    tourName: string
+    location: string
+    price: number
+    link: string
+    description: string
+    rating: number
+    ratingCount: number
+  }
+
+  export type TourInfoUpdateManyMutationInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    tourName?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    link?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    rating?: FloatFieldUpdateOperationsInput | number
+    ratingCount?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type TourInfoUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    tourName?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    link?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    rating?: FloatFieldUpdateOperationsInput | number
+    ratingCount?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type TourReviewsCreateInput = {
+    tourDesc: string
+    tourInfo: TourInfoCreateNestedOneWithoutReviewsInput
+  }
+
+  export type TourReviewsUncheckedCreateInput = {
+    id?: number
+    tourId: number
+    tourDesc: string
+  }
+
+  export type TourReviewsUpdateInput = {
+    tourDesc?: StringFieldUpdateOperationsInput | string
+    tourInfo?: TourInfoUpdateOneRequiredWithoutReviewsNestedInput
+  }
+
+  export type TourReviewsUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    tourId?: IntFieldUpdateOperationsInput | number
+    tourDesc?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TourReviewsCreateManyInput = {
+    id?: number
+    tourId: number
+    tourDesc: string
+  }
+
+  export type TourReviewsUpdateManyMutationInput = {
+    tourDesc?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TourReviewsUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    tourId?: IntFieldUpdateOperationsInput | number
+    tourDesc?: StringFieldUpdateOperationsInput | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -9115,6 +11814,96 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type TourReviewsListRelationFilter = {
+    every?: TourReviewsWhereInput
+    some?: TourReviewsWhereInput
+    none?: TourReviewsWhereInput
+  }
+
+  export type TourReviewsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TourInfoCountOrderByAggregateInput = {
+    id?: SortOrder
+    tourName?: SortOrder
+    location?: SortOrder
+    price?: SortOrder
+    link?: SortOrder
+    description?: SortOrder
+    rating?: SortOrder
+    ratingCount?: SortOrder
+  }
+
+  export type TourInfoAvgOrderByAggregateInput = {
+    id?: SortOrder
+    price?: SortOrder
+    rating?: SortOrder
+    ratingCount?: SortOrder
+  }
+
+  export type TourInfoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tourName?: SortOrder
+    location?: SortOrder
+    price?: SortOrder
+    link?: SortOrder
+    description?: SortOrder
+    rating?: SortOrder
+    ratingCount?: SortOrder
+  }
+
+  export type TourInfoMinOrderByAggregateInput = {
+    id?: SortOrder
+    tourName?: SortOrder
+    location?: SortOrder
+    price?: SortOrder
+    link?: SortOrder
+    description?: SortOrder
+    rating?: SortOrder
+    ratingCount?: SortOrder
+  }
+
+  export type TourInfoSumOrderByAggregateInput = {
+    id?: SortOrder
+    price?: SortOrder
+    rating?: SortOrder
+    ratingCount?: SortOrder
+  }
+
+  export type TourInfoScalarRelationFilter = {
+    is?: TourInfoWhereInput
+    isNot?: TourInfoWhereInput
+  }
+
+  export type TourReviewsCountOrderByAggregateInput = {
+    id?: SortOrder
+    tourId?: SortOrder
+    tourDesc?: SortOrder
+  }
+
+  export type TourReviewsAvgOrderByAggregateInput = {
+    id?: SortOrder
+    tourId?: SortOrder
+  }
+
+  export type TourReviewsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tourId?: SortOrder
+    tourDesc?: SortOrder
+  }
+
+  export type TourReviewsMinOrderByAggregateInput = {
+    id?: SortOrder
+    tourId?: SortOrder
+    tourDesc?: SortOrder
+  }
+
+  export type TourReviewsSumOrderByAggregateInput = {
+    id?: SortOrder
+    tourId?: SortOrder
+  }
+
   export type UserCreateNestedOneWithoutUserDetailInput = {
     create?: XOR<UserCreateWithoutUserDetailInput, UserUncheckedCreateWithoutUserDetailInput>
     connectOrCreate?: UserCreateOrConnectWithoutUserDetailInput
@@ -9355,6 +12144,62 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type TourReviewsCreateNestedManyWithoutTourInfoInput = {
+    create?: XOR<TourReviewsCreateWithoutTourInfoInput, TourReviewsUncheckedCreateWithoutTourInfoInput> | TourReviewsCreateWithoutTourInfoInput[] | TourReviewsUncheckedCreateWithoutTourInfoInput[]
+    connectOrCreate?: TourReviewsCreateOrConnectWithoutTourInfoInput | TourReviewsCreateOrConnectWithoutTourInfoInput[]
+    createMany?: TourReviewsCreateManyTourInfoInputEnvelope
+    connect?: TourReviewsWhereUniqueInput | TourReviewsWhereUniqueInput[]
+  }
+
+  export type TourReviewsUncheckedCreateNestedManyWithoutTourInfoInput = {
+    create?: XOR<TourReviewsCreateWithoutTourInfoInput, TourReviewsUncheckedCreateWithoutTourInfoInput> | TourReviewsCreateWithoutTourInfoInput[] | TourReviewsUncheckedCreateWithoutTourInfoInput[]
+    connectOrCreate?: TourReviewsCreateOrConnectWithoutTourInfoInput | TourReviewsCreateOrConnectWithoutTourInfoInput[]
+    createMany?: TourReviewsCreateManyTourInfoInputEnvelope
+    connect?: TourReviewsWhereUniqueInput | TourReviewsWhereUniqueInput[]
+  }
+
+  export type TourReviewsUpdateManyWithoutTourInfoNestedInput = {
+    create?: XOR<TourReviewsCreateWithoutTourInfoInput, TourReviewsUncheckedCreateWithoutTourInfoInput> | TourReviewsCreateWithoutTourInfoInput[] | TourReviewsUncheckedCreateWithoutTourInfoInput[]
+    connectOrCreate?: TourReviewsCreateOrConnectWithoutTourInfoInput | TourReviewsCreateOrConnectWithoutTourInfoInput[]
+    upsert?: TourReviewsUpsertWithWhereUniqueWithoutTourInfoInput | TourReviewsUpsertWithWhereUniqueWithoutTourInfoInput[]
+    createMany?: TourReviewsCreateManyTourInfoInputEnvelope
+    set?: TourReviewsWhereUniqueInput | TourReviewsWhereUniqueInput[]
+    disconnect?: TourReviewsWhereUniqueInput | TourReviewsWhereUniqueInput[]
+    delete?: TourReviewsWhereUniqueInput | TourReviewsWhereUniqueInput[]
+    connect?: TourReviewsWhereUniqueInput | TourReviewsWhereUniqueInput[]
+    update?: TourReviewsUpdateWithWhereUniqueWithoutTourInfoInput | TourReviewsUpdateWithWhereUniqueWithoutTourInfoInput[]
+    updateMany?: TourReviewsUpdateManyWithWhereWithoutTourInfoInput | TourReviewsUpdateManyWithWhereWithoutTourInfoInput[]
+    deleteMany?: TourReviewsScalarWhereInput | TourReviewsScalarWhereInput[]
+  }
+
+  export type TourReviewsUncheckedUpdateManyWithoutTourInfoNestedInput = {
+    create?: XOR<TourReviewsCreateWithoutTourInfoInput, TourReviewsUncheckedCreateWithoutTourInfoInput> | TourReviewsCreateWithoutTourInfoInput[] | TourReviewsUncheckedCreateWithoutTourInfoInput[]
+    connectOrCreate?: TourReviewsCreateOrConnectWithoutTourInfoInput | TourReviewsCreateOrConnectWithoutTourInfoInput[]
+    upsert?: TourReviewsUpsertWithWhereUniqueWithoutTourInfoInput | TourReviewsUpsertWithWhereUniqueWithoutTourInfoInput[]
+    createMany?: TourReviewsCreateManyTourInfoInputEnvelope
+    set?: TourReviewsWhereUniqueInput | TourReviewsWhereUniqueInput[]
+    disconnect?: TourReviewsWhereUniqueInput | TourReviewsWhereUniqueInput[]
+    delete?: TourReviewsWhereUniqueInput | TourReviewsWhereUniqueInput[]
+    connect?: TourReviewsWhereUniqueInput | TourReviewsWhereUniqueInput[]
+    update?: TourReviewsUpdateWithWhereUniqueWithoutTourInfoInput | TourReviewsUpdateWithWhereUniqueWithoutTourInfoInput[]
+    updateMany?: TourReviewsUpdateManyWithWhereWithoutTourInfoInput | TourReviewsUpdateManyWithWhereWithoutTourInfoInput[]
+    deleteMany?: TourReviewsScalarWhereInput | TourReviewsScalarWhereInput[]
+  }
+
+  export type TourInfoCreateNestedOneWithoutReviewsInput = {
+    create?: XOR<TourInfoCreateWithoutReviewsInput, TourInfoUncheckedCreateWithoutReviewsInput>
+    connectOrCreate?: TourInfoCreateOrConnectWithoutReviewsInput
+    connect?: TourInfoWhereUniqueInput
+  }
+
+  export type TourInfoUpdateOneRequiredWithoutReviewsNestedInput = {
+    create?: XOR<TourInfoCreateWithoutReviewsInput, TourInfoUncheckedCreateWithoutReviewsInput>
+    connectOrCreate?: TourInfoCreateOrConnectWithoutReviewsInput
+    upsert?: TourInfoUpsertWithoutReviewsInput
+    connect?: TourInfoWhereUniqueInput
+    update?: XOR<XOR<TourInfoUpdateToOneWithWhereWithoutReviewsInput, TourInfoUpdateWithoutReviewsInput>, TourInfoUncheckedUpdateWithoutReviewsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -9846,6 +12691,110 @@ export namespace Prisma {
     data: XOR<ChatMessagesUpdateManyMutationInput, ChatMessagesUncheckedUpdateManyWithoutMsgRoleInput>
   }
 
+  export type TourReviewsCreateWithoutTourInfoInput = {
+    tourDesc: string
+  }
+
+  export type TourReviewsUncheckedCreateWithoutTourInfoInput = {
+    id?: number
+    tourDesc: string
+  }
+
+  export type TourReviewsCreateOrConnectWithoutTourInfoInput = {
+    where: TourReviewsWhereUniqueInput
+    create: XOR<TourReviewsCreateWithoutTourInfoInput, TourReviewsUncheckedCreateWithoutTourInfoInput>
+  }
+
+  export type TourReviewsCreateManyTourInfoInputEnvelope = {
+    data: TourReviewsCreateManyTourInfoInput | TourReviewsCreateManyTourInfoInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TourReviewsUpsertWithWhereUniqueWithoutTourInfoInput = {
+    where: TourReviewsWhereUniqueInput
+    update: XOR<TourReviewsUpdateWithoutTourInfoInput, TourReviewsUncheckedUpdateWithoutTourInfoInput>
+    create: XOR<TourReviewsCreateWithoutTourInfoInput, TourReviewsUncheckedCreateWithoutTourInfoInput>
+  }
+
+  export type TourReviewsUpdateWithWhereUniqueWithoutTourInfoInput = {
+    where: TourReviewsWhereUniqueInput
+    data: XOR<TourReviewsUpdateWithoutTourInfoInput, TourReviewsUncheckedUpdateWithoutTourInfoInput>
+  }
+
+  export type TourReviewsUpdateManyWithWhereWithoutTourInfoInput = {
+    where: TourReviewsScalarWhereInput
+    data: XOR<TourReviewsUpdateManyMutationInput, TourReviewsUncheckedUpdateManyWithoutTourInfoInput>
+  }
+
+  export type TourReviewsScalarWhereInput = {
+    AND?: TourReviewsScalarWhereInput | TourReviewsScalarWhereInput[]
+    OR?: TourReviewsScalarWhereInput[]
+    NOT?: TourReviewsScalarWhereInput | TourReviewsScalarWhereInput[]
+    id?: IntFilter<"TourReviews"> | number
+    tourId?: IntFilter<"TourReviews"> | number
+    tourDesc?: StringFilter<"TourReviews"> | string
+  }
+
+  export type TourInfoCreateWithoutReviewsInput = {
+    id: number
+    tourName: string
+    location: string
+    price: number
+    link: string
+    description: string
+    rating: number
+    ratingCount: number
+  }
+
+  export type TourInfoUncheckedCreateWithoutReviewsInput = {
+    id: number
+    tourName: string
+    location: string
+    price: number
+    link: string
+    description: string
+    rating: number
+    ratingCount: number
+  }
+
+  export type TourInfoCreateOrConnectWithoutReviewsInput = {
+    where: TourInfoWhereUniqueInput
+    create: XOR<TourInfoCreateWithoutReviewsInput, TourInfoUncheckedCreateWithoutReviewsInput>
+  }
+
+  export type TourInfoUpsertWithoutReviewsInput = {
+    update: XOR<TourInfoUpdateWithoutReviewsInput, TourInfoUncheckedUpdateWithoutReviewsInput>
+    create: XOR<TourInfoCreateWithoutReviewsInput, TourInfoUncheckedCreateWithoutReviewsInput>
+    where?: TourInfoWhereInput
+  }
+
+  export type TourInfoUpdateToOneWithWhereWithoutReviewsInput = {
+    where?: TourInfoWhereInput
+    data: XOR<TourInfoUpdateWithoutReviewsInput, TourInfoUncheckedUpdateWithoutReviewsInput>
+  }
+
+  export type TourInfoUpdateWithoutReviewsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    tourName?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    link?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    rating?: FloatFieldUpdateOperationsInput | number
+    ratingCount?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type TourInfoUncheckedUpdateWithoutReviewsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    tourName?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    link?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    rating?: FloatFieldUpdateOperationsInput | number
+    ratingCount?: IntFieldUpdateOperationsInput | number
+  }
+
   export type ChatCreateManyCreatedByInput = {
     id?: string
     createdAt?: Date | string
@@ -9932,6 +12881,25 @@ export namespace Prisma {
     message?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TourReviewsCreateManyTourInfoInput = {
+    id?: number
+    tourDesc: string
+  }
+
+  export type TourReviewsUpdateWithoutTourInfoInput = {
+    tourDesc?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TourReviewsUncheckedUpdateWithoutTourInfoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    tourDesc?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TourReviewsUncheckedUpdateManyWithoutTourInfoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    tourDesc?: StringFieldUpdateOperationsInput | string
   }
 
 

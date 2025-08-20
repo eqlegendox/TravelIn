@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Param } from '@nestjs/common';
 // import { PrismaService } from 'src/prisma/prisma.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { HotelInfo, Prisma } from '../../database/generated/prisma';
+import { HotelInfo, , TourInfo, Prisma } from '../../database/generated/prisma';
+
 
 @Injectable()
 export class ToolsService {
@@ -86,6 +87,66 @@ export class ToolsService {
             
 
         return where;
+    }
+
+    
+    async tours(params: {
+        skip?: number;
+        take?: number;
+        cursor?: Prisma.TourInfoWhereUniqueInput;
+        where?: Prisma.TourInfoWhereInput;
+        orderBy?: Prisma.TourInfoOrderByWithRelationInput;
+    }): Promise<TourInfo[]> {
+        const { skip, take, cursor, where, orderBy } = params;
+        const touristTours = await this.prisma.tourInfo.findMany({
+            skip,
+            take,
+            cursor,
+            where,
+            orderBy
+        })
+
+        return touristTours
+    }
+
+
+    public orchestrateQueryOne(params: {
+        area?: string,
+        minPrice?: number,
+        maxPrice?: number,
+        minRating?: number,
+        maxRating?: number,
+    }): Prisma.TourInfoWhereInput {
+        const where: Prisma.TourInfoWhereInput = {}
+
+        if (params.area) {
+            where.location = {
+                contains: params.area,
+                mode: 'insensitive'
+            };
+        }
+
+        if (params.minPrice !== null || params.maxPrice !== null) {
+            where.price = {}
+            if (params.minPrice !== null) {
+                where.price.gte = params.minPrice;
+            } if (params.maxPrice !== null) {
+                where.price.lte = params.maxPrice;
+            }
+        }
+
+        if (params.minRating !== null || params.maxRating !== null) {
+            where.rating = {}
+            if (params.minRating !== null) {
+                where.rating.gte = params.minRating;
+            } if (params.maxRating !== null) {
+                where.rating.lte = params.maxRating;
+            }
+        }
+
+
+        return where;
+
     }
 
 }

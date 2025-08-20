@@ -47,14 +47,27 @@ const dbHotelTool = tool(
 
 
 const dbTourSchema = z.object({
-    area: z.string(),
+    area: z.string().min(1).max(30),
+    minPrice: z.number().min(0).optional().transform(e => e === 0 ? undefined : e),
+    maxPrice: z.number().min(0).optional().transform(e => e === 0 ? undefined : e),
+    minRating: z.number().min(0).max(10).optional().transform(e => e === 0 ? undefined : e),
+    maxRating: z.number().min(0).max(10).optional().transform(e => e === 0 ? undefined : e),
 });
 
 const dbTourTool = tool(
     async (input) => {
-        // define prisma query here
-        return `Taman Pancing ${input.area}, 20 dollar ticket fee, 1/5 reviews (4200 people);
-    Taman boxing ${input.area}, 54k rupiah pay per view, 4.6/5 reviews (13223 people) `
+    const tourTool = new ToolsService(new PrismaService());
+
+    const query = tourTool.orchestrateQueryOne(input)
+
+    const retrieved = await tourTool.tours({
+      skip: Math.floor(Math.random() * 5),
+      take: input.take || 3,
+      where: query
+    })
+      return JSON.stringify(await retrieved);
+      // `Taman Pancing ${input.area}, 20 dollar ticket fee, 1/5 reviews (4200 people);
+      // Taman boxing ${input.area}, 54k rupiah pay per view, 4.6/5 reviews (13223 people) `
     },
     {
         name: "tourDatabaseQuery",
