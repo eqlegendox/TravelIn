@@ -60,9 +60,9 @@ const dbTourSchema = z.object({
 
 const dbTourTool = tool(
     async (input) => {
-    const tourTool = new ToolsService(new PrismaService());
+    const tourTool = new ToolsService(new PrismaService()); console.log("dbTourTool called")
 
-    const query = tourTool.orchestrateQueryOne(input)
+    const query = tourTool.touristQuery(input)
 
     const retrieved = await tourTool.tours({
       skip: Math.floor(Math.random() * 5),
@@ -75,9 +75,9 @@ const dbTourTool = tool(
     },
     {
         name: "tourDatabaseQuery",
-        description: `You need to call this tool when user ask for tour destination detail,
-        it accepts a general location in bali (please only pass one location, either the general or specific area) 
-        and will output some random destination in that area.
+        description: `You need to call this tool first when the user asks for tourist attractions or activities,
+        it accepts a general location in bali (please only pass one location, either the general or specific area), and other already descriptive requirements,
+        and will output some of the best activities refering to the query,
         after receiving this output please present it to the user as beautifully as possible`,
         schema: dbTourSchema,
     }

@@ -110,7 +110,7 @@ export class ToolsService {
     }
 
 
-    public orchestrateQueryOne(params: {
+    public touristQuery(params: {
         name?: string,
         area?: string,
         minPrice?: number,
@@ -124,7 +124,7 @@ export class ToolsService {
 
         if (params.name) {
             where.tourName = {
-                contains: params.area,
+                contains: params.name,
                 mode: 'insensitive'
             }
         }
