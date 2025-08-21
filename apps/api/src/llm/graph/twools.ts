@@ -47,12 +47,16 @@ const dbHotelTool = tool(
 
 
 const dbTourSchema = z.object({
+    name: z.string().min(1).max(100).optional().transform(e => e?.trim() === '' ? undefined : e?.trim()),
     area: z.string().min(1).max(30),
     minPrice: z.number().min(0).optional().transform(e => e === 0 ? undefined : e),
     maxPrice: z.number().min(0).optional().transform(e => e === 0 ? undefined : e),
     minRating: z.number().min(0).max(10).optional().transform(e => e === 0 ? undefined : e),
     maxRating: z.number().min(0).max(10).optional().transform(e => e === 0 ? undefined : e),
+    minRatingCount: z.number().min(0).optional().transform(e => e === 0 ? undefined : e),
+    maxRatingCount: z.number().min(0).optional().transform(e => e === 0 ? undefined : e),
 });
+
 
 const dbTourTool = tool(
     async (input) => {

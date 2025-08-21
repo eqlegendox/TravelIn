@@ -1,7 +1,7 @@
 import { Injectable, Param } from '@nestjs/common';
 // import { PrismaService } from 'src/prisma/prisma.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { HotelInfo, , TourInfo, Prisma } from '../../database/generated/prisma';
+import { HotelInfo, TourInfo, Prisma } from '../../database/generated/prisma';
 
 
 @Injectable()
@@ -111,13 +111,23 @@ export class ToolsService {
 
 
     public orchestrateQueryOne(params: {
+        name?: string,
         area?: string,
         minPrice?: number,
         maxPrice?: number,
         minRating?: number,
         maxRating?: number,
+        minRatingCount?: number,
+        maxRatingCount?: number,
     }): Prisma.TourInfoWhereInput {
         const where: Prisma.TourInfoWhereInput = {}
+
+        if (params.name) {
+            where.tourName = {
+                contains: params.area,
+                mode: 'insensitive'
+            }
+        }
 
         if (params.area) {
             where.location = {
@@ -141,6 +151,16 @@ export class ToolsService {
                 where.rating.gte = params.minRating;
             } if (params.maxRating !== null) {
                 where.rating.lte = params.maxRating;
+            }
+        }
+
+        if (params.minRatingCount != null || params.maxRatingCount != null) {
+            where.ratingCount = {}
+            if (params.minRatingCount != null) {
+                where.ratingCount.gte = params.minRatingCount;
+            }
+            if (params.maxRatingCount != null) {
+                where.ratingCount.lte = params.maxRatingCount;
             }
         }
 
