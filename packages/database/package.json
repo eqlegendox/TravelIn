@@ -16,6 +16,7 @@
         "@types/node": "^24.2.0"
     },
     "exports": {
-        ".": "./src/index.ts"
+        ".": "./src/index.ts",
+        "./generated/prisma": "./generated/prisma/index.d.ts"
     }
 }

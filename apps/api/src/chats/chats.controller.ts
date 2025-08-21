@@ -3,47 +3,55 @@ import { ChatsService } from './chats.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { CreateUuidDto } from './dto/create-uuid.dto';
 import { Throttle } from '@nestjs/throttler';
-import { MyLoggerService } from 'src/my-logger/my-logger.service';
+import { MyLoggerService } from '../my-logger/my-logger.service';
+import { Prisma, Chat as PrismaChatModel } from '../../database/generated/prisma';
+import { SearchMessageDto } from './dto/search-messages.dto';
 
 @Controller('chats')
 export class ChatsController {
-    /*
-    GET /chats | 
-    GET /chats/:id | 
-    POST /chats | This will create a new chat
-    POST /chats/:id | This will create some messages?
-    PATCH /chats/:id | edit messages | TBE
-    DELETE /chats/:id | delete specific chat
-    */
-
-    constructor(private readonly chatService: ChatsService) {}
-    private readonly logger = new MyLoggerService(ChatsController.name)
-    @Get()
-    findAll() {
-        return this.chatService.findAll()
-    }
-
-    @Throttle({ short: { ttl: 1000, limit: 25}})
-    @Get('/c/:id')
-    findOne(@Param('id', ParseUUIDPipe) idChat: string) {
-        // this.logger.log(`Requested to view chat with id ${idChat}`);
-        return this.chatService.findOne(idChat)
+    private readonly logger: MyLoggerService
+    constructor(
+        private readonly chatService: ChatsService
+    ) {
+        this.logger = new MyLoggerService()
     }
 
     @Post()
-    createChat(@Body(ValidationPipe) uuidv4: CreateUuidDto) {
-        return this.chatService.createChat(uuidv4)
+    findAll(@Body() params: {
+        skip?: number;
+        take?: number;
+        cursor?: Prisma.ChatWhereUniqueInput;
+        where?: Prisma.ChatWhereInput;
+        orderBy?: Prisma.ChatOrderByWithRelationInput;
+    }) {
+        return this.chatService.findAll(params)
     }
-    
+
+    @Throttle({ short: { ttl: 1000, limit: 25}})
     @Post('/c/:id')
-    createMessage(@Param('id', ParseUUIDPipe) idChat: string, @Body(ValidationPipe) createMessageDto: CreateMessageDto) {
-        const res = this.chatService.createMessage(idChat, createMessageDto)
+    async findOne(@Param('id', ParseUUIDPipe) idChat: string, @Body(ValidationPipe) searchMessageDto: SearchMessageDto) {
+        const res = await this.chatService.findMessages(idChat, searchMessageDto)
+        this.logger.log(`user: ${searchMessageDto.userId} requested to view chat with id ${idChat}`);
         return res
     }
 
-    @Post('/c/:id/r')
+    @Post("/create")
+    createChat(@Body(ValidationPipe) user_id: CreateUuidDto) {
+        this.logger.log(`user: ${user_id} requested to create a chat`);
+        return this.chatService.createChat(user_id)
+    }
+    
+    @Post('/c/:id/create')
+    createMessage(@Param('id', ParseUUIDPipe) idChat: string, @Body(ValidationPipe) createMessageDto: CreateMessageDto) {
+        const res = this.chatService.createMessage(idChat, createMessageDto)
+        this.logger.log(`user: ${createMessageDto.userId} send a message: ${createMessageDto.userMessage} to chat with id ${idChat}`);
+        return res
+    }
+
+    @Post('/c/:id/reply')
     createRespondMessage(@Param('id', ParseUUIDPipe) idChat: string, @Body(ValidationPipe) createMessageDto: CreateMessageDto) {
         const res = this.chatService.createRespondMessage(idChat, createMessageDto)
+        this.logger.log(`user: ${createMessageDto.userId} requested response for '${createMessageDto.userMessage}' in chat with id ${idChat}`);
         return res
     }
 

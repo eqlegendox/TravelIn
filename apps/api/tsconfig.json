@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     "moduleResolution": "node",
+    "resolveJsonModule": true, //new
+    "esModuleInterop": true, // new
     "module": "commonjs",
     "declaration": true,
     "removeComments": true,
@@ -17,6 +19,10 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false
-  }
+    "noFallthroughCasesInSwitch": false,
+    "allowJs": true
+  },
+  "include": [
+    "src/**/*"
+  ]
 }

@@ -1,69 +1,76 @@
-import { Injectable } from '@nestjs/common';
-import { GoogleGenAI } from '@google/genai';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-// async function mainLM () {
-    //     const response = await ai.models.generateContentStream({
-        //         model: "gemini-2.5-flash",
-        //         contents: "Hello who are you?",
-//         config: {
-//             systemInstruction: "You are a travelIn ai agent helper, you will answer in representative of this bali-based travel-agent",
-//             thinkingConfig: {
-    //                 thinkingBudget: 0,
-    //             },
-    //         }
-    //     });
-    
-    //     for await (const chunk of response) {
-        //         console.log(chunk.text);
-        //     }
-        //     console.log(response.return);
-        //     return response[-1].text;
-    
-        // }
+import { BaseMessage, HumanMessage } from '@langchain/core/messages';
+import { ChatGoogleGenerativeAI } from '@langchain/google-genai'
+import { Runnable } from '@langchain/core/runnables';
+import { workflow } from './graph/graph'
+import { ChatState } from './graph/state';
+
         
 async function mainLM(lm, prompt: string) {
     const response = await lm.models.generateContent({
         model: "gemini-2.5-flash",
         contents: prompt,
         config: {
-            systemInstruction: "You are a travelIn ai agent helper called Travy, you will answer as a representative of this travel-agent that is located in Bali",
+            systemInstruction: "You are a travelIn ai agent helper called Travy, you will answer as a representative of this travel-agent that is located in Bali.",
             temperature: 0,
             thinkingConfig: {
                 thinkingBudget: 0,
             },
         }
     });
-
     return response.text
 }
 
 
 @Injectable()
-export class LlmService {
-    private model: any;
-    private API_KEY: any;
-    private aiAgent: any;
+export class LlmService implements OnModuleInit {
+    private model: ChatGoogleGenerativeAI;
+    private graph: Runnable<typeof ChatState.State>;
+    
+    constructor(private configService: ConfigService) {}
 
-    constructor(
-        private configService: ConfigService,
-    ) {
-        this.API_KEY = this.configService.get<string>("GEMINI_API_KEY")
-        this.model = new GoogleGenAI({apiKey: this.API_KEY});
+    onModuleInit() {
+        const APIKey = this.configService.get<string>('GEMINI_API_KEY')
+        if (!APIKey) {
+            throw new Error('GEMINI_API_KEY is not in your .env');
+        }
+
+        this.model = new ChatGoogleGenerativeAI({
+            model: "gemini-2.0-flash-001",
+            temperature: 0.1,
+            maxRetries: 2,
+            apiKey: APIKey,
+
+            // maxOutputTokens: 100000,
+        });
+
+        this.graph = workflow.compile();
+    }
+
+    private async runGraph(
+        // systemPrompt: string,
+        history: BaseMessage[],
+    ):Promise<string> {
+        const response = await this.graph.invoke(
+            {messages: history},
+            {configurable: {model: this.model}}
+        );
+
+        // console.log("here is the response in llm service")
+        // console.log("here is the response in llm service", response)
+        const lastMessage = response.messages[response.messages.length - 1]; //the output is usually [humanMessage, AiMessage] so it will always return the ai messages dk about tool call doe
+        return lastMessage.content as string;
     }
     
-
-    getLm(): any {
+    getLm(): any { //only for testing but too lazy to refactor
         return mainLM(this.model, "Can you plan me a week trip in Bali?");
     }
 
-    getLlmResponse(prompt: {userMessage: string}): any {
-        const response = mainLM(this.model, prompt.userMessage)
-        return response;
-    }
+    getGraphResponse(prompt: {userMessage: string}, history: BaseMessage[]): any {
+        const fullHistory = [...history, new HumanMessage(prompt.userMessage)]
 
-    getLangGraph(prompt: {userMessage: string}): any {
-        const response = this.aiAgent(prompt.userMessage)
-        return response
+        return this.runGraph(fullHistory) 
     }
 }

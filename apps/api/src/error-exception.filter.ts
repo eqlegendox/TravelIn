@@ -1,7 +1,8 @@
-import { ExceptionFilter, Catch, ArgumentsHost, HttpException } from '@nestjs/common';
+import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { BaseExceptionFilter } from '@nestjs/core';
 import { ValidationError } from 'class-validator';
+import { Prisma } from 'database/generated/prisma';
 
 type ErrorResponseObject = {
     statusCode: number,
@@ -21,8 +22,22 @@ export class errorExceptionFilter extends BaseExceptionFilter {
         }
 
         if (exception instanceof HttpException) {
-            errorResponseObject.statusCode = exception.getStatus()
-            errorResponseObject.response = exception.getResponse()
+            errorResponseObject.statusCode = exception.getStatus();
+            errorResponseObject.response = exception.getResponse();
+        } else if (exception instanceof Prisma.PrismaClientKnownRequestError) {
+            if (exception.code === 'P2002') {
+                errorResponseObject.statusCode = HttpStatus.CONFLICT;
+                errorResponseObject.response = exception.message;
+            } else if (exception.code === 'P2025') {
+                errorResponseObject.statusCode = HttpStatus.NOT_FOUND;
+                errorResponseObject.response = exception.message;
+            } else {
+                errorResponseObject.statusCode = HttpStatus.BAD_REQUEST;
+                errorResponseObject.response = exception.message;
+            }
+        } else if (exception instanceof Prisma.PrismaClientValidationError) {
+            errorResponseObject.statusCode = HttpStatus.BAD_REQUEST;
+            errorResponseObject.response = exception.message;
         }
         else if (exception instanceof ValidationError) {
             errorResponseObject.statusCode = 622
@@ -30,7 +45,7 @@ export class errorExceptionFilter extends BaseExceptionFilter {
         }
         else {
             errorResponseObject.statusCode = 500
-            errorResponseObject.response = 'Internal Server Errorz'
+            errorResponseObject.response = `Internal Server Error from: ${exception?.constructor?.name}`;
         }
 
         response
