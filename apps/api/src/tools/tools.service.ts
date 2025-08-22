@@ -110,24 +110,14 @@ export class ToolsService {
     }
 
 
-    public touristQuery(params: {
-        name?: string,
+    public orchestrateQueryOne(params: {
         area?: string,
         minPrice?: number,
         maxPrice?: number,
         minRating?: number,
         maxRating?: number,
-        minRatingCount?: number,
-        maxRatingCount?: number,
     }): Prisma.TourInfoWhereInput {
         const where: Prisma.TourInfoWhereInput = {}
-
-        if (params.name) {
-            where.tourName = {
-                contains: params.name,
-                mode: 'insensitive'
-            }
-        }
 
         if (params.area) {
             where.location = {
@@ -151,16 +141,6 @@ export class ToolsService {
                 where.rating.gte = params.minRating;
             } if (params.maxRating !== null) {
                 where.rating.lte = params.maxRating;
-            }
-        }
-
-        if (params.minRatingCount != null || params.maxRatingCount != null) {
-            where.ratingCount = {}
-            if (params.minRatingCount != null) {
-                where.ratingCount.gte = params.minRatingCount;
-            }
-            if (params.maxRatingCount != null) {
-                where.ratingCount.lte = params.maxRatingCount;
             }
         }
 
