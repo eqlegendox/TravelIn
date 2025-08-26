@@ -1,3 +1,16 @@
+Installation:
+-. open terminal with the directory being the folder you want the app in.
+-. git clone https://github.com/NandTheMan/TravelIn.git
+-. change directory to the cloned folder (TravelIn)
+-. pnpm install
+-. create .env for GEMINI_API_KEY on apps/api
+-. create .env for DATABASE_URL on apps/api/database/generated/prisma
+-. run 'npx puppeteer browers install chrome' on terminal with apps/api as directory[1]
+-. pnpm run dev
+
+Note:
+1. The command will download a chrome for the puppeteer to run on the local device. If this is on a server environment, set up for the puppeteer may vary.
+
 # shadcn/ui monorepo template
 
 This template is for creating a monorepo with shadcn/ui.
