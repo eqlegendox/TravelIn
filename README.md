@@ -56,7 +56,7 @@ pnpm run dev
 
 Note:
 1. The command will download a chrome for the puppeteer to run on the local device. If this is on a server environment, set up for the puppeteer may vary.
-
+7. https://aistudio.google.com/apikey
 
 
 
