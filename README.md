@@ -40,7 +40,7 @@ npx puppeteer browsers install chrome
 ```bash
 cd ./database
 ```
-and generate Prisma client (make sure that the API Key[2] is present) using
+and generate Prisma client (make sure that the DATABASE_URL[7] is present) using
 ```bash
 pnpm dlx prisma generate
 ```
@@ -53,10 +53,6 @@ and run the app
 ```bash
 pnpm run dev
 ```
-
-Note:
-1. The command will download a chrome for the puppeteer to run on the local device. If this is on a server environment, set up for the puppeteer may vary.
-7. https://aistudio.google.com/apikey
 
 
 
