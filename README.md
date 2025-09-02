@@ -3,10 +3,10 @@ Installation:
 2. git clone https://github.com/NandTheMan/TravelIn.git
 3. change directory to the cloned folder (TravelIn)
 4. pnpm install
-5. create .env for GEMINI_API_KEY on apps/api
-6. create .env for DATABASE_URL on apps/api/database/generated/prisma
-7. run 'npx puppeteer browers install chrome' on terminal with apps/api as directory[1]
-8. pnpm run dev
+5. create .env for GEMINI_API_KEY and COHERE_API_KEY on apps/api
+7. create .env for DATABASE_URL on apps/api/database/generated/prisma
+8. run 'npx puppeteer browers install chrome' on terminal with apps/api as directory[1]
+9. pnpm run dev
 
 Note:
 1. The command will download a chrome for the puppeteer to run on the local device. If this is on a server environment, set up for the puppeteer may vary.
