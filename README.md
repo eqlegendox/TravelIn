@@ -17,7 +17,7 @@ cd ./TravelIn
 pnpm install
 ```
 
-5. Duplicate the existing .env.example and fill out your credentials for [GEMINI_API_KEY](/https://aistudio.google.com/apikey) and COHERE_API_KEY on 
+5. Duplicate the existing .env.example and fill out your credentials for [GEMINI_API_KEY](https://aistudio.google.com/apikey) and COHERE_API_KEY on 
 ```bash
 TravelIn/apps/api
 ```
