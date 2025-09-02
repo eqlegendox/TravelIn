@@ -40,7 +40,7 @@ npx puppeteer browsers install chrome
 ```bash
 cd ./database
 ```
-and generate Prisma client (make sure that the API Key is present [7]) using
+and generate Prisma client (make sure that the API Key[7] is present) using
 ```bash
 pnpm dlx prisma generate
 ```
